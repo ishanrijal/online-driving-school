@@ -2,7 +2,7 @@
 @section('title', 'Dashboard')
 @section('content')
     <div class="content-wrapper">
-        <section class="content">
+        <section class="content" style="margin-top: 24px">
             <div class="container-fluid">
                 <div class="row">
                     @if (session('success'))
@@ -16,7 +16,10 @@
                         <div class="dashboard-card">
                             <div class="students-header">
                               <h2 class="students-title">Students</h2>
-                              <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
+                              <div class="count-wrapper">
+                                <h3>{{session('students_count')}}</h3>
+                                  <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
+                              </div>
                             </div>
                             <div class="students-divider" role="separator"></div>
                         </div>
@@ -25,7 +28,10 @@
                         <div class="dashboard-card">
                             <div class="students-header">
                               <h2 class="students-title">Vehicles</h2>
-                              <img src="{{ asset('assets/svgs/vehicle.svg') }}" alt="" class="students-icon" />
+                              <div class="count-wrapper">
+                                <h3>{{session('instructors_count')+2}}</h3>
+                                  <img src="{{ asset('assets/svgs/vehicle.svg') }}" alt="" class="students-icon" />
+                              </div>
                             </div>
                             <div class="students-divider" role="separator"></div>
                         </div>
@@ -33,14 +39,17 @@
                     <div class="col-sm-4">
                         <div class="dashboard-card">
                             <div class="students-header">
-                              <h2 class="students-title">Staff</h2>
-                              <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
+                              <h2 class="students-title">Instructors</h2>
+                              <div class="count-wrapper">
+                                <h3>{{session('instructors_count')}}</h3>
+                                  <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
+                              </div>
                             </div>
                             <div class="students-divider" role="separator"></div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 64px">
                     <div class="col-sm-4">
                         <section class="income-container">
                             <div class="income-header">

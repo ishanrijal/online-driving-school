@@ -47,7 +47,7 @@
                 </div>
             </div>
         @endforeach
-        @if($imageUploader)
+        @if( $imageUploader )
             <div class="form-group">
                 <div class="label-container">
                     <label for="image">Upload Image<br>(350*250)</label>

@@ -13,10 +13,7 @@ Route::get('/', function () {
 
 // Ensure that these routes are accessible only to authenticated and verified users
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-    // Admin Dashboard
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('admin.dashboard');
 
     // Admin Trainer List
     Route::get('/instructor', [InstructorController::class, 'index'])->name('admin.instructor.index');

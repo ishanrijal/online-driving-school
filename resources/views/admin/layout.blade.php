@@ -80,10 +80,10 @@
                 <div class="header-right-container">
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('path/to/profile-image.jpg') }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px;">
+                            
+                            <img src="{{ session('staff_image_url') }}" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px;">
                         </a>
-                        <strong>{{ Auth::user()->role }}</strong>
-        
+                        <strong style="margin-top: 8px; display:block">{{ Auth::user()->role }}</strong>
                         <!-- Dropdown Menu -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li>

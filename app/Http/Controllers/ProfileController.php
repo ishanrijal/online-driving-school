@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -28,6 +29,52 @@ class ProfileController extends Controller
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
                     $data['user_email'] = $user->email;
                     return view('profile.admin', $data);
+                }
+                return view('profile.default', ['user' => $user]);
+    
+            case 'staff':
+                // Fetch staff-specific data if needed
+                $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
+                return view('profile.staff', $data);
+    
+            case 'student':
+                // Fetch student-specific data if needed
+                $data['student'] = Students::where('user_id', $user->user_id)->first();
+                return view('profile.student', $data);
+    
+            case 'instructor':
+                // Fetch instructor-specific data if needed
+                $data['instructor'] = Instructors::where('user_id', $user->user_id)->first();
+                return view('profile.instructor', $data);
+    
+            default:
+                // Handle unknown roles or default case
+                return view('profile.default', ['user' => $user]);
+        }
+    }
+    public function showDashboard(Request $request): View
+    {
+        $user = Auth::user();    
+        // Fetch data based on the role
+        $data = [];
+        switch ($user->role) {
+            case 'admin':
+                $admin = Admin::where('user_id', $user->user_id)->first();
+            
+                if ($admin) {
+                    $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
+                    $data['user_email'] = $user->email;
+                    $imageUrl = asset('storage/' . $data['staff']->image);
+                    // Store in session
+                    Session::put('staff_image_url', $imageUrl);
+
+                    $data['students_count'] = Students::count();
+                    $data['instructors_count'] = Instructors::count();
+
+                    Session::put('students_count', $data['students_count'] );
+                    Session::put('instructors_count', $data['instructors_count'] );
+                    
+                    return view('admin.dashboard', $data);
                 }
                 return view('profile.default', ['user' => $user]);
     

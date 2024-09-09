@@ -92,7 +92,7 @@ class StaffController extends Controller
     /**
      * Update the specified trainer in the database.
      */
-    public function update(Request $request, $id){
+    public function update( Request $request, $id ){
         $staff = Staff::findOrFail( $id );
         $request->validate([
             'Name'        => 'required|string|max:255',
@@ -100,7 +100,7 @@ class StaffController extends Controller
             'DateOfBirth' => 'nullable|date|max:255',
             'Gender'      => 'nullable|string|max:10',
             'Phone'       => 'nullable|numeric|max:255',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
         ]);
 
         // Update user table (name only, as email and role should not be updated)
@@ -112,9 +112,6 @@ class StaffController extends Controller
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('instructors', 'public');
-            dd($request->file('image')); 
-            $file = $request->file('image');
-            // dd($file->getClientOriginalName(), $file->getClientMimeType(), $file->store('instructors', 'public'));
             // Delete old image if needed (optional)
             if ($staff->image) {
                 Storage::delete('public/' . $staff->image);

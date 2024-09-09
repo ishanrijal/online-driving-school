@@ -63,8 +63,7 @@ body {
 .main-header{
     display: flex;
     background: wheat;
-    padding: 0 48px;
-    height: 80px;
+    padding: 16px 48px;
 }
 .profile-icon-wrppaer{
     display: flex;
@@ -75,7 +74,9 @@ body {
     flex-direction: column;
     gap: 4px;
 }
-
+.header-right-container .dropdown{
+    text-align: center;
+}
 .main-sidebar .logo {
     background: wheat;
     display: flex;
@@ -84,7 +85,9 @@ body {
     font-weight: 700;
     font-size: 20px;
     color: #000000;
-    height: 80px;
+    height: 114px;
+    justify-content: center;
+    align-items: center;
 }
 .dashboard-sidenav .nav-wrapper{
     gap: 12px;
@@ -122,9 +125,14 @@ body {
   
 .students-header {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     gap: 20px;
+    /* justify-content: space-between; */
+}
+.students-header .count-wrapper {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .students-title {
@@ -135,9 +143,7 @@ body {
     aspect-ratio: 1.06;
     object-fit: contain;
     object-position: center;
-    width: 49px;
-    align-self: end;
-    margin-top: 32px;
+    width: 48px;
 }
 
 .students-divider {

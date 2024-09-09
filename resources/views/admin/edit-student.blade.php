@@ -2,12 +2,42 @@
     $fields = [
         [
             'label'       => 'Name',
-            'name'        => 'name',
+            'name'        => 'Name',
             'type'        => 'text',
             'id'          => 'name',
             'placeholder' => 'Enter Name',
-            'default'     => old('name', $instructor->Name),
+            'default'     => old('Name', $student->Name),
             'required'    => true,
+            'disabled'    => false
+        ],
+        [
+            'label'       => 'Address',
+            'name'        => 'Address',
+            'type'        => 'text',
+            'id'          => 'address',
+            'placeholder' => 'Enter Address',
+            'default'     => old('Address', $student->Address),
+            'required'    => false,
+            'disabled'    => false
+        ],
+        [
+            'label'       => 'Date of Birth',
+            'name'        => 'DateOfBirth',
+            'type'        => 'date',
+            'id'          => 'dob',
+            'placeholder' => '',
+            'default'     => old('DateOfBirth', $student->Address),
+            'required'    => false,
+            'disabled'    => false
+        ],
+        [
+            'label'       => 'Gender',
+            'name'        => 'Gender',
+            'type'        => 'type',
+            'id'          => 'gender',
+            'placeholder' => '',
+            'default'     => old('Gender', $student->Gender),
+            'required'    => false,
             'disabled'    => false
         ],
         [
@@ -16,18 +46,8 @@
             'type'        => 'text',
             'id'          => 'contact-number',
             'placeholder' => 'Enter Contact Number',
-            'default'     => old('Phone', $instructor->Phone),
-            'required'    => true,
-            'disabled'    => false
-        ],
-        [
-            'label'       => 'License Number',
-            'name'        => 'LicenseNumber',
-            'type'        => 'text',
-            'id'          => 'licenseNumber',
-            'placeholder' => 'Enter License Number',
-            'default'     => old('LicenseNumber', $instructor->LicenseNumber),
-            'required'    => true,
+            'default'     => old('Phone', $student->Phone),
+            'required'    => false,
             'disabled'    => false
         ],
         [
@@ -36,7 +56,7 @@
             'type'        => 'email',
             'id'          => 'email',
             'placeholder' => '',
-            'default'     => $instructor->user->email,
+            'default'     => $student->user->email,
             'required'    => true,
             'disabled'    => true
         ],
@@ -48,10 +68,10 @@
     <x-create-form-component 
         actionName="Edit" 
         actionType="update"
-        entity="Instructor"
-        resetButton=true 
-        imageUploader=true 
-        :action="route('admin.instructor.update', $instructor->InstructorID)" 
+        entity="student"
+        :resetButton=false 
+        :imageUploader=false 
+        :action="route('admin.student.update', $student->StudentID)" 
         :fields="$fields" 
     />
 @endsection

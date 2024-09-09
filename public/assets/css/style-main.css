@@ -66,6 +66,15 @@ body {
     padding: 0 48px;
     height: 80px;
 }
+.profile-icon-wrppaer{
+    display: flex;
+    gap: 4px;
+}
+.profile-icon-wrppaer .profile-info{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
 
 .main-sidebar .logo {
     background: wheat;

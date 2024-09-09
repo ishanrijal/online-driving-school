@@ -6,7 +6,7 @@
             'type'        => 'text',
             'id'          => 'name',
             'placeholder' => 'Enter Name',
-            'default'     => '',
+            'default'     => old('name'),
             'required'    => true,
             'disabled'    => false
         ],
@@ -16,38 +16,37 @@
             'type'        => 'email',
             'id'          => 'email',
             'placeholder' => 'email@email.com',
-            'default'     => '',
+            'default'     => old('email'),
             'required'    => true,
             'disabled'    => false
         ],
         [
-            'label'       => 'role',
-            'name'        => 'role_disabled',
-            'type'        => 'text',
+            'label'       => 'Role',
+            'name'        => 'role',
+            'type'        => 'select',
             'id'          => 'role',
             'placeholder' => '',
-            'default'     => 'Student',
+            'default'     => 'Staff',
             'required'    => false,
-            'disabled'    => true
+            'disabled'    => false,
+            'options'     => [
+                'staff' => 'Staff',
+                'admin' => 'Admin',
+            ]
         ],
     ];
 @endphp
 
 @extends('admin.layout')
-@section('title', 'Add Student')
+@section('title', 'Add Staff')
 @section('content')
     <x-create-form-component 
         actionName="Add" 
         actionType="add"
-        entity="Student"
+        entity="Staff"
         :resetButton=false
         :imageUploader=false 
-        :action="route('admin.student.store')" 
+        :action="route('admin.staff.store')" 
         :fields="$fields" 
     />
 @endsection
-
-
-{{-- actionName="Add" entity="Trainer" 
-:action="route('admin.instructor.store')" 
-:fields="$fields"  --}}

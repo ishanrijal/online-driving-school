@@ -49,7 +49,6 @@ class StudentController extends Controller
 
         Students::create([
             'Name'          => $request->name,
-            'LicenseNumber' => $request->LicenseNumber,
             'Phone'         => $request->contact,
             'user_id'       => $user->user_id,
         ]);
@@ -60,7 +59,7 @@ class StudentController extends Controller
         // Send the email verification notification
         $user->notify(new VerifyEmail());
 
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor added successfully. A verification email has been sent.');
+        return redirect()->route('admin.student.index')->with('success', 'Student added successfully. A verification email has been sent.');
     }
 
     /**
@@ -69,8 +68,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         // Retrieve the instructor based on the provided ID
-        $instructor = Students::findOrFail($id);
-        return view('admin.edit-student', compact('instructor'));
+        $student = Students::findOrFail($id);
+        return view('admin.edit-student', compact('student'));
     }
 
     /**
@@ -79,20 +78,18 @@ class StudentController extends Controller
     public function update(Request $request, $id){
         $students = Students::findOrFail($id);
         $request->validate([
-            'name'           => 'required|string|max:255',
-            // 'LicenseNumber'  => [
-            //     'required',
-            //     'string',
-            //     Rule::unique('instructors', 'LicenseNumber')->ignore( $instructor->InstructorID, 'InstructorID' )
-            // ],
-            'contact'        => 'required|string|max:15',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'Name'        => 'required|string|max:255',
+            'Address'     => 'nullable|string|max:255',
+            'DateOfBirth' => 'nullable|date|max:255',
+            'Gender'      => 'nullable|string|max:10',
+            'Phone'       => 'nullable|numeric|max:255',
+            // 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($students->user_id);
         $user->update([
-            'name' => $request->name,
+            'name' => $request->Name,
         ]);
 
         // Handle image upload if a new image is provided
@@ -106,15 +103,17 @@ class StudentController extends Controller
         //     $imagePath = $instructor->image; // retain the old image
         // }
 
-        // // Update instructor details
-        // $instructor->update([
-        //     'Name'          => $request->name,
-        //     'LicenseNumber' => $request->LicenseNumber,
-        //     'Phone'         => $request->contact,
-        //     'image'         => $imagePath,
-        // ]);
+        // Update instructor details
+        $students->update([
+            'Name'        => $request->Name,
+            'Address'     => $request->Address,
+            'DateOfBirth' => $request->DateOfBirth,
+            'Gender'      => $request->Gender,
+            'Phone'       => $request->Phone,
+            // 'image'         => $imagePath,
+        ]);
 
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
+        return redirect()->route('admin.student.index')->with('success', 'Student updated successfully');
     }
 
     /**
@@ -123,15 +122,15 @@ class StudentController extends Controller
     public function destroy($id)
     {
 
-        $instructor = Instructors::findOrFail($id);
-        $userId = $instructor->user_id;
+        $student = Students::findOrFail($id);
+        $userId = $student->user_id;
     
-        // Delete the instructor
-        $instructor->delete();
+        // Delete the student$student
+        $student->delete();
 
         // Manually delete the associated user
         User::find($userId)?->delete();
         
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
+        return redirect()->route('admin.student.index')->with('success', 'Student deleted successfully');
     }
 }

@@ -13,9 +13,9 @@
         @endif
 
         <div class="header">
-            <h3>Total students: <span class="entity-count">{{ $students->total() }}</span></h3>
+            <h3>Total students: <span class="entity-count">{{ $staffs->total() }}</span></h3>
             <div class="actions-container">
-                <a href="student/create"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add students</a>
+                <a href="staff/create"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add staffs</a>
             </div>
         </div>
 
@@ -32,22 +32,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($students as $student)
+                @foreach($staffs as $staff)
                 <tr>
-                    <td>{{ ($students->currentPage() - 1) * $students->perPage() + $loop->iteration }}</td>
-                    <td>{{ $student->Name }}</td>
-                    <td>{{ $student->Address }}</td>
-                    <td>{{ $student->DateOfBirth }}</td>                    
-                    <td>{{ $student->Gender }}</td>                    
-                    <td>{{ $student->Phone }}</td>                    
+                    <td>{{ ($staffs->currentPage() - 1) * $staffs->perPage() + $loop->iteration }}</td>
+                    <td>{{ $staff->Name }}</td>
+                    <td>{{ $staff->Address }}</td>
+                    <td>{{ $staff->DateOfBirth }}</td>                    
+                    <td>{{ $staff->Gender }}</td>                    
+                    <td>{{ $staff->Phone }}</td>                    
                     <td class="action-btn">
-                        <a href="{{ route('admin.student.edit', $student->StudentID) }}">
+                        <a href="{{ route('admin.staff.edit', $staff->StaffID) }}">
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
                         </a>
-                        <form action="{{ route('admin.student.destroy', $student->StudentID) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('admin.staff.destroy', $staff->StaffID) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($student->Name) }}?');">
+                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($staff->Name) }}?');">
                                 <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
                             </button>
                         </form>
@@ -59,6 +59,6 @@
         </table>
 
         <!-- Use the pagination component -->
-        <x-pagination :paginator="$students" />
+        <x-pagination :paginator="$staffs" />
     </div>
 @endsection

@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Admin;
+use App\Models\Instructors;
+use App\Models\Staff;
+use App\Models\Students;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,21 +15,62 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function index(Request $request): View
+    {
+        $user = Auth::user();    
+        // Fetch data based on the role
+        $data = [];
+        switch ($user->role) {
+            case 'admin':
+                $admin = Admin::where('user_id', $user->user_id)->first();
+            
+                if ($admin) {
+                    $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
+                    $data['user_email'] = $user->email;
+                    return view('profile.admin', $data);
+                }
+                return view('profile.default', ['user' => $user]);
+    
+            case 'staff':
+                // Fetch staff-specific data if needed
+                $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
+                return view('profile.staff', $data);
+    
+            case 'student':
+                // Fetch student-specific data if needed
+                $data['student'] = Students::where('user_id', $user->user_id)->first();
+                return view('profile.student', $data);
+    
+            case 'instructor':
+                // Fetch instructor-specific data if needed
+                $data['instructor'] = Instructors::where('user_id', $user->user_id)->first();
+                return view('profile.instructor', $data);
+    
+            default:
+                // Handle unknown roles or default case
+                return view('profile.default', ['user' => $user]);
+        }
+    }
+    
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        // $staff = Staff::findOrFail( $id );
+        // return view('admin.edit-staff', compact('staff'));
+        $user = Auth::user();    
+        $data = [];
+        $admin = Admin::where('user_id', $user->user_id)->first();
+        $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
+        $data['user_email'] = $user->email;
+        return view('profile.edit', $data );
     }
-
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
+    public function update(Request $request): RedirectResponse
+    {        
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {

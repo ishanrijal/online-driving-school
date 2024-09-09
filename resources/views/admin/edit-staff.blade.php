@@ -50,51 +50,19 @@
             'required'    => false,
             'disabled'    => false
         ],
-        [
-            'label'       => 'Email',
-            'name'        => 'email',
-            'type'        => 'email',
-            'id'          => 'email',
-            'placeholder' => 'Enter Email',
-            'default'     => old('email', $user_email ),
-            'required'    => false,
-            'disabled'    => true
-        ],
-        [
-            'label'       => 'Email',
-            'name'        => 'email',
-            'type'        => 'email',
-            'id'          => 'email',
-            'placeholder' => 'Enter Email',
-            'default'     => old('email', $user_email ),
-            'required'    => false,
-            'disabled'    => true
-        ],
     ];
 @endphp
 
 @extends('admin.layout')
-@section('title', 'Trainer')
+@section('title', 'Edit Trainer')
 @section('content')
-    <div class="content-wrapper">
-        @if(session('success'))
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                </div>
-            </div>
-        @endif
-    </div>
     <x-create-form-component 
         actionName="Edit" 
         actionType="update"
-        entity="Profile"
+        entity="staff"
         :resetButton=false 
-        :imageUploader=true 
+        :imageUploader=false 
         :action="route('admin.staff.update', $staff->StaffID)" 
         :fields="$fields" 
     />
 @endsection
-

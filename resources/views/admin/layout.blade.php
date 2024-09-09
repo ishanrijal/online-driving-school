@@ -45,6 +45,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="staff" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <span>Staff</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Training</span>
@@ -64,19 +70,45 @@
                         </form>                 
                     </ul>
                 </nav>
-
             </div>
-
         </aside>
         <div style="width:100%">
             <nav class="main-header navbar navbar-light">
                 <div class="header-left-container">
                     <h2>Origin Driving Admin Panel</h2>
                 </div>
-                <div class="header-right-container"></div>
+                <div class="header-right-container">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('path/to/profile-image.jpg') }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px;">
+                        </a>
+                        <strong>{{ Auth::user()->role }}</strong>
+        
+                        <!-- Dropdown Menu -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li>
+                                {{-- <a class="dropdown-item" href="{{ route('profile.show') }}"> --}}
+                                <a class="dropdown-item" href="#">
+                                    <strong>{{ Auth::user()->name }}</strong><br>
+                                    <small>{{ Auth::user()->role }}</small>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.index') }}">View Profile</a></li>
+                            {{-- <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit Profile</a></li> --}}
+                            <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                        </ul>
+        
+                        <!-- Logout Form -->
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
             </nav>
             @yield('content')
         </div>
+        
 
 
 {{-- 

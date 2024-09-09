@@ -18,7 +18,7 @@ class ProfileController extends Controller
 {
     public function index(Request $request): View
     {
-        $user = Auth::user();    
+        $user = Auth::user();   
         // Fetch data based on the role
         $data = [];
         switch ($user->role) {
@@ -29,9 +29,7 @@ class ProfileController extends Controller
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
                     $data['user_email'] = $user->email;
                     return view('profile.admin', $data);
-                }
-                return view('profile.default', ['user' => $user]);
-    
+                }    
             case 'staff':
                 // Fetch staff-specific data if needed
                 $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
@@ -60,11 +58,14 @@ class ProfileController extends Controller
         switch ($user->role) {
             case 'admin':
                 $admin = Admin::where('user_id', $user->user_id)->first();
-            
                 if ($admin) {
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
                     $data['user_email'] = $user->email;
-                    $imageUrl = asset('storage/' . $data['staff']->image);
+                    if( $data['staff']->image ){
+                        $imageUrl = asset('storage/' . $data['staff']->image);
+                    }else{
+                        $imageUrl='';
+                    }
                     // Store in session
                     Session::put('staff_image_url', $imageUrl);
 

@@ -80,8 +80,11 @@
                 <div class="header-right-container">
                     <div class="dropdown">
                         <a href="#" class="d-flex align-items-center" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            
-                            <img src="{{ session('staff_image_url') }}" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px;">
+                            @if( session('staff_image_url') )
+                                <img src="{{ session('staff_image_url') }}" alt="Profile Image" class="rounded-circle" style="width: 50px; height: 50px;">
+                            @else
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" style="width: 50px; height: 50px;">
+                            @endif
                         </a>
                         <strong style="margin-top: 8px; display:block">{{ Auth::user()->role }}</strong>
                         <!-- Dropdown Menu -->

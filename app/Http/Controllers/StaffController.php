@@ -9,6 +9,7 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
@@ -129,6 +130,8 @@ class StaffController extends Controller
             'Phone'       => $request->Phone,
             'image'       => $imagePath,
         ]);
+
+        Session::put('staff_image_url',   $imageUrl = asset('storage/' . $imagePath));
 
         return redirect()->route('admin.staff.index')->with('success', 'Staff updated successfully');
     }

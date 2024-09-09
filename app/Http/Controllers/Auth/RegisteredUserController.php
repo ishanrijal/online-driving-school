@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -43,6 +45,16 @@ class RegisteredUserController extends Controller
             'role'     => $request->input('role'),
             'password' => Hash::make($request->password),
         ]);
+
+        if ($user->role === 'admin') {
+            $admin = Admin::create([
+                'user_id' => $user->user_id,
+            ]);
+            Staff::create([
+                'Name'    => $user->name,
+                'AdminID' => $admin->AdminID,
+            ]);
+        }
 
         event(new Registered($user));
 

@@ -22,8 +22,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/instructor', [InstructorController::class, 'index'])->name('admin.instructor.index');
 
     // Instructor CRUDE
-    Route::get('/instructor/create', [InstructorController::class, 'create'])->name('admin.instructor.create');
     Route::post('/instructor', [InstructorController::class, 'store'])->name('admin.instructor.store');
+    Route::get('/instructor/create', [InstructorController::class, 'create'])->name('admin.instructor.create');
     Route::get('/instructor/{id}/edit', [InstructorController::class, 'edit'])->name('admin.instructor.edit');
     Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('admin.instructor.update');
     Route::delete('/instructor/{id}', [InstructorController::class, 'destroy'])->name('admin.instructor.destroy');

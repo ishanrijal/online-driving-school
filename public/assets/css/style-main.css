@@ -454,6 +454,7 @@ button.delete-btn {
 
 .form-group input[type="text"],
 .form-group input[type="calendar"],
+.form-group input[type="email"],
 .form-group input[type="file"] {
     width: 100%;
     padding: 10px;

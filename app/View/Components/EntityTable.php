@@ -7,29 +7,21 @@ class EntityTable extends Component
 {
     public $entities;
     public $entityName;
-    public $column1;
-    public $column2;
-    public $column3;
-    public $field1;
-    public $field2;
-    public $field3;
-    public $createRoute;
-    public $editRoute;
-    public $deleteRoute;
+    public $tableheadings;
+    public $fields;
+    public $createroute;
+    public $editroute;
+    public $deleteroute;
 
-    public function __construct($entities, $entityName, $column1, $column2, $column3, $field1, $field2, $field3, $createRoute, $editRoute, $deleteRoute)
+    public function __construct($entities, $entityName, $tableheadings, $fields, $createroute, $editroute, $deleteroute)
     {
         $this->entities = $entities;
         $this->entityName = $entityName;
-        $this->column1 = $column1;
-        $this->column2 = $column2;
-        $this->column3 = $column3;
-        $this->field1 = $field1;
-        $this->field2 = $field2;
-        $this->field3 = $field3;
-        $this->createRoute = $createRoute;
-        $this->editRoute = $editRoute;
-        $this->deleteRoute = $deleteRoute;
+        $this->tableheadings = $tableheadings;
+        $this->fields = $fields;
+        $this->createroute = $createroute;
+        $this->editroute = $editroute;
+        $this->deleteroute = $deleteroute;
     }
 
     public function render()

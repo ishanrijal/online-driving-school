@@ -46,7 +46,7 @@
 @section('title', 'Edit Trainer')
 @section('content')
     <x-create-form-component 
-        actionName="Edit"
+        actionName="Edit" 
         actionType="update"
         entity="Instructor"
         resetButton=true 

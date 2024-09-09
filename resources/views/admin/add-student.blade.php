@@ -26,7 +26,7 @@
             'type'        => 'text',
             'id'          => 'role',
             'placeholder' => '',
-            'default'     => 'instructor',
+            'default'     => 'student',
             'required'    => false,
             'disabled'    => true
         ],
@@ -34,15 +34,20 @@
 @endphp
 
 @extends('admin.layout')
-@section('title', 'Add Instructor')
+@section('title', 'Add Student')
 @section('content')
     <x-create-form-component 
         actionName="Add" 
         actionType="add"
-        entity="Instructor"
+        entity="Student"
         :resetButton=false
         :imageUploader=false 
-        :action="route('admin.instructor.store')" 
+        :action="route('admin.student.store')" 
         :fields="$fields" 
     />
 @endsection
+
+
+{{-- actionName="Add" entity="Trainer" 
+:action="route('admin.instructor.store')" 
+:fields="$fields"  --}}

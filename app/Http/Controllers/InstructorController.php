@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -38,44 +39,58 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        // Validate the request
         $request->validate([
-            'name'           => 'required|string|max:255',
-            'LicenseNumber'  => 'required|string|unique:instructors,LicenseNumber',
-            'contact'        => 'required|string|max:15',
-            'email'          => 'required|email|unique:users,email',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'LicenseNumber' => 'nullable|string|unique:instructors,LicenseNumber',
+            'contact' => 'nullable|string|max:15',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Handle file upload if the image is provided
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('instructors', 'public');
+    
+        // Begin a database transaction
+        DB::beginTransaction();
+    
+        try {
+            // Handle file upload if the image is provided
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('instructors', 'public');
+            }
+    
+            // Create the user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'instructor',
+                'password' => Hash::make($request->name), // temporary password
+            ]);
+    
+            // Create the instructor
+            Instructors::create([
+                'Name' => $request->name,
+                'LicenseNumber' => $request->LicenseNumber,
+                'Phone' => $request->contact,
+                'image' => $imagePath,
+                'user_id' => $user->user_id,
+            ]);
+    
+            // Commit the transaction
+            DB::commit();
+    
+            // Send the email verification notification
+            $user->notify(new VerifyEmail());
+    
+            return redirect()->route('admin.instructor.index')->with('success', 'Instructor added successfully. A verification email has been sent.');
+    
+        } catch (\Exception $e) {
+            // Rollback the transaction if anything fails
+            DB::rollBack();
+    
+            return back()->withErrors(['error' => 'An error occurred while creating the instructor. Please try again.']);
         }
-
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'role'     => 'instructor',
-            'password' => Hash::make($request->name),   // temporary password
-        ]);
-
-        Instructors::create([
-            'Name'          => $request->name,
-            'LicenseNumber' => $request->LicenseNumber,
-            'Phone'         => $request->contact,
-            'user_id'       => $user->user_id,
-            'image'         => $imagePath
-        ]);
-
-        // Assuming $user is the instance of the registered user
-        $user = User::find($user->user_id); // Replace with actual user retrieval logic
-
-        // Send the email verification notification
-        $user->notify(new VerifyEmail());
-
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor added successfully. A verification email has been sent.');
     }
+    
 
     /**
      * Show the form for editing a trainer.
@@ -93,7 +108,6 @@ class InstructorController extends Controller
     public function update(Request $request, $id)
     {
         $instructor = Instructors::findOrFail($id);
-        // dd($instructor);
         $request->validate([
             'name'           => 'required|string|max:255',
             'LicenseNumber'  => [
@@ -101,10 +115,10 @@ class InstructorController extends Controller
                 'string',
                 Rule::unique('instructors', 'LicenseNumber')->ignore( $instructor->InstructorID, 'InstructorID' )
             ],
-            'contact'        => 'required|string|max:15',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'Phone'        => 'required|string|max:15',
+            // 'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+        
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($instructor->user_id);
         $user->update([
@@ -112,22 +126,22 @@ class InstructorController extends Controller
         ]);
 
         // Handle image upload if a new image is provided
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('instructors', 'public');
-            // Delete old image if needed (optional)
-            if ($instructor->image) {
-                Storage::delete('public/' . $instructor->image);
-            }
-        } else {
-            $imagePath = $instructor->image; // retain the old image
-        }
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $request->file('image')->store('instructors', 'public');
+        //     // Delete old image if needed (optional)
+        //     if ($instructor->image) {
+        //         Storage::delete('public/' . $instructor->image);
+        //     }
+        // } else {
+        //     $imagePath = $instructor->image; // retain the old image
+        // }
 
         // Update instructor details
         $instructor->update([
             'Name'          => $request->name,
             'LicenseNumber' => $request->LicenseNumber,
-            'Phone'         => $request->contact,
-            'image'         => $imagePath,
+            'Phone'         => $request->Phone,
+            // 'image'         => $imagePath,
         ]);
 
         return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');

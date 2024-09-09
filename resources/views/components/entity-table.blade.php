@@ -10,49 +10,55 @@
     @endif
 
     <div class="header">
-        <h3>Total {{ $entityName }}: <span class="entity-count">{{ $entities->total() }}</span></h3>
+        <h3>Total {{ $entityName }}:   
+            {{-- <span class="entity-count">{{ $entities->total() }}</span> --}}
+        </h3>
         <div class="actions-container">
-            <a href="{{ $createRoute }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add {{ $entityName }}</a>
+            <a href="{{ $createroute }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add {{ $entityName }}</a>
         </div>
     </div>
 
-    <table>
+    @props([
+        'entities', 
+        'tableheadings', 
+        'entityName', 
+        'fields', 
+        'createroute', 
+        'editroute', 
+        'deleteroute'
+    ])
+    
+    <table class="min-w-full divide-y divide-gray-200">
         <thead>
             <tr>
-                <th>S.N</th>
-                <th>{{ $column1 }}</th>
-                <th>{{ $column2 }}</th>
-                <th>{{ $column3 }}</th>
-                <th>Actions</th>
+                @foreach($tableheadings as $heading)
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {{ $heading }}
+                    </th>
+                @endforeach
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @forelse($entities as $key => $entity)
+        <tbody class="bg-white divide-y divide-gray-200">
+            @foreach($entities as $entity)
                 <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>{{ $entity->{$field1} }}</td>
-                    <td>{{ $entity->{$field2} }}</td>
-                    <td>{{ $entity->{$field3} }}</td>
-                    <td class="action-btn">
-                        <a href="{{ route($editRoute, $entity->InstructorID) }}">
-                            <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
-                        </a>
-                        <form action="{{ route($deleteRoute, $entity->InstructorID) }}" method="POST" style="display:inline-block;">
+                    @foreach($fields as $field)
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $entity->{$field} }}</td>
+                    @endforeach
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {{-- {{dd($entities)}} --}}
+                        <a href="{{ route($editroute, $entity->InstructorID) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                        <form action="{{ route($deleteroute, $entity->InstructorID) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($entityName) }}?');">
-                                <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
-                            </button>
+                            <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
                         </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="5">No {{ strtolower($entityName) }} found.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
+    
 
     <!-- Use the pagination component -->
     <x-pagination :paginator="$entities" />

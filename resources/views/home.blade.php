@@ -1,0 +1,11 @@
+@extends('layout')
+@section('title', 'Homepage')
+@section('content')
+    @include('sections.home.banner')
+    @include('sections.home.about')
+    @include('sections.home.cta')
+    @include('sections.home.programs')
+    @include('sections.home.why-us')
+    @include('sections.home.testimonial')
+    @include('sections.home.pricing')
+@endsection

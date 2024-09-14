@@ -1,14 +1,11 @@
-<section class="home-testimonial">
+<section class="home-testimonial" id="testimonial">
     <div class="container-fluid">
         <div class="row d-flex justify-content-center testimonial-pos">
-            <div class="col-md-12 pt-4 d-flex justify-content-center">
-                <h3>Testimonials</h3>
-            </div>
-            <div class="col-md-12 d-flex justify-content-center">
-                <h2>Explore the students experience</h2>
+            <div class="section-head col-sm-12">
+                <h4><span>What Our Client</span> Say?</h4>
             </div>
         </div>
-        <section class="home-testimonial-bottom">
+        <div class="home-testimonial-bottom">
             <div class="container testimonial-inner">
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-4 style-3">
@@ -42,5 +39,6 @@
                         </div>
                     </div>
                 </div>
-        </section>
+            </div>
+        </div>
 </section>

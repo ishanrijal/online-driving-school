@@ -4,6 +4,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TimetableScheduler;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,6 +42,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::put('/staff/{id}', [StaffController::class, 'update'])->name('admin.staff.update');
     Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('admin.staff.destroy');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
+
+    Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('admin.time-table.index');
 });
 Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('admin.dashboard');

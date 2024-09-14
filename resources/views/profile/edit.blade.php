@@ -86,15 +86,15 @@
                 </div>
             </div>
         @endif
+        <x-create-form-component 
+            actionName="Edit" 
+            actionType="update"
+            entity="Profile"
+            :resetButton=false 
+            :imageUploader=true 
+            :action="route('admin.staff.update', $staff->StaffID)" 
+            :fields="$fields" 
+        />
     </div>
-    <x-create-form-component 
-        actionName="Edit" 
-        actionType="update"
-        entity="Profile"
-        :resetButton=false 
-        :imageUploader=true 
-        :action="route('admin.staff.update', $staff->StaffID)" 
-        :fields="$fields" 
-    />
 @endsection
 

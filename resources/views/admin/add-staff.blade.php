@@ -40,13 +40,15 @@
 @extends('admin.layout')
 @section('title', 'Add Staff')
 @section('content')
-    <x-create-form-component 
-        actionName="Add" 
-        actionType="add"
-        entity="Staff"
-        :resetButton=false
-        :imageUploader=false 
-        :action="route('admin.staff.store')" 
-        :fields="$fields" 
-    />
+    <div class="content-wrapper">
+        <x-create-form-component 
+            actionName="Add" 
+            actionType="add"
+            entity="Staff"
+            :resetButton=false
+            :imageUploader=false 
+            :action="route('admin.staff.store')" 
+            :fields="$fields" 
+        />
+    </div>
 @endsection

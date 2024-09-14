@@ -11,7 +11,8 @@
     
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> --}}
     
-    <link rel="stylesheet" href="{{ asset('assets/css/style-main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style-main.css') }}"> --}}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 
@@ -51,9 +52,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="time-table" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
-                                <span>Training</span>
+                                <span>View TimeTable</span>
                             </a>
                         </li>                  
                         <li class="nav-item">
@@ -129,7 +130,64 @@
 
     </div>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // Pie Chart Data (Replace with actual dynamic data from backend)
+        const pieData = {
+            labels: ['Students', 'Instructors', 'Staff'],
+            datasets: [{
+                label: 'Entity Distribution',
+                data: [55, 25, 20], // Example: 55% Students, 25% Instructors, 20% Staff
+                backgroundColor: ['#F91942', '#36A2EB', '#FFCE56'],
+                hoverOffset: 4
+            }]
+        };
+
+        const pieConfig = {
+            type: 'pie',
+            data: pieData,
+        };
+
+        // Create Pie Chart
+        const entityPieChart = new Chart(
+            document.getElementById('entityPieChart'),
+            pieConfig
+        );
+
+        // Bar Chart Data (Replace with actual dynamic data from backend)
+        const barData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Monthly Registrations',
+                data: [10, 20, 30, 40, 50, 60], // Example registration counts
+                backgroundColor: '#F91942'
+            }]
+        };
+
+        const barConfig = {
+            type: 'bar',
+            data: barData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Create Bar Chart
+        const registrationBarChart = new Chart(
+            document.getElementById('registrationBarChart'),
+            barConfig
+        );
+    </script>
 </body>
 
 </html>

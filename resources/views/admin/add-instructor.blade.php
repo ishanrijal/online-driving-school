@@ -36,13 +36,15 @@
 @extends('admin.layout')
 @section('title', 'Add Instructor')
 @section('content')
-    <x-create-form-component 
-        actionName="Add" 
-        actionType="add"
-        entity="Instructor"
-        :resetButton=false
-        :imageUploader=false 
-        :action="route('admin.instructor.store')" 
-        :fields="$fields" 
-    />
+    <div class="content-wrapper">
+        <x-create-form-component 
+            actionName="Add" 
+            actionType="add"
+            entity="Instructor"
+            :resetButton=false
+            :imageUploader=false 
+            :action="route('admin.instructor.store')" 
+            :fields="$fields" 
+        />
+    </div>
 @endsection

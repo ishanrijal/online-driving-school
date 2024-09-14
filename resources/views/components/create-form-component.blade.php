@@ -64,7 +64,7 @@
         @if( $resetButton )
             <div class="form-group">
                 <div class="form-group">
-                    <button type="button" class="save-btn" onclick="event.preventDefault(); document.getElementById('reset-form').submit();">
+                    <button type="button" class="save-btn btn" onclick="event.preventDefault(); document.getElementById('reset-form').submit();">
                         Reset Password
                     </button>
                 </div>

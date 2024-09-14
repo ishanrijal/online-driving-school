@@ -2,8 +2,8 @@
 @section('title', 'Register')
 @section('content')
 <div class="row">
-    <div class="col-sm-12">
-        <div class="login-box" style="height:150vh">
+    <div class="col-sm-12" style="padding: 0 48px">
+        <div class="signup-box">
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
                     <h1>Register User</h1>

@@ -5,8 +5,8 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <div class="col-sm-12">
-            <div class="login-box" style="height:150vh">
+        <div class="col-sm-12" style="padding: 0 48px">
+            <div class="signup-box">
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
                         <h1>Login</h1>

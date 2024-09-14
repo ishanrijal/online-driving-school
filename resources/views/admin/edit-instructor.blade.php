@@ -45,13 +45,15 @@
 @extends('admin.layout')
 @section('title', 'Edit Trainer')
 @section('content')
-    <x-create-form-component 
-        actionName="Edit"
-        actionType="update"
-        entity="Instructor"
-        resetButton=true 
-        imageUploader=true 
-        :action="route('admin.instructor.update', $instructor->InstructorID)" 
-        :fields="$fields" 
-    />
+    <div class="content-wrapper">
+        <x-create-form-component 
+            actionName="Edit"
+            actionType="update"
+            entity="Instructor"
+            resetButton=true 
+            imageUploader=true 
+            :action="route('admin.instructor.update', $instructor->InstructorID)" 
+            :fields="$fields" 
+        />
+    </div>
 @endsection

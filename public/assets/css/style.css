@@ -1151,8 +1151,15 @@ p.awesome_line {
 }
 .main-header {
     display: flex;
-    background: wheat;
+    background: var(--btn-seconday);
     padding: 16px 48px;
+}
+
+/** logut btn */
+.social-auth-links.text-center.mt-2.mb-3 button {
+    border-color: var(--btn-primary);
+    background: var(--btn-primary);
+    color: white;
 }
 .profile-icon-wrppaer {
     display: flex;

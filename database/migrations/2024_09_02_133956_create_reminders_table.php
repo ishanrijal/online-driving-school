@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->id('ReminderID');
                 $table->date('Date');
                 $table->string('Message');
-                $table->foreignId('StudentID')->constrained('students')->onDelete('cascade');
+                $table->foreignId('StudentID')->constrained('students', 'StudentID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

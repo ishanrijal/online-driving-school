@@ -42,6 +42,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('admin.staff.destroy');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 });
+Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('admin.dashboard');
+});
 
 // Profile Routes
 Route::middleware(['auth', 'verified'])->group(function () {

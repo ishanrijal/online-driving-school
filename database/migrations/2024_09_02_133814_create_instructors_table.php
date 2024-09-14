@@ -17,8 +17,8 @@ return new class extends Migration
                 $table->string('Name');
                 $table->string('LicenseNumber')->unique();
                 $table->string('Phone');
-                $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-                $table->string('image')->nullable(); // To store the trainer's image
+                $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('image')->nullable();
                 $table->timestamps();
             });
         }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('instructors', function (Blueprint $table) {
             // Modify LicenseNumber and Phone to be nullable
-            $table->string('LicenseNumber')->nullable()->unique()->change();
+            $table->string('LicenseNumber')->nullable()->change();
             $table->string('Phone')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('instructors', function (Blueprint $table) {
             // Revert LicenseNumber to be not nullable and unique
-            $table->string('LicenseNumber')->unique()->change();
+            $table->string('LicenseNumber')->nullable(false)->unique()->change();
             $table->string('Phone')->nullable(false)->change();
         });
     }

@@ -16,7 +16,7 @@ class CreateSessionsTable extends Migration
         if (!Schema::hasTable('sessions')) {
             Schema::create('sessions', function (Blueprint $table) {
                 $table->string('id')->primary(); // Session ID
-                $table->foreignId('user_id')->nullable()->constrained('users', 'user_id')->onDelete('cascade'); // Foreign key to users table
+                $table->foreignId('user_id')->nullable()->constrained('users', 'user_id')->onDelete('cascade');
                 $table->string('ip_address', 45)->nullable(); // IP Address
                 $table->text('user_agent')->nullable(); // User Agent
                 $table->longText('payload'); // Session Data

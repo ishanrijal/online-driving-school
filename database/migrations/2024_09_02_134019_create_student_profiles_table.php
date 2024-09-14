@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->date('Date');
                 $table->string('PermitNumber');
                 $table->string('LicenseInfo');
-                $table->foreignId('StudentID')->constrained('students')->onDelete('cascade');
+                $table->foreignId('StudentID')->constrained('students', 'StudentID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

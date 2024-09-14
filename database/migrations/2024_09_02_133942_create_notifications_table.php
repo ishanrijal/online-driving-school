@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->id('NotificationID');
                 $table->date('Date');
                 $table->string('Message');
-                $table->foreignId('AdminID')->constrained('admins')->onDelete('cascade');
+                $table->foreignId('AdminID')->constrained('admins', 'AdminID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

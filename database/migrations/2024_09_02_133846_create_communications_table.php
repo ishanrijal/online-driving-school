@@ -17,7 +17,7 @@ return new class extends Migration
                 $table->date('Date');
                 $table->string('Message');
                 $table->string('CommunicationType');
-                $table->foreignId('StaffID')->constrained('staff')->onDelete('cascade');
+                $table->foreignId('StaffID')->constrained('staff', 'StaffID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('students')) {
-            Schema::create('students', function (Blueprint $table) {
-                $table->id('StudentID');
+        if (!Schema::hasTable('courses')) {
+            Schema::create('courses', function (Blueprint $table) {
+                $table->id('CourseID');
                 $table->string('Name');
-                $table->string('LicenseNumber')->unique();
-                $table->string('Phone');
-                $table->string('Email')->unique();
-                $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+                $table->string('Description');
+                $table->float('Price');
+                $table->foreignId('AdminID')->constrained('admins', 'AdminID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('courses');
     }
 };

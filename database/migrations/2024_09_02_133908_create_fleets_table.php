@@ -17,8 +17,8 @@ return new class extends Migration
                 $table->string('VehicleNumber')->unique();
                 $table->string('Model');
                 $table->string('Status');
-                $table->foreignId('BranchID')->constrained('branches')->onDelete('cascade');
-                $table->foreignId('AdminID')->constrained('admins')->onDelete('cascade');
+                $table->foreignId('BranchID')->constrained('branches', 'BranchID')->onDelete('cascade')->onUpdate('cascade');
+                $table->foreignId('AdminID')->constrained('admins', 'AdminID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

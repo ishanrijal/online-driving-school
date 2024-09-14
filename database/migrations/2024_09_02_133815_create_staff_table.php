@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('courses')) {
-            Schema::create('courses', function (Blueprint $table) {
-                $table->id('CourseID');
+        if (!Schema::hasTable('staff')) {
+            Schema::create('staff', function (Blueprint $table) {
+                $table->id('StaffID');
                 $table->string('Name');
-                $table->string('Description');
-                $table->float('Price');
-                $table->foreignId('AdminID')->constrained('admins')->onDelete('cascade');
+                $table->string('Role');
+                $table->string('Email')->unique();
+                $table->foreignId('AdminID')->nullable()->constrained('admins', 'AdminID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }
-    }
+    
 
     /**
      * Reverse the migrations.
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('staff');
     }
 };

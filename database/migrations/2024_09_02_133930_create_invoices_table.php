@@ -17,7 +17,7 @@ return new class extends Migration
                 $table->date('Date');
                 $table->float('TotalAmount');
                 $table->string('Status');
-                $table->foreignId('StudentID')->constrained('students')->onDelete('cascade');
+                $table->foreignId('StudentID')->constrained('students', 'StudentID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }

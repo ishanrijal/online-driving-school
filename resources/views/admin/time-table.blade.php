@@ -8,7 +8,7 @@
                     margin: 40px auto;
                 }
             </style>
-            <h1>Check Your Appointment</h1>
+            <h1><b>Check Your Appointment</b></h1>
 
             <div id="calendar"></div>
 

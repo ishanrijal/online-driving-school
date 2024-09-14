@@ -11,8 +11,8 @@
                 </div>
             </div>
         @endif
-      <div class="container mt-4">
-          <div class="card">
+      <div class="container mt-4" style="display: flex;flex-direction:column;justify-content:center;align-items:center">
+          <div class="col-sm-8 card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
                   @if($staff && $staff->image)
@@ -31,7 +31,6 @@
                 </div>
               </div>
           </div>
-
           <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">

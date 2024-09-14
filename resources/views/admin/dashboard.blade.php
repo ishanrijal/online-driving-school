@@ -53,6 +53,17 @@
                     <div class="col-sm-4">
                         <section class="income-container">
                             <div class="income-header">
+                                <h2 class="income-title">Registration Record</h2>
+                            </div>
+                            <div class="sales-data">
+                                <canvas id="entityPieChart" width="400" height="400"></canvas>
+                            </div>
+                        </section>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                        <section class="income-container">
+                            <div class="income-header">
                                 <h2 class="income-title">Income</h2>
                                 <div class="see-all-wrapper">
                                     <span class="see-all-text">See All</span>
@@ -110,15 +121,8 @@
                             </div>
                             <div class="sales-data">
                                 <canvas id="registrationBarChart" width="400" height="400"></canvas>
-
                             </div>
                         </section>
-                    </div>
-                    <div class="col-sm-4">
-                        <canvas id="registrationBarChart" width="400" height="400"></canvas>
-                    </div>
-                    <div class="col-sm-4">
-                        <canvas id="entityPieChart" width="400" height="400"></canvas>
                     </div>
                 </div>
             </div>

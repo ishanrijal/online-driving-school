@@ -16,7 +16,7 @@ return new class extends Migration
         if (!Schema::hasTable('admins')) {
             Schema::create('admins', function (Blueprint $table) {
                 $table->id('AdminID');
-                $table->string('AdminRole');
+                $table->string('AdminRole')->nullable();
                 $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });

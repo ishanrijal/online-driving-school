@@ -17,11 +17,16 @@ return new class extends Migration
                 $table->string('Name');
                 $table->string('Role');
                 $table->string('Email')->unique();
+                $table->string('Phone')->nullable();
+                $table->string('Address')->nullable();
+                $table->string('Gender')->nullable();
+                $table->string('DateOfBirth')->nullable();
+                $table->string('image')->nullable();
                 $table->foreignId('AdminID')->nullable()->constrained('admins', 'AdminID')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
         }
-    
+    }
 
     /**
      * Reverse the migrations.

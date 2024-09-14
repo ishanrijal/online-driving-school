@@ -14,11 +14,14 @@ return new class extends Migration
         if (!Schema::hasTable('students')) {
             Schema::create('students', function (Blueprint $table) {
                 $table->id('StudentID');
+                $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('Name');
                 $table->string('LicenseNumber')->unique();
-                $table->string('Phone');
-                $table->string('Email')->unique();
-                $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('Phone')->nullable();
+                $table->string('Address')->nullable();
+                $table->date('DateOfBirth')->nullable();
+                $table->enum('Gender', ['Male', 'Female', 'Other'])->nullable();
+                $table->string('image')->nullable();
                 $table->timestamps();
             });
         }

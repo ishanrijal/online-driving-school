@@ -15,8 +15,8 @@ return new class extends Migration
             Schema::create('instructors', function (Blueprint $table) {
                 $table->id('InstructorID');
                 $table->string('Name');
-                $table->string('LicenseNumber')->unique();
-                $table->string('Phone');
+                $table->string('LicenseNumber')->unique()->nullable();
+                $table->string('Phone')->nullable();
                 $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('image')->nullable();
                 $table->timestamps();

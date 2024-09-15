@@ -45,8 +45,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('admin.time-table.index');
 });
-Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
-    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('admin.dashboard');
+Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
+    Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
+    Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
+    // Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
 });
 
 // Profile Routes

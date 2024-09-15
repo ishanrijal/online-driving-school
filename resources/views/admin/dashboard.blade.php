@@ -52,7 +52,7 @@
                 <div class="row" style="margin-top: 64px">
                     <div class="col-sm-4">
                         <section class="income-container">
-                            <div class="income-header">
+                        <div class="income-header">
                                 <h2 class="income-title">Registration Record</h2>
                             </div>
                             <div class="sales-data">
@@ -60,7 +60,7 @@
                             </div>
                         </section>
                     </div>
-                    
+
                     <div class="col-sm-4">
                         <section class="income-container">
                             <div class="income-header">

@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->id('StudentID');
                 $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('Name');
-                $table->string('LicenseNumber')->unique();
+                $table->string('LicenseNumber')->nullable()->unique();
                 $table->string('Phone')->nullable();
                 $table->string('Address')->nullable();
                 $table->date('DateOfBirth')->nullable();

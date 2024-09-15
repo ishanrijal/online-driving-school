@@ -24,8 +24,6 @@ class LoginController extends Controller
         // Attempt to log the user if authentication is successful
         if (Auth::attempt($credentials)) {
             $user = Auth::user(); // Get the authenticated user
-            dd($user);
-
             // Check the user's role and redirect accordingly
             if ($user->role === 'admin') {
                 return redirect()->intended('/admin/dashboard')->with('success', 'You are now logged in as admin.');

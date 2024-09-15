@@ -2,11 +2,9 @@
 @section('title', 'Login')
 @section('content')
         <div class="row">
-            <!-- Session Status -->
-            <x-auth-session-status class="mb-4" :status="session('status')" />
-
             <div class="col-sm-12" style="padding: 0 48px">
                 <div class="signup-box">
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
                     <div class="card card-outline card-primary">
                         <div class="card-header text-center">
                             <h1>Forgot Password</h1>

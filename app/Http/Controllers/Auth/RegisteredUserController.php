@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Staff;
+use App\Models\Students;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -31,7 +32,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
         $request->validate([
             'name'                  => ['required', 'string', 'max:255'],
             'email'                 => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -53,6 +53,13 @@ class RegisteredUserController extends Controller
             Staff::create([
                 'Name'    => $user->name,
                 'AdminID' => $admin->AdminID,
+            ]);
+        }
+        if ($user->role === 'student') {
+            // dd($user);
+            Students::create([
+                'Name'    => $user->name,
+                'user_id' => $user->user_id,
             ]);
         }
 

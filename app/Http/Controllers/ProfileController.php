@@ -37,7 +37,8 @@ class ProfileController extends Controller
     
             case 'student':
                 // Fetch student-specific data if needed
-                $data['student'] = Students::where('user_id', $user->user_id)->first();
+                $data['staff'] = Students::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
                 return view('profile.student', $data);
     
             case 'instructor':
@@ -87,7 +88,8 @@ class ProfileController extends Controller
             case 'student':
                 // Fetch student-specific data if needed
                 $data['student'] = Students::where('user_id', $user->user_id)->first();
-                return view('profile.student', $data);
+                $data['user_email'] = $user->email;
+                return view('student.dashboard', $data);
     
             case 'instructor':
                 // Fetch instructor-specific data if needed

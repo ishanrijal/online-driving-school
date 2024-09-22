@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Instructor;
+use App\Models\Instructors;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -46,7 +48,7 @@ class AdminController extends Controller
         }
 
         // Store the data in the 'instructors' table
-        Instructor::create([
+        Instructors::create([
             'Name' => $request->name,
             'LicenseNumber' => $request->license,
             'Phone' => $request->contact,
@@ -56,4 +58,18 @@ class AdminController extends Controller
 
         return redirect()->route('admin.trainer')->with('success', 'Trainer added successfully!');
     }
+
+    public function showUserList(){
+        $users = User::whereNull('email_verified_at')->paginate(10);
+        return view( 'admin.verify-user', compact('users') );
+    }
+    public function updateVerify($user_id)
+    {
+        $user = User::find($user_id);
+        $user->update([
+            'email_verified_at' => now(),
+        ]);
+        return redirect()->route('admin.user-verify.index')->with('success', 'User Verified successfully');
+    }
+
 }

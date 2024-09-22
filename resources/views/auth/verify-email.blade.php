@@ -19,16 +19,6 @@
                             </div>
                         @endif
                         <div style="margin-top: 24px">
-                            <form method="POST" action="{{ route('verification.send') }}">
-                                @csrf
-
-                                <div class="social-auth-links text-center mt-2 mb-3">
-                                    <x-primary-button type="submit" class="btn btn-primary btn-block">
-                                        {{ __('Resend Verification Email') }}
-                                    </x-primary-button>
-                                </div>
-                            </form>
-
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <div class="social-auth-links text-center mt-2 mb-3">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
@@ -14,6 +15,9 @@ Route::get('/', function () {
 
 // Ensure that these routes are accessible only to authenticated and verified users
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+    Route::get('/new-users', [AdminController::class, 'showUserList'])->name('admin.user-verify.index');
+    Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
+
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('admin.dashboard');
 
     // Admin Trainer List
@@ -25,6 +29,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/instructor/{id}/edit', [InstructorController::class, 'edit'])->name('admin.instructor.edit');
     Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('admin.instructor.update');
     Route::delete('/instructor/{id}', [InstructorController::class, 'destroy'])->name('admin.instructor.destroy');
+    
 
     // Student CRUD
     Route::get('/student', [StudentController::class, 'index'])->name('admin.student.index');

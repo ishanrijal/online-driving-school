@@ -34,6 +34,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/admin/new-users" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <span>New Users</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="instructor" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Instructor</span>

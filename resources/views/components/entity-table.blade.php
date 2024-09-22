@@ -10,9 +10,7 @@
     @endif
 
     <div class="header">
-        <h3>Total {{ $entityName }}:   
-            {{-- <span class="entity-count">{{ $entities->total() }}</span> --}}
-        </h3>
+        <h3>Total {{ $entityName }}: </h3>
         <div class="actions-container">
             <a href="{{ $createroute }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add {{ $entityName }}</a>
         </div>
@@ -46,7 +44,6 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $entity->{$field} }}</td>
                     @endforeach
                     <td class="px-6 py-4 whitespace-nowrap">
-                        {{-- {{dd($entities)}} --}}
                         <a href="{{ route($editroute, $entity->InstructorID) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                         <form action="{{ route($deleteroute, $entity->InstructorID) }}" method="POST" style="display:inline;">
                             @csrf

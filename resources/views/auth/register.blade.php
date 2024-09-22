@@ -5,6 +5,13 @@
     <div class="col-sm-12" style="padding: 0 48px">
         <div class="signup-box">
             <div class="card card-outline card-primary">
+                @if (session('registration-fail'))
+                    <div class="col-sm-12">
+                        <div class="alert alert-success">
+                            {{ session('registration-fail') }}
+                        </div>
+                    </div>
+                @endif
                 <div class="card-header text-center">
                     <h1>Register User</h1>
                 </div>

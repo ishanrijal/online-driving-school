@@ -22,7 +22,7 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        $instructors = Instructors::paginate(10);
+        $instructors = Instructors::with('user')->paginate(10);
         return view( 'admin.instructor', compact('instructors') );
     }
 
@@ -146,7 +146,6 @@ class InstructorController extends Controller
 
         return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
     }
-
     /**
      * Remove the specified trainer from the database.
      */
@@ -164,5 +163,4 @@ class InstructorController extends Controller
         
         return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
     }
-    
 }

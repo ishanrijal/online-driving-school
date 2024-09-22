@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\Instructors;
 use App\Models\Staff;
 use App\Models\Students;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,9 +57,29 @@ class ProfileController extends Controller
         $user = Auth::user();    
         // Fetch data based on the role
         $data = [];
+
         switch ($user->role) {
+            case 'superadmin':
+                $data['staff'] = User::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
+                if( $data['staff']->image ){
+                    $imageUrl = asset('storage/' . $data['staff']->image);
+                }else{
+                    $imageUrl='';
+                }
+                // Store in session
+                Session::put('staff_image_url', $imageUrl);
+
+                $data['students_count'] = Students::count();
+                $data['instructors_count'] = Instructors::count();
+
+                Session::put('students_count', $data['students_count'] );
+                Session::put('instructors_count', $data['instructors_count'] );
+                
+                return view('admin.dashboard', $data);
             case 'admin':
                 $admin = Admin::where('user_id', $user->user_id)->first();
+                dd($admin);
                 if ($admin) {
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
                     $data['user_email'] = $user->email;

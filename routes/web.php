@@ -63,9 +63,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/class-schedules', [ClassScheduleController::class, 'getAppointments'])->name('class-schedules');
     Route::post('/class-schedule', [ClassScheduleController::class, 'store'])->name('admin.classSchedule.store');
     Route::get('/class-schedule/create', [ClassScheduleController::class, 'create'])->name('admin.classSchedule.create');
-    Route::get('/class-schedule/{id}/edit', [ClassScheduleController::class, 'edit'])->name('admin.classSchedule.edit');
     Route::put('/class-schedule/{id}', [ClassScheduleController::class, 'update'])->name('admin.classSchedule.update');
-    Route::delete('/class-schedule/{id}', [ClassScheduleController::class, 'destroy'])->name('admin.classSchedule.destroy');
+    Route::get('/class-schedule/{id}/edit-form', [ClassScheduleController::class, 'editForm'])->name('admin.classSchedule.editForm');
+    Route::get('/class-schedule/{id}/edit', [ClassScheduleController::class, 'edit'])->name('admin.classSchedule.edit');
+    Route::delete('/class-schedule/destroy/{id}', [ClassScheduleController::class, 'destroy'])->name('admin.classSchedule.destroy');
 
     // Student CRUD
     Route::get('/student', [StudentController::class, 'index'])->name('admin.student.index');
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
+    Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('student.classSchedule.edit');
     // Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
 });
 

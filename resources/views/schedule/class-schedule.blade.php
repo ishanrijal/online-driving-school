@@ -37,6 +37,10 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .appointmentForm,
+        .viewAppointment{
+            display: none;
+        }
     </style>
 
     <h1><b>Check Your Appointment</b></h1>
@@ -106,12 +110,53 @@
                 </div>
                 <button type="submit" id="saveButton">Save</button>
             </form>
+            <div id="viewAppointment">
+                <div>
+                    <label for="appointment-date">Date:</label>
+                    <p id="appointment-date"></p>
+                </div>
+                <div>
+                    <label for="appointment-id">Time:</label>
+                    <p id="appointment-time"></p>
+                </div>
+                <div>
+                    <label for="appointment-location">Location:</label>
+                    <p id="appointment-location"></p>
+                </div>
+                <div>
+                    <label for="appointment-instructor">Instructor:</label>
+                    <p id="appointment-instructor"></p>
+                </div>
+                <div>
+                    <label for="appointment-course">Course:</label>
+                    <p id="appointment-course"></p>
+                </div>
+                <div>
+                    <label for="appointment-student">Student:</label>
+                    <p id="appointment-student"></p>
+                </div>
+                <div class="action-btn">
+                    <a href="#" id="editButton">
+                        Edit
+                    </a>
+                    <form id="deleteForm" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
+                            <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
+            var modal = document.getElementById('appointmentModal');
+            var viewAppointment = document.getElementById('viewAppointment');
+            var appointmentForm = document.getElementById('appointmentForm');
             var modal = document.getElementById('appointmentModal');
             var span = document.getElementsByClassName('close')[0];
 
@@ -121,10 +166,11 @@
                 editable: true,
                 events: @json($appointments),
                 select: function(info) {
+                    //open model to add the details
                     openModal(info.startStr, info.endStr); // Open modal on select
                 },
                 eventClick: function(info) {
-                    // Open modal to edit event
+                    // Open modal to view the event details
                     openModal(info.event.startStr, info.event.endStr, info.event.id);
                 }
             });
@@ -148,20 +194,29 @@
             function openModal(startDate, endDate, scheduleID = null) {
                 modal.style.display = 'block';
                 if (scheduleID) {
-                    document.getElementById('modalTitle').innerText = 'Edit Appointment';
-                    document.getElementById('saveButton').innerText = 'Update';
+                    viewAppointment.style.display = 'block';
+                    appointmentForm.style.display = 'none';
+                    document.getElementById('modalTitle').innerText = 'View Appointment';
+                    document.getElementById('saveButton').innerText = 'Edit';
                     // Fetch and prefill data for editing
-                    fetch(`/appointments/${scheduleID}`)
+                    fetch(`/admin/class-schedule/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
-                            document.getElementById('Date').value = data.Date;
-                            document.getElementById('Time').value = data.Time;
-                            document.getElementById('Location').value = data.Location;
-                            document.getElementById('InstructorID').value = data.InstructorID;
-                            document.getElementById('CourseID').value = data.CourseID;
-                            document.getElementById('StudentID').value = data.StudentID;
+                            console.log(data)
+                            document.getElementById('appointment-date').innerHTML = data.Date;
+                            document.getElementById('appointment-time').innerHTML = data.Time;
+                            document.getElementById('appointment-location').innerHTML = data.Location;
+                            document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
+                            document.getElementById('appointment-course').innerHTML = data.CourseName;
+                            document.getElementById('appointment-student').innerHTML = data.StudentName;
+                            document.getElementById('deleteForm').action = `/admin/class-schedule/destroy/${data.ClassScheduleID}`;
+
+                            const saveButton = document.getElementById('editButton');
+                            saveButton.href = `/admin/class-schedule/${data.ClassScheduleID}/edit-form`;
                         });
                 } else {
+                    viewAppointment.style.display = 'none';
+                    appointmentForm.style.display = 'block';
                     document.getElementById('modalTitle').innerText = 'Add Appointment';
                     document.getElementById('saveButton').innerText = 'Save';
                     document.getElementById('ClassScheduleID').value = '';
@@ -173,32 +228,6 @@
                     document.getElementById('StudentID').value = '';
                 }
             }
-
-            // // Handle form submission
-            // document.getElementById('appointmentForm').onsubmit = function(event) {
-            //     event.preventDefault();
-            //     var formData = new FormData(this);
-            //     var scheduleID = formData.get('ClassScheduleID');
-            //     var url = scheduleID ? `/class-schedule/${scheduleID}` : '/admin/class-schedule';
-            //     var method = scheduleID ? 'PUT' : 'POST';
-
-            //     fetch(url, {
-            //         method: method,
-            //         headers: {
-            //             'X-CSRF-TOKEN': "{{ csrf_token() }}"
-            //         },
-            //         body: formData
-            //     })
-            //     .then(response => {
-            //         if (response.ok) {
-            //             calendar.refetchEvents(); // Reload events
-            //             modal.style.display = 'none'; // Close modal
-            //             alert('Appointment saved successfully');
-            //         } else {
-            //             alert('Failed to save appointment');
-            //         }
-            //     });
-            // }
         });
     </script>
 </div>

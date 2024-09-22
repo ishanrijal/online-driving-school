@@ -18,12 +18,11 @@ class ClassScheduleController extends Controller
     
         // Retrieve all class schedules (appointments)
         $appointments = ClassSchedules::all()->map(function($appointment) {
-            dd($appointment);
             return [
                 'id' => $appointment->ClassScheduleID,
-                'name' => $appointment->Location, 
-                'start' => $appointment->Date,
-                // 'end' => $appointment->end_date,
+                'title' => $appointment->Location, // Customize this as needed (e.g., include student name or course)
+                'start' => $appointment->Date, // Assuming you just want the date
+                // 'end' => $appointment->end_date, // If you have an end date, add it here
             ];
         });
     
@@ -67,5 +66,53 @@ class ClassScheduleController extends Controller
 
     return response()->json($events);
 }
+    public function edit($id)
+    {
+        $schedule = ClassSchedules::findOrFail($id);
+        return response()->json([
+            'ClassScheduleID' => $schedule->ClassScheduleID,
+            'Date' => $schedule->Date,
+            'Time' => $schedule->Time,
+            'Location' => $schedule->Location,
+            'InstructorID' => $schedule->InstructorID,
+            'InstructorName' => $schedule->instructor->Name, // Assuming you have a relationship set up
+            'CourseID' => $schedule->CourseID,
+            'CourseName' => $schedule->course->Name, // Assuming you have a relationship set up
+            'StudentID' => $schedule->StudentID,
+            'StudentName' => $schedule->student->Name // Assuming you have a relationship set up
+        ]);
+        // return view('course.edit-course', compact('course'));
+    }
+    public function editForm($id)
+    {
+        $schedule = ClassSchedules::findOrFail($id);
+        $courses = Courses::all();
+        $instructors = Instructors::all();
+        $students = Students::all();
 
+        return view('schedule.edit-schedule', compact('schedule', 'courses', 'instructors', 'students'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'Date'         => 'required|date',
+            'Time'         => 'required',
+            'Location'     => 'required|string',
+            'InstructorID' => 'required|exists:instructors,InstructorID',
+            'CourseID'     => 'required|exists:courses,CourseID',
+            'StudentID'    => 'required|exists:students,StudentID',
+        ]);
+
+        $classSchedule = ClassSchedules::findOrFail($id);
+        $classSchedule->update($request->all());
+        return redirect()->route('admin.classSchedule.index')->with('success', 'Time Table updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $schedule = ClassSchedules::findOrFail($id);
+        $schedule->delete();
+        return redirect()->route('admin.classSchedule.index')->with('success', 'Schedule deleted successfully.');
+    }
 }

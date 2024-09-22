@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Courses extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'CourseID';
+
+    protected $fillable = [
+        'Name',
+        'Description',
+        'Price',
+        'AdminID'
+    ];
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'AdminID', 'AdminID');
+    }
 }

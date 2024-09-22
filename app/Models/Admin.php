@@ -19,4 +19,10 @@ class Admin extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function payments(){
+        return $this->hasMany(Payments::class, 'AdminID', 'AdminID');
+    }
+    public function course(){
+        return $this->hasMany(Courses::class, 'AdminID', 'AdminID');
+    }
 }

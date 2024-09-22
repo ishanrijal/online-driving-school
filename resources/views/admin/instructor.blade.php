@@ -52,7 +52,7 @@
                         </td>                       
                     @else
                         <td class="action-btn actions-container">
-                            <form action="{{ route('admin.instructor.verify', $instructor->user->user_id) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('admin.user.verify', $instructor->user->user_id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('PUT')
                                 <button type="submit" class="verify-btn">

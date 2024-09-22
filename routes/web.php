@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClassScheduleController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
@@ -30,6 +34,38 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('admin.instructor.update');
     Route::delete('/instructor/{id}', [InstructorController::class, 'destroy'])->name('admin.instructor.destroy');
     
+    //Invoice
+    Route::get('/invoice', [InvoiceController::class, 'index'])->name('admin.invoice.index');
+    Route::post('/invoice', [InvoiceController::class, 'store'])->name('admin.invoice.store');
+    Route::get('/invoice/create', [InvoiceController::class, 'create'])->name('admin.invoice.create');
+    Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('admin.invoice.edit');
+    Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('admin.invoice.update');
+    Route::delete('/invoice/{id}', [InvoiceController::class, 'destroy'])->name('admin.invoice.destroy');
+
+    //Payment
+    Route::get('/payment', [PaymentController::class, 'index'])->name('admin.payment.index');
+    Route::post('/payment', [PaymentController::class, 'store'])->name('admin.payment.store');
+    Route::get('/payment/create', [PaymentController::class, 'create'])->name('admin.payment.create');
+    Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('admin.payment.edit');
+    Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('admin.payment.update');
+    Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('admin.payment.destroy');
+
+    //Course
+    Route::get('/course', [CourseController::class, 'index'])->name('admin.course.index');
+    Route::post('/course', [CourseController::class, 'store'])->name('admin.course.store');
+    Route::get('/course/create', [CourseController::class, 'create'])->name('admin.course.create');
+    Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('admin.course.edit');
+    Route::put('/course/{id}', [CourseController::class, 'update'])->name('admin.course.update');
+    Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('admin.course.destroy');
+
+    //CLass Schedules
+    Route::get('/time-table', [ClassScheduleController::class, 'index'])->name('admin.classSchedule.index');
+    Route::get('/class-schedules', [ClassScheduleController::class, 'getAppointments'])->name('class-schedules');
+    Route::post('/class-schedule', [ClassScheduleController::class, 'store'])->name('admin.classSchedule.store');
+    Route::get('/class-schedule/create', [ClassScheduleController::class, 'create'])->name('admin.classSchedule.create');
+    Route::get('/class-schedule/{id}/edit', [ClassScheduleController::class, 'edit'])->name('admin.classSchedule.edit');
+    Route::put('/class-schedule/{id}', [ClassScheduleController::class, 'update'])->name('admin.classSchedule.update');
+    Route::delete('/class-schedule/{id}', [ClassScheduleController::class, 'destroy'])->name('admin.classSchedule.destroy');
 
     // Student CRUD
     Route::get('/student', [StudentController::class, 'index'])->name('admin.student.index');
@@ -47,8 +83,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::put('/staff/{id}', [StaffController::class, 'update'])->name('admin.staff.update');
     Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('admin.staff.destroy');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
-
-    Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('admin.time-table.index');
 });
 Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');

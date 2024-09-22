@@ -20,4 +20,7 @@ class Students extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function invoices(){
+        return $this->hasMany(Invoices::class, 'StudentID', 'StudentID');
+    }
 }

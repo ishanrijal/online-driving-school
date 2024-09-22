@@ -16,7 +16,8 @@
                     @if ($field['type'] === 'select')
                         <select id="{{ $field['id'] }}" name="{{ $field['name'] }}" {{ $field['required'] ? 'required' : '' }} {{ $field['disabled'] ? 'disabled' : '' }}>
                             @foreach ($field['options'] as $value => $label)
-                                <option value="{{ $value }}" {{ old($field['name']) == $value ? 'selected' : '' }}>
+                                <option value="{{ $value }}" 
+                                    {{ old($field['name']) == $value ? 'selected' : '' }}>
                                     {{ $label }}
                                 </option>
                             @endforeach

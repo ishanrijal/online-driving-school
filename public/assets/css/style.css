@@ -594,6 +594,7 @@ pre code {
     left: 0;
     position: fixed;
     top: 0;
+    overflow-y: auto;
 }
 
 /* reset */

@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentInvoiceController;
 use App\Http\Controllers\TimetableScheduler;
 use Illuminate\Support\Facades\Route;
 
@@ -88,7 +89,15 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
+    Route::post('/class-schedule', [TimetableScheduler::class, 'store'])->name('student.classSchedule.store');
     Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('student.classSchedule.edit');
+
+    Route::get('/invoice', [StudentInvoiceController::class, 'index'])->name('student.invoice.index');
+    Route::put('/invoice/{id}', [StudentInvoiceController::class, 'update'])->name('student.invoice.update');
+
+
+    // Route::delete('/class-schedule/destroy/{id}', [TimetableScheduler::class, 'destroy'])->name('student.classSchedule.destroy');
+
     // Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
 });
 

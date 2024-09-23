@@ -37,10 +37,150 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .appointmentForm,
+        .viewAppointment{
+            display: none;
+        }
+        #viewAppointment {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+#viewAppointment div {
+    margin-bottom: 15px;
+}
+
+#viewAppointment label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#viewAppointment p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+}
+
+.action-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#editButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#editButton:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+
+img[alt="Delete"] {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+
+/* Form */
+#appointmentForm {
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%
+    margin: 20px auto;
+}
+
+#appointmentForm h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#appointmentForm div {
+    margin-bottom: 15px;
+}
+
+#appointmentForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#appointmentForm input,
+#appointmentForm select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#appointmentForm input:focus,
+#appointmentForm select:focus {
+    outline: none;
+    border-color: #F91942;
+    box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
+}
+
+#saveButton {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #F91942;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#saveButton:hover {
+    background-color: #e6163a;
+}
+
     </style>
 
-    <h1><b>Check Your Appointment</b></h1>
-
+    <h1><b>Check Your Timetable</b></h1>
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -62,9 +202,44 @@
     <div id="appointmentModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 id="modalTitle">View Appointment</h2>
+            <form id="appointmentForm" action="{{ route('student.classSchedule.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
+                <h2 id="modalTitle">Book Appointment</h2>
+                @csrf
+                <div>
+                    <label for="Date">Date:</label>
+                    <input type="date" id="Date" name="Date" required>
+                </div>
+                <div>
+                    <label for="Time">Time:</label>
+                    <input type="time" id="Time" name="Time" required>
+                </div>
+                <div>
+                    <label for="Location">Location:</label>
+                    <input type="text" id="Location" name="Location" required>
+                </div>
+                <div>
+                    <label for="InstructorID">Instructor:</label>
+                    <select id="InstructorID" name="InstructorID" required>
+                        <option value="">Select Instructor</option>
+                        @foreach ($instructors as $instructor)
+                            <option value="{{ $instructor->InstructorID }}">{{ $instructor->Name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="CourseID">Course:</label>
+                    <select id="CourseID" name="CourseID" required>
+                        <option value="">Select Course</option>
+                        @foreach ($courses as $course)
+                            <option value="{{ $course->CourseID }}">{{ $course->Name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" id="saveButton">Save</button>
+            </form>
            
             <div id="viewAppointment">
+                <h2 id="modalTitle">View Appointment</h2>
                 <div>
                     <label for="appointment-date">Date:</label>
                     <p id="appointment-date"></p>
@@ -85,6 +260,18 @@
                     <label for="appointment-course">Course:</label>
                     <p id="appointment-course"></p>
                 </div>
+                {{-- <div class="action-btn">
+                    <a href="#" id="editButton">
+                        Edit
+                    </a>
+                    <form id="deleteForm" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
+                            <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
+                        </button>
+                    </form>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -95,7 +282,6 @@
             var modal = document.getElementById('appointmentModal');
             var viewAppointment = document.getElementById('viewAppointment');
             var appointmentForm = document.getElementById('appointmentForm');
-            var modal = document.getElementById('appointmentModal');
             var span = document.getElementsByClassName('close')[0];
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -132,20 +318,26 @@
             function openModal(startDate, endDate, scheduleID = null) {
                 modal.style.display = 'block';
                 if (scheduleID) {
+                    appointmentForm.style.display = 'none';
+                    viewAppointment.style.display = 'block';
                     document.getElementById('modalTitle').innerText = 'View Appointment';
                     fetch(`/student/time-table/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log("i am here")
-                            console.log(data)
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course').innerHTML = data.CourseName;
+
+                            // document.getElementById('deleteForm').action = `/student/class-schedule/destroy/${data.ClassScheduleID}`;
+                            // const saveButton = document.getElementById('editButton');
+                            // saveButton.href = `/admin/class-schedule/${data.ClassScheduleID}/edit-form`;
+
                         });
                 }else{
-                    modal.style.display = 'none';
+                    appointmentForm.style.display = 'block';
+                    viewAppointment.style.display = 'none';
                 }
             }
         });

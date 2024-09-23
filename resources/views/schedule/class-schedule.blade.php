@@ -41,6 +41,145 @@
         .viewAppointment{
             display: none;
         }
+
+
+        #viewAppointment {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+#viewAppointment div {
+    margin-bottom: 15px;
+}
+
+#viewAppointment label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#viewAppointment p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+}
+
+.action-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#editButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#editButton:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e53935;
+}
+
+img[alt="Delete"] {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+
+/* Form */
+#appointmentForm {
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%
+    margin: 20px auto;
+}
+
+#appointmentForm h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#appointmentForm div {
+    margin-bottom: 15px;
+}
+
+#appointmentForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#appointmentForm input,
+#appointmentForm select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#appointmentForm input:focus,
+#appointmentForm select:focus {
+    outline: none;
+    border-color: #F91942;
+    box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
+}
+
+#saveButton {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #F91942;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#saveButton:hover {
+    background-color: #e6163a;
+}
+
     </style>
 
     <h1><b>Check Your Appointment</b></h1>
@@ -202,7 +341,6 @@
                     fetch(`/admin/class-schedule/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data)
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;

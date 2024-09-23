@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassSchedules;
+use App\Models\Courses;
 use App\Models\Instructors;
 use App\Models\Students;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ class TimetableScheduler extends Controller
 {
     //
     public function index(){
+
+        $instructors = Instructors::all();
+        $courses     = Courses::all();
+        
+
         // Get the ID of the currently authenticated user
         $userId = Auth::id();
 
@@ -35,7 +41,7 @@ class TimetableScheduler extends Controller
                   // 'end' => $appointment->end_date, // If you have an end date, add it here
             ];
         });
-        return view('student.time-table', compact('appointments'));
+        return view('student.time-table', compact('instructors', 'courses','appointments'));
     }
 
     public function edit($id)
@@ -54,5 +60,32 @@ class TimetableScheduler extends Controller
             'StudentName' => $schedule->student->Name // Assuming you have a relationship set up
         ]);
         // return view('course.edit-course', compact('course'));
+    }
+
+    public function store(Request $request){
+        
+        $request->validate([
+            'Date'         => 'required|date',
+            'Time'         => 'required',
+            'Location'     => 'required|string',
+            'InstructorID' => 'required|exists:instructors,InstructorID',
+            'CourseID' => 'required|exists:courses,CourseID',
+        ]);
+        ClassSchedules::create([
+            'Date' => $request->Date,
+            'Time' => $request->Time,
+            'Location' => $request->Location,
+            'InstructorID' => $request->InstructorID,
+            'CourseID' => $request->CourseID,
+            'StudentID' => Auth::id(),
+        ]);
+        return redirect()->route('student.time-table.index')->with('success', 'Class Book successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $schedule = ClassSchedules::findOrFail($id);
+        $schedule->delete();
+        return redirect()->route('student.time-table.index')->with('success', 'Schedule deleted successfully.');
     }
 }

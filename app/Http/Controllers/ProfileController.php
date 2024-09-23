@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
+use App\Models\ClassSchedules;
 use App\Models\Instructors;
+use App\Models\Invoices;
 use App\Models\Staff;
 use App\Models\Students;
 use App\Models\User;
@@ -109,7 +111,11 @@ class ProfileController extends Controller
                 // Fetch student-specific data if needed
                 $data['student'] = Students::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
-                return view('student.dashboard', $data);
+                $appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->get();
+
+                $invoices = Invoices::where('StudentID', $data['student']->StudentID)->where('Status', 'unpaid')->get();
+
+                return view('student.dashboard', compact( 'data', 'appointments','invoices'));
     
             case 'instructor':
                 // Fetch instructor-specific data if needed

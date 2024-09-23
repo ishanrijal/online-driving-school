@@ -44,7 +44,10 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
 }
-
+button#togglePassword {
+    border: none;
+    padding: 0;
+}
 *,
 ::after,
 ::before {

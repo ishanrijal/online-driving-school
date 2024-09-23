@@ -34,7 +34,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="time-table" class="nav-link">
+                            <a href="/student/time-table" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Check Schedule</span>
                             </a>

@@ -79,7 +79,6 @@ class ProfileController extends Controller
                 return view('admin.dashboard', $data);
             case 'admin':
                 $admin = Admin::where('user_id', $user->user_id)->first();
-                dd($admin);
                 if ($admin) {
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
                     $data['user_email'] = $user->email;

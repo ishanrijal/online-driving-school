@@ -32,14 +32,14 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user(); // Get the authenticated user
-            if ($user->role === 'admin') {
+            if ($user->role === 'admin' || $user->role === 'superadmin') {
                 return redirect()->intended(route('admin.dashboard', absolute: false));
             } elseif ($user->role === 'student') {
                 return redirect()->intended(route('student.dashboard', absolute: false));
             } elseif ($user->role === 'instructor') {
                 return redirect()->intended(route('instructor.dashboard', absolute: false));
             } else {
-                return redirect('/home')->with('error', 'Opps! Something went wrong.');
+                return redirect('/login')->with('error', 'Opps! Something went wrong.');
             }
         }
     }

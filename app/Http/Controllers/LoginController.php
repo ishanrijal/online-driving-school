@@ -25,7 +25,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user(); // Get the authenticated user
             // Check the user's role and redirect accordingly
-            if ($user->role === 'admin') {
+            if ($user->role === 'admin' || $user->role === 'superadmin') {
                 return redirect()->intended('/admin/dashboard')->with('success', 'You are now logged in as admin.');
             } elseif ($user->role === 'student') {
                 return redirect()->intended('/student/dashboard')->with('success', 'You are now logged in as student.');
@@ -33,7 +33,7 @@ class LoginController extends Controller
                 return redirect()->intended('/instructor/dashboard')->with('success', 'You are now logged in as instructor.');
             } else {
                 // Handle other roles or default behavior
-                return redirect('/home')->with('error', 'Role not recognized.');
+                return redirect('/login')->with('error', 'Role not recognized.');
             }
         }
         $validator['emailPassword'] = 'Email address or password is incorrect.';

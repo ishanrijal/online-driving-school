@@ -62,7 +62,6 @@ class RegisteredUserController extends Controller
                 ]);
             }
             if ($user->role === 'student') {
-                // dd($user);
                 Students::create([
                     'Name'    => $user->name,
                     'user_id' => $user->user_id,

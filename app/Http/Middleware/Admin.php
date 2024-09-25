@@ -17,7 +17,7 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         // check if the user is logged in and role is instructor
-        if( Auth::check() && Auth::user()->role === 'admin' )
+        if( Auth::check() && ( Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin') )
         {
             return $next($request);
         }

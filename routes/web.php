@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
 
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('admin.dashboard');
+    Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.profile.update');
 
     // Admin Trainer List
     Route::get('/instructor', [InstructorController::class, 'index'])->name('admin.instructor.index');

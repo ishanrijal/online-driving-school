@@ -28,13 +28,20 @@ class ProfileController extends Controller
         $data = [];
         switch ($user->role) {
             case 'admin':
+            case 'superadmin':
                 $admin = Admin::where('user_id', $user->user_id)->first();
-            
                 if ($admin) {
-                    $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
-                    $data['user_email'] = $user->email;
-                    return view('profile.admin', $data);
+                    if($user->role == 'superadmin') {
+                        $data['staff'] = $admin;
+                        $data['user_email'] = $user->email;
+                        return view('profile.admin', $data);
+                    }else{
+                        $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
+                        $data['user_email'] = $user->email;
+                        return view('profile.admin', $data);
+                    }
                 }    
+            break;
             case 'staff':
                 // Fetch staff-specific data if needed
                 $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
@@ -154,9 +161,15 @@ class ProfileController extends Controller
         $data = [];
         switch ($user->role) {
             case 'admin':
+            case 'superadmin':
                 $admin = Admin::where('user_id', $user->user_id)->first();
-                $data['data'] = Staff::where('AdminID', $admin->AdminID)->first();
-                $data['user_email'] = $user->email;
+                if( ! ($user->role == 'superadmin') ){
+                    $data['data'] = Staff::where('AdminID', $admin->AdminID)->first();
+                    $data['user_email'] = $user->email;
+                }else{
+                    $data['user_email'] = $user->email;
+                    $data['data'] = $admin;
+                }
             break;
             case 'instructor':
                 $data['data' ]= Instructors::where('user_id', $user->user_id)->first();

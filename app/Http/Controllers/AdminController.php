@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Instructor;
 use App\Models\Instructors;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -72,4 +75,42 @@ class AdminController extends Controller
         return redirect()->route('admin.user-verify.index')->with('success', 'User Verified successfully');
     }
 
+
+    /**WOrking */
+    public function update(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+        $request->validate([
+            'name'           => 'required|string|max:255',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);        
+        // Update user table (name only, as email and role should not be updated)
+        $user = User::find($admin->user_id);
+        $user->update([
+            'name' => $request->name,
+        ]);
+        // dd($request);
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('admins', 'public');
+            // Delete old image if needed (optional)
+            if ($admin->image) {
+                Storage::delete('public/' . $admin->image);
+            }
+        } else {
+            $imagePath = $admin->image; // retain the old image
+        }
+
+        if( $imagePath ){
+            $imageUrl = asset('storage/' . $imagePath);
+        }else{
+            $imageUrl='';
+        }
+
+        Session::put('staff_image_url', $imageUrl);
+        $user = Auth::user();
+        if( $user->role == 'superadmin' ){
+            return redirect()->route('profile.index')->with('success', 'You Profile updated successfully');
+        }
+    }
 }

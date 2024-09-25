@@ -11,8 +11,8 @@
                 </div>
             </div>
         @endif
-      <div class="container mt-4" style="display: flex;flex-direction:column;justify-content:center;align-items:center">
-          <div class="col-sm-8 card">
+        <div class="container mt-4 profile-container">
+          <div class="col-sm-8 card box-shadow">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
                   @if($staff && $staff->image)
@@ -22,18 +22,28 @@
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                   @endif
                   <div class="mt-3">
-                    <h4>{{ $staff->Name ?? 'No Name' }}</h4>
-                    {{-- <p class="text-secondary mb-1">Full Stack Developer</p>
-                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                    <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Message</button> --}}
+                    @if( $staff->AdminRole == 'superadmin')
+                      <h4 style="text-transform: capitalize">{{$staff->user->name}}</h4>
+                    @else
+                      <h4 style="text-transform: capitalize">{{ $staff->user->role ?? 'No Name' }}</h4>
+                    @endif
+                    <p class="text-muted font-size-sm">Origin Driving School</p>
+
+                    <div class="action-btn">
+                        <form action="{{ route('logout') }}" method="post">
+                          @csrf
+                          <button type="submit" class="btn btn-primary btn-block">Logout</button>
+                      </form>   
+                      <a class="btn btn-info" href="{{ route('profile.edit') }}">Edit</a>                    </div>
                   </div>
                 </div>
               </div>
           </div>
-          <div class="col-md-8">
+          @if( !( $staff->AdminRole == 'superadmin') )
+          <div class="col-md-8 box-shadow">
               <div class="card mb-3">
                 <div class="card-body">
+                 
                   @if( $staff->Name )
                       <div class="row">
                           <div class="col-sm-3">
@@ -90,13 +100,9 @@
                     </div>
                   </div>
                   <hr>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <a class="btn btn-info" href="{{ route('admin.profile.edit', $staff->StaffID) }}">Edit</a>
-                    </div>
-                  </div>
+                </div>
               </div>
-          </div>
+              @endif
       </div>
     </div>
 @endsection

@@ -12,40 +12,41 @@
                             </div>
                         </div>
                     @endif
-                    <div class="col-sm-4">
-                        <div class="dashboard-card">
-                            <div class="students-header">
-                              <h2 class="students-title">Students</h2>
-                              <div class="count-wrapper">
-                                <h3>{{session('students_count')}}</h3>
-                                  <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
-                              </div>
-                            </div>
-                            <div class="students-divider" role="separator"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="dashboard-card">
-                            <div class="students-header">
-                              <h2 class="students-title">Vehicles</h2>
-                              <div class="count-wrapper">
-                                <h3>{{session('instructors_count')+2}}</h3>
-                                  <img src="{{ asset('assets/svgs/vehicle.svg') }}" alt="" class="students-icon" />
-                              </div>
-                            </div>
-                            <div class="students-divider" role="separator"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="dashboard-card">
-                            <div class="students-header">
-                              <h2 class="students-title">Instructors</h2>
-                              <div class="count-wrapper">
-                                <h3>{{session('instructors_count')}}</h3>
-                                  <img src="{{ asset('assets/svgs/user.svg') }}" alt="" class="students-icon" />
-                              </div>
-                            </div>
-                            <div class="students-divider" role="separator"></div>
+                    <div class="row dashboard-insight">
+                        <h2 class="title">Overview</h2>
+                        <div class="col-sm-12">
+                            <section class="overview">
+                                <div class="card">
+                                    <h4>Month Revenue</h4>
+                                    <h2>$90k</h2>
+                                    <p>March 2023</p>
+                                    <span class="change positive">+ 37.43%</span>
+                                </div>
+                                <div class="card">
+                                    <h4>Total Instructors</h4>
+                                    <h2>
+                                        @if(session('instructors_count') > 0)
+                                            {{session('instructors_count')}}
+                                        @else
+                                            0
+                                        @endif
+                                    </h2>
+                                    <p>Aug 13 - Sep 13</p>
+                                    <span class="change positive">+ 37.43%</span>
+                                </div>
+                                <div class="card">
+                                    <h4>Total Students</h4>
+                                    <h2>
+                                        @if(session('students_count')> 0)
+                                            {{session('students_count')}}
+                                            @else
+                                            0
+                                        @endif
+                                    </h2>
+                                    <p>{{ date('F Y') }}</p>
+                                    <span class="change negative">- 13.43%</span>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>

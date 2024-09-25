@@ -2,7 +2,7 @@
 // Determine the role based on the user type
 if ($data->user->role == 'admin' || $data->user->role == 'superadmin') {
     $role = 'admin';
-    $actionRoute = route('admin.instructor.update', $data->InstructorID);
+    $actionRoute = route('admin.profile.update', $data->AdminID);
 } elseif ($data->user->role == 'instructor') {
     $role = 'instructor';
     $actionRoute = route('instructor.update', $data->InstructorID);
@@ -13,19 +13,11 @@ if ($data->user->role == 'admin' || $data->user->role == 'superadmin') {
     $role = 'student';
     $actionRoute = route('admin.student.update', $data->StudentID);
 }
-
-$fields = [
-    [
-        'label'       => 'Name',
-        'name'        => 'name',
-        'type'        => 'text',
-        'id'          => 'name',
-        'placeholder' => 'Enter Name',
-        'default'     => old('Name', $data->Name),
-        'required'    => true,
-        'disabled'    => false
-    ],
-    [
+$fields = [];
+    
+    // Conditionally add fields based on the role
+    if ($role !== 'admin') {
+    $fields[] = [
         'label'       => 'Address',
         'name'        => 'Address',
         'type'        => 'text',
@@ -34,28 +26,31 @@ $fields = [
         'default'     => old('Address', $data->Address),
         'required'    => false,
         'disabled'    => false
-    ],
-    [
+    ];
+
+    $fields[] = [
         'label'       => 'Date of Birth',
         'name'        => 'DateOfBirth',
         'type'        => 'date',
         'id'          => 'dob',
         'placeholder' => '',
-        'default'     => old('DateOfBirth', $data->DateOfBirth), // Corrected here
+        'default'     => old('DateOfBirth', $data->DateOfBirth), // Corrected
         'required'    => false,
         'disabled'    => false
-    ],
-    [
+    ];
+
+    $fields[] = [
         'label'       => 'Gender',
         'name'        => 'Gender',
-        'type'        => 'text', // Corrected to 'text'
+        'type'        => 'text', // Corrected
         'id'          => 'gender',
         'placeholder' => '',
         'default'     => old('Gender', $data->Gender),
         'required'    => false,
         'disabled'    => false
-    ],
-    [
+    ];
+
+    $fields[] = [
         'label'       => 'Contact Number',
         'name'        => 'Phone',
         'type'        => 'text',
@@ -64,8 +59,21 @@ $fields = [
         'default'     => old('Phone', $data->Phone),
         'required'    => false,
         'disabled'    => false
-    ],
-    [
+    ];
+    }
+
+    $fields[] = [
+            'label'       => 'Name',
+            'name'        => 'name',
+            'type'        => 'text',
+            'id'          => 'name',
+            'placeholder' => 'Enter Name',
+            'default'     => old('Name', $data->user->name),
+            'required'    => true,
+            'disabled'    => false
+        ];
+
+    $fields[] = [
         'label'       => 'Email',
         'name'        => 'email',
         'type'        => 'email',
@@ -74,9 +82,7 @@ $fields = [
         'default'     => old('email', $user_email),
         'required'    => false,
         'disabled'    => true
-    ],
-];
-
+    ];
 @endphp
 
 @extends($role . '.layout') {{-- Corrected here --}}

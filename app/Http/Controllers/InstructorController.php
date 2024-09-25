@@ -7,13 +7,13 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 // use Illuminate\Container\Attributes\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-
-
+use Illuminate\Support\Facades\Session;
 
 class InstructorController extends Controller
 {
@@ -107,41 +107,51 @@ class InstructorController extends Controller
         $instructor = Instructors::findOrFail($id);
         $request->validate([
             'name'           => 'required|string|max:255',
-            'LicenseNumber'  => [
-                'required',
-                'string',
-                Rule::unique('instructors', 'LicenseNumber')->ignore( $instructor->InstructorID, 'InstructorID' )
+            'Address'           => 'string',
+            'Gender' => [
+                'nullable',
+                Rule::in(['male', 'female', 'other']),
             ],
-            'Phone'        => 'required|string|max:15',
-            // 'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        
+            'Phone'        => 'nullable|regex:/^\+?[0-9]{1,15}$/',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);        
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($instructor->user_id);
         $user->update([
             'name' => $request->name,
         ]);
-
+        // dd($request);
         // Handle image upload if a new image is provided
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $request->file('image')->store('instructors', 'public');
-        //     // Delete old image if needed (optional)
-        //     if ($instructor->image) {
-        //         Storage::delete('public/' . $instructor->image);
-        //     }
-        // } else {
-        //     $imagePath = $instructor->image; // retain the old image
-        // }
-
-        // Update instructor details
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('instructors', 'public');
+            // Delete old image if needed (optional)
+            if ($instructor->image) {
+                Storage::delete('public/' . $instructor->image);
+            }
+        } else {
+            $imagePath = $instructor->image; // retain the old image
+        }
         $instructor->update([
             'Name'          => $request->name,
-            'LicenseNumber' => $request->LicenseNumber,
             'Phone'         => $request->Phone,
-            // 'image'         => $imagePath,
+            'Gender'         => $request->Gender,
+            'Address'         => $request->Address,
+            'image'         => $imagePath,
         ]);
 
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
+        if( $imagePath ){
+            $imageUrl = asset('storage/' . $imagePath);
+        }else{
+            $imageUrl='';
+        }
+
+        Session::put('staff_image_url', $imageUrl);
+        $user = Auth::user();
+        if( $user->role == 'instructor'){
+            return redirect()->route('profile.index')->with('success', 'Your Profile updated successfully');
+        }elseif( ( $user->role == 'admin') || ($user->role == 'superadmin') ){
+            return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
+        }
     }
     /**
      * Remove the specified trainer from the database.

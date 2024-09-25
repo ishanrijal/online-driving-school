@@ -61,22 +61,15 @@
         <aside class="main-sidebar">
             <div class="sidebar dashboard-sidenav">
                 <p class="user-role"><small>{{ Auth::user()->role }}</small></p>
-                {{dd(Request()->route()->getName())}}
                 <nav class="mt-2">
                     <ul class="nav nav-wrapper flex-column">
-                        <li class="nav-item">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.dashboard') ? 'active': ''  }}">
                             <a href="/instructor/dashboard" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/instructor/invoices" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <span>Invoice</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.time-table.index') ? 'active': ''  }}">
                             <a href="/instructor/time-table" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Check Schedule</span>

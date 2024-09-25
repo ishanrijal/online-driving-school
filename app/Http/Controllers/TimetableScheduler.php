@@ -75,13 +75,13 @@ class TimetableScheduler extends Controller
             'Time' => $schedule->Time,
             'Location' => $schedule->Location,
             'InstructorID' => $schedule->InstructorID,
-            'InstructorName' => $schedule->instructor->Name, // Assuming you have a relationship set up
+            'InstructorName' => $schedule->instructor->Name,
             'CourseID' => $schedule->CourseID,
-            'CourseName' => $schedule->course->Name, // Assuming you have a relationship set up
+            'CourseName' => $schedule->course->Name, 
             'StudentID' => $schedule->StudentID,
-            'StudentName' => $schedule->student->Name // Assuming you have a relationship set up
+            'StudentName' => $schedule->student->Name, 
+            'CourseDescription' => $schedule->course->Description 
         ]);
-        // return view('course.edit-course', compact('course'));
     }
 
     public function store(Request $request){

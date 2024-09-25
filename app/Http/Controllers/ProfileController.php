@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Instructor;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
 use App\Models\ClassSchedules;
@@ -48,6 +49,7 @@ class ProfileController extends Controller
             case 'instructor':
                 // Fetch instructor-specific data if needed
                 $data['instructor'] = Instructors::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
                 return view('profile.instructor', $data);
     
             default:
@@ -122,6 +124,15 @@ class ProfileController extends Controller
                 $data['instructor'] = Instructors::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
 
+                if( $data['instructor']->image ){
+                    $imageUrl = asset('storage/' . $data['instructor']->image);
+                }else{
+                    $imageUrl='';
+                }
+                // Store in session
+                Session::put('staff_image_url', $imageUrl);
+
+
                 $appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->get();
                 $today_appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['student.user', 'course'])->get();
                 return view('instructor.dashboard', compact( 'data', 'appointments', 'today_appointments' ));
@@ -141,9 +152,20 @@ class ProfileController extends Controller
         // return view('admin.edit-staff', compact('staff'));
         $user = Auth::user();    
         $data = [];
-        $admin = Admin::where('user_id', $user->user_id)->first();
-        $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
-        $data['user_email'] = $user->email;
+        switch ($user->role) {
+            case 'admin':
+                $admin = Admin::where('user_id', $user->user_id)->first();
+                $data['data'] = Staff::where('AdminID', $admin->AdminID)->first();
+                $data['user_email'] = $user->email;
+            break;
+            case 'instructor':
+                $data['data' ]= Instructors::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
+            break;
+
+            default:
+            break;
+        }
         return view('profile.edit', $data );
     }
     /**

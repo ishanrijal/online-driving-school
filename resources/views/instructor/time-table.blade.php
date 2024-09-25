@@ -1,4 +1,4 @@
-@extends('student.layout')
+@extends('instructor.layout')
 @section('title', 'Time Table')
 @section('content')
 <div class="content-wrapper">
@@ -10,7 +10,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 100;
             left: 0;
             top: 0;
             width: 100%;
@@ -21,15 +21,30 @@
         .modal-content {
             background-color: white;
             margin: 15% auto;
-            padding: 20px;
+            padding: 24px;
             border: 1px solid #888;
             width: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 48px
+            border-radius: 16px;
+            box-shadow: 0px 0px 1px #d0d0d0, 0px 0px 1px #f0f0f0;
+        }
+        .modal-top{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #modalTitle{
+            font-size: 28px;
+            font-weight: 700;
         }
         .close {
             color: #aaa;
-            float: right;
             font-size: 28px;
             font-weight: bold;
+            display: flex;
+            justify-content: flex-end;
         }
         .close:hover,
         .close:focus {
@@ -37,25 +52,22 @@
             text-decoration: none;
             cursor: pointer;
         }
-        .appointmentForm,
         .viewAppointment{
             display: none;
         }
         #viewAppointment {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
+            margin: 24px auto;
         }
 
         #viewAppointment div {
             margin-bottom: 15px;
+            display: flex;
+            gap: 12px;
         }
 
         #viewAppointment label {
+            flex-basis: 30%;
             font-weight: bold;
             color: #333;
             display: block;
@@ -66,118 +78,12 @@
             font-size: 16px;
             color: #666;
             margin: 0;
-            padding: 5px;
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding-left: 10px;
         }
 
-        .action-btn {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
+        /*calendar style*/
+        #calendar #calendar button.fc-today-button.fc-button.fc-button-primary {
+            text-transform: capitalize;
         }
-
-        #editButton {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        #editButton:hover {
-            background-color: #45a049;
-        }
-
-        .delete-btn {
-            background-color: #f44336;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .delete-btn:hover {
-            background-color: #e53935;
-        }
-
-        img[alt="Delete"] {
-            width: 16px;
-            height: 16px;
-            vertical-align: middle;
-        }
-
-
-        /* Form */
-        #appointmentForm {
-            padding: 20px;
-            border-radius: 10px;
-            width: 100%
-            margin: 20px auto;
-        }
-
-        #appointmentForm h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        #appointmentForm div {
-            margin-bottom: 15px;
-        }
-
-        #appointmentForm label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        #appointmentForm input,
-        #appointmentForm select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        #appointmentForm input:focus,
-        #appointmentForm select:focus {
-            outline: none;
-            border-color: #F91942;
-            box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
-        }
-
-        #saveButton {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #F91942;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
-        }
-
-        #saveButton:hover {
-            background-color: #e6163a;
-        }
-
     </style>
     <h1><b>Check Your Timetable</b></h1>
     <div class="container">
@@ -200,11 +106,13 @@
     <!-- Modal for adding/editing appointment -->
     <div id="appointmentModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>           
-            <div id="viewAppointment">
+            <div class="modal-top">
                 <h2 id="modalTitle">View Appointment</h2>
+                <span class="close">&times;</span>           
+            </div>
+            <div id="viewAppointment">
                 <div>
-                    <label for="appointment-date">Date:</label>
+                    <label for="appointment-date">Date</label>
                     <p id="appointment-date"></p>
                 </div>
                 <div>
@@ -212,29 +120,21 @@
                     <p id="appointment-time"></p>
                 </div>
                 <div>
-                    <label for="appointment-location">Location:</label>
+                    <label for="appointment-location">Location</label>
                     <p id="appointment-location"></p>
                 </div>
                 <div>
-                    <label for="appointment-instructor">Instructor:</label>
+                    <label for="appointment-instructor">Instructor</label>
                     <p id="appointment-instructor"></p>
                 </div>
                 <div>
-                    <label for="appointment-course">Course:</label>
-                    <p id="appointment-course"></p>
+                    <label for="appointment-course-name">Course</label>
+                    <p id="appointment-course-name"></p>
                 </div>
-                {{-- <div class="action-btn">
-                    <a href="#" id="editButton">
-                        Edit
-                    </a>
-                    <form id="deleteForm" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
-                            <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
-                        </button>
-                    </form>
-                </div> --}}
+                <div>
+                    <label for="appointment-course-description">Course Description</label>
+                    <p id="appointment-course-description"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -281,20 +181,16 @@
                 if (scheduleID) {
                     modal.style.display = 'block';
                     viewAppointment.style.display = 'block';
-                    document.getElementById('modalTitle').innerText = 'View Appointment';
-                    fetch(`/student/time-table/${scheduleID}/edit`)
+                    fetch(`/instructor/time-table/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
+                            console.log(data);
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
-                            document.getElementById('appointment-course').innerHTML = data.CourseName;
-
-                            // document.getElementById('deleteForm').action = `/student/class-schedule/destroy/${data.ClassScheduleID}`;
-                            // const saveButton = document.getElementById('editButton');
-                            // saveButton.href = `/admin/class-schedule/${data.ClassScheduleID}/edit-form`;
-
+                            document.getElementById('appointment-course-name').innerHTML = data.CourseName;
+                            document.getElementById('appointment-course-description').innerHTML = data.CourseDescription;
                         });
                 }else{
                     modal.style.display = 'none';

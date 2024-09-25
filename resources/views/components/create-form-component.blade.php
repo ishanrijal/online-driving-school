@@ -47,6 +47,7 @@
                     @enderror
                 </div>
             </div>
+            <x-input-error :messages="$errors->get($field['label'])" class="mt-2" />
         @endforeach
         @if( $imageUploader )
             <div class="form-group">

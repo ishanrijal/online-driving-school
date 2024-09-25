@@ -1147,6 +1147,12 @@ p.awesome_line {
     box-shadow:  5px -5px 10px #d0d0d0,
     -5px 5px 10px #f0f0f0;
 }
+.main-sidebar li.nav-item.active {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.3px);
+    -webkit-backdrop-filter: blur(4.3px);
+}
 .wrapper .main-content-wrapper {
     flex-basis: 80%;
     position: relative;
@@ -1167,6 +1173,8 @@ p.awesome_line {
     background: var(--btn-primary);
     color: white;
 }
+
+/* Profile */
 .profile-icon-wrppaer {
     display: flex;
     gap: 4px;
@@ -1175,6 +1183,31 @@ p.awesome_line {
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+.profile-container{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap: 48px;
+}
+.profile-container .card-body hr{
+    background: var(--primary);
+    height: 0.4px;
+}
+.profile-container .card-body .action-btn{
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+}
+.profile-container .card-body .action-btn button{
+    background: var(--primary);
+    border: none;
+    color: white;
+}
+.profile-container .card-body .action-btn a{
+    color: white;
 }
 .save-form .save-btn{
     background: var(--btn-primary);
@@ -1302,13 +1335,13 @@ p.awesome_line {
     text-align: center;
     border: none;
 }
-.card:nth-child(1){
+.overview .card:nth-child(1){
     background-color: rgb(255,244,229);
 }
-.card:nth-child(2){
+.overview .card:nth-child(2){
     background-color: rgb(245,241,254);
 }
-.card:nth-child(3){
+.overview .card:nth-child(3){
     background-color: rgb(234,253,255);
 }
 .card h4 {

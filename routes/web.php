@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Ensure that these routes are accessible only to authenticated and verified users
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
     Route::get('/new-users', [AdminController::class, 'showUserList'])->name('admin.user-verify.index');
     Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
 
@@ -85,7 +85,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::delete('/staff/{id}', [StaffController::class, 'destroy'])->name('admin.staff.destroy');
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 });
-Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
+Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
 
@@ -95,11 +95,10 @@ Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
 Route::middleware(['auth', 'verified', 'instructor'])->prefix('instructor')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('instructor.dashboard');
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('instructor.time-table.index');
-    Route::post('/class-schedule', [TimetableScheduler::class, 'store'])->name('instructor.classSchedule.store');
     Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('instructor.classSchedule.edit');
 
-    Route::get('/invoice', [StudentInvoiceController::class, 'index'])->name('instructor.invoice.index');
-    Route::put('/invoice/{id}', [StudentInvoiceController::class, 'update'])->name('instructor.invoice.update');
+    //profile update
+    Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('instructor.update');
 });
 
 // Profile Routes

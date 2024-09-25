@@ -12,7 +12,7 @@ class Instructors extends Model
     protected $primaryKey = 'InstructorID';
     
     protected $fillable = [
-        'Name', 'LicenseNumber', 'Phone', 'user_id', 'image',
+        'Name', 'LicenseNumber', 'Phone', 'Address','Gender', 'user_id', 'image',
     ];
 
     // Relationship with User

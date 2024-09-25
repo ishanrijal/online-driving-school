@@ -60,10 +60,11 @@ class InstructorController extends Controller
     
             // Create the user
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => 'instructor',
-                'password' => Hash::make($request->name), // temporary password
+                'name'              => $request->name,
+                'email'             => $request->email,
+                'role'              => 'instructor',
+                'password'          => Hash::make($request->name),   // temporary password
+                'email_verified_at' => now(),
             ]);
     
             // Create the instructor
@@ -76,12 +77,8 @@ class InstructorController extends Controller
             ]);
     
             // Commit the transaction
-            DB::commit();
-    
-            // Send the email verification notification
-            $user->notify(new VerifyEmail());
-    
-            return redirect()->route('admin.instructor.index')->with('success', 'Instructor added successfully. A verification email has been sent.');
+            DB::commit();    
+            return redirect()->route('admin.instructor.index')->with('success', 'Instructor has been created successfully.');
     
         } catch (\Exception $e) {
             // Rollback the transaction if anything fails
@@ -151,16 +148,29 @@ class InstructorController extends Controller
      */
     public function destroy($id)
     {
-
         $instructor = Instructors::findOrFail($id);
         $userId = $instructor->user_id;
-    
-        // Delete the instructor
-        $instructor->delete();
 
-        // Manually delete the associated user
-        User::find($userId)?->delete();
+         // Begin a database transaction
+         DB::beginTransaction();
+
+         try {
+            // Delete the instructor
+            $instructor->delete();
+            // Manually delete the associated user
+            User::find($userId)?->delete();
         
-        return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
+            // Commit the transaction
+            DB::commit();    
+            return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
+    
+        } catch (\Exception $e) {
+            // Rollback the transaction if anything fails
+            DB::rollBack();
+    
+            return back()->withErrors(['error' => 'An error occurred while creating the instructor. Please try again.']);
+        }
+
+        return redirect()->route('admin.instructor.index')->with('error', 'Opps! Error Deleting the record.');
     }
 }

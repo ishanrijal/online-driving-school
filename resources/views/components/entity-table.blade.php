@@ -8,6 +8,15 @@
             </div>
         </div>
     @endif
+    @if(session('error'))
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="header">
         <h3>Total {{ $entityName }}: </h3>

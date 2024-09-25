@@ -59,13 +59,13 @@
                                     Verify
                                 </button>
                             </form>
-                        
+
                             <form action="{{ route('admin.instructor.destroy', $instructor->InstructorID) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <a class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($instructor->Name) }}?');">
+                                <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete {{ strtolower($instructor->Name) }}?');">
                                     Remove
-                                </a>
+                                </button>
                             </form>
                         </td>
                     @endif

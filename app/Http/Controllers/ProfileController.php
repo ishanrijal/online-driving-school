@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -56,8 +57,7 @@ class ProfileController extends Controller
     }
     public function showDashboard(Request $request): View
     {
-        $user = Auth::user();    
-        // Fetch data based on the role
+        $user = Auth::user(); // get current user
         $data = [];
 
         switch ($user->role) {
@@ -111,8 +111,8 @@ class ProfileController extends Controller
                 // Fetch student-specific data if needed
                 $data['student'] = Students::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
-                $appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->get();
 
+                $appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->get();
                 $invoices = Invoices::where('StudentID', $data['student']->StudentID)->where('Status', 'unpaid')->get();
 
                 return view('student.dashboard', compact( 'data', 'appointments','invoices'));
@@ -120,7 +120,11 @@ class ProfileController extends Controller
             case 'instructor':
                 // Fetch instructor-specific data if needed
                 $data['instructor'] = Instructors::where('user_id', $user->user_id)->first();
-                return view('profile.instructor', $data);
+                $data['user_email'] = $user->email;
+
+                $appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->get();
+                $today_appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['student.user', 'course'])->get();
+                return view('instructor.dashboard', compact( 'data', 'appointments', 'today_appointments' ));
     
             default:
                 // Handle unknown roles or default case

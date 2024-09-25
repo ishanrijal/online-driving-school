@@ -54,6 +54,13 @@ button#togglePassword {
     box-sizing: border-box;
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+}
+
 html {
     font-family: sans-serif;
     line-height: 1.25;
@@ -590,16 +597,6 @@ pre code {
     max-height: 340px;
     overflow-y: scroll;
 }
-
-.layout-fixed .main-sidebar {
-    bottom: 0;
-    float: none;
-    left: 0;
-    position: fixed;
-    top: 0;
-    overflow-y: auto;
-}
-
 /* reset */
 .bg-primary {
     background-color: var(--primary) !important;
@@ -1139,24 +1136,29 @@ p.awesome_line {
 /* Set up the layout */
 .wrapper {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto; 
 }
-.main-sidebar {
-    width: 250px;
+.wrapper .main-sidebar {
+    flex-basis: 20%;
     background: var(--dark);
+    overflow-y: auto;
+    height: 100%;
+    box-shadow:  5px -5px 10px #d0d0d0,
+    -5px 5px 10px #f0f0f0;
 }
-.content-wrapper {
+.wrapper .main-content-wrapper {
+    flex-basis: 80%;
     position: relative;
-    padding: 24px 48px 0 48px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-left: 250px;
+    padding: 24px 48px 48px 48px;
 }
 .main-header {
     display: flex;
-    background: var(--btn-seconday);
-    padding: 16px 48px;
+    justify-content: flex-end;
+    background: #ffffff;
+    box-shadow:  1px -1px 1px #d0d0d0,
+                 -1px 1px 1px #f0f0f0;
+    justify-content: space-between;
 }
 
 /** logut btn */
@@ -1177,10 +1179,19 @@ p.awesome_line {
 .save-form .save-btn{
     background: var(--btn-primary);
 }
+.main-header .header-left-container{
+    flex-basis: 20%;
+}
+.main-header .header-right-container{
+    flex-basis: 80%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 48px;
+}
 .header-right-container .dropdown {
     text-align: center;
 }
-.main-sidebar .logo {
+.header-left-container .logo {
     background: wheat;
     display: flex;
     padding: 24px 24px;
@@ -1194,6 +1205,16 @@ p.awesome_line {
 }
 .dashboard-sidenav{
     margin-top: 24px;
+}
+.user-role{
+    color: white;
+    text-transform: uppercase;
+    border-bottom: solid 2px;
+    text-align: center;
+    padding-bottom: 24px;
+    font-size: 24px;
+    letter-spacing: 0.12rem;
+    cursor: pointer;
 }
 .dashboard-sidenav .nav-wrapper {
     gap: 12px;
@@ -1212,60 +1233,120 @@ p.awesome_line {
     background: var(--gray);
     opacity: 0.7;
 }
-.main-header .nav-item:hover {
-    color: white;
+.dashboard-insight{
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:  5px -5px 10px #d0d0d0,
+                 -5px 5px 10px #f0f0f0;
+    padding: 24px;
 }
-
-.dashboard-card {
-    border-radius: 5px;
-    background-color: #fafafa;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    color: #363740;
-    margin: 0 auto;
-    padding: 14px 25px;
-    font: 300 33px Inter, sans-serif;
-}
-
-.students-header {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    /* justify-content: space-between; */
-}
-.students-header .count-wrapper {
+.table-top{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-.students-title {
-    align-self: start;
+/* start of searchbox*/
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 30%;
+    transition: width 0.3s ease;
 }
 
-.students-icon {
-    aspect-ratio: 1.06;
-    object-fit: contain;
-    object-position: center;
-    width: 48px;
+.search-bar #search-input{
+    width: 100%;
+    padding: 8px 40px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: width 0.3s ease;
+    outline: none;
 }
 
-.students-divider {
-    background-color: #d2c8c8;
-    height: 2px;
-    margin-top: 11px;
+.search-bar i {
+    position: absolute;
+    right: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #888;
+}
+/* end of searchbox*/
+.main-content-wrapper .title{
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 28px;
+    padding: 24px 12px;
+}
+.separator{
+    height: 50px;
+}
+.overview {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 24px;
+}
+.box-shadow {
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:  5px -5px 10px #d0d0d0,
+                 -5px 5px 10px #f0f0f0;
+    padding: 24px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    flex: 1;
+    text-align: center;
+    border: none;
+}
+.card:nth-child(1){
+    background-color: rgb(255,244,229);
+}
+.card:nth-child(2){
+    background-color: rgb(245,241,254);
+}
+.card:nth-child(3){
+    background-color: rgb(234,253,255);
+}
+.card h4 {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    margin-bottom: 5px;
+    font-size: 36px;
+}
+
+.card p {
+    color: #999;
+    margin-bottom: 15px;
+}
+
+.change {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.change.positive {
+    background-color: #e0f7e9;
+    color: #34c759;
+}
+
+.change.negative {
+    background-color: #fde9e9;
+    color: #ff3b30;
 }
 
 @media (max-width: 991px) {
-    .dashboard-card {
-        margin-top: 17px;
-        padding: 0 20px;
-    }
-
-    .students-header {
-        margin-right: 6px;
+    .overview{
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -1467,7 +1548,9 @@ table thead {
 tbody tr:not(:last-child) {
     border-bottom: 3px solid var(--gray);
 }
-
+tr.no-result {
+    border-bottom: none !important;
+}
 th,
 td {
     padding: 16px;
@@ -1651,4 +1734,49 @@ button.delete-btn {
 
 .fc-scroller::-webkit-scrollbar-thumb:hover {
     background-color: var(--primary); 
+}
+
+
+
+/* Recent Driving Purchases Section */
+.purchases h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+    color: #555;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table td {
+    color: #777;
+}
+
+table td:first-child {
+    font-weight: 500;
+    color: #333;
 }

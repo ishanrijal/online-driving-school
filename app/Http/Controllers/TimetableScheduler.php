@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\ClassSchedules;
 use App\Models\Courses;
 use App\Models\Instructors;
+use App\Models\Staff;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,35 +15,55 @@ class TimetableScheduler extends Controller
 {
     //
     public function index(){
-
         $instructors = Instructors::all();
         $courses     = Courses::all();
         
+        $user = Auth::user();
+        $userId = $user->user_id;
+        switch ($user->role) {
+            case 'instructor':
+                // Check if a student record exists
+                if ($user->instructor) {
+                    $appointments = ClassSchedules::where('InstructorID', $user->instructor->InstructorID)->get()->map(function($appointment) {
+                        return [
+                            'id'    => $appointment->ClassScheduleID,
+                            'title' => $appointment->Location,          // Customize this as needed
+                            'start' => $appointment->Date,              // Assuming you just want the date
+                            // 'end' => $appointment->end_date, // If you have an end date, add it here
+                        ];
+                    });
+                } else {
+                    $appointments = collect(); // Return an empty collection or handle as needed
+                }                
+                return view('instructor.time-table', compact('instructors', 'courses','appointments')); 
+            break;
 
-        // Get the ID of the currently authenticated user
-        $userId = Auth::id();
+            case 'student':
+                // Retrieve the student record for the logged-in user
+                $student = Students::where('user_id', $userId)->first();
+                // Check if a student record exists
+                if ($student) {
+                    $classSchedules = ClassSchedules::where('StudentID', $student->StudentID)->get();
+                } else {
+                    // Handle the case where no student record exists
+                    $classSchedules = collect(); // Return an empty collection or handle as needed
+                }
+                $appointments = ClassSchedules::where('StudentID', $student->StudentID)
+                ->get()
+                ->map(function($appointment) {
+                    return [
+                        'id'    => $appointment->ClassScheduleID,
+                        'title' => $appointment->Location,          // Customize this as needed
+                        'start' => $appointment->Date,              // Assuming you just want the date
+                        // 'end' => $appointment->end_date, // If you have an end date, add it here
+                    ];
+                });
+                return view('student.time-table', compact('instructors', 'courses','appointments'));
+            break;
 
-        // Retrieve the student record for the logged-in user
-        $student = Students::where('user_id', $userId)->first();
-
-        // Check if a student record exists
-        if ($student) {
-            $classSchedules = ClassSchedules::where('StudentID', $student->StudentID)->get();
-        } else {
-            // Handle the case where no student record exists
-            $classSchedules = collect(); // Return an empty collection or handle as needed
+            default:
+            break;
         }
-        $appointments = ClassSchedules::where('StudentID', $student->StudentID)
-        ->get()
-        ->map(function($appointment) {
-            return [
-                'id'    => $appointment->ClassScheduleID,
-                'title' => $appointment->Location,          // Customize this as needed
-                'start' => $appointment->Date,              // Assuming you just want the date
-                  // 'end' => $appointment->end_date, // If you have an end date, add it here
-            ];
-        });
-        return view('student.time-table', compact('instructors', 'courses','appointments'));
     }
 
     public function edit($id)

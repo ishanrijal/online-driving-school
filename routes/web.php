@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-    // return view('welcome');
-});
+})->name('home');
 
 // Ensure that these routes are accessible only to authenticated and verified users
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
@@ -89,16 +88,18 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
-    Route::post('/class-schedule', [TimetableScheduler::class, 'store'])->name('student.classSchedule.store');
-    Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('student.classSchedule.edit');
 
     Route::get('/invoice', [StudentInvoiceController::class, 'index'])->name('student.invoice.index');
     Route::put('/invoice/{id}', [StudentInvoiceController::class, 'update'])->name('student.invoice.update');
+});
+Route::middleware(['auth', 'verified', 'instructor'])->prefix('instructor')->group(function () {
+    Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('instructor.dashboard');
+    Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('instructor.time-table.index');
+    Route::post('/class-schedule', [TimetableScheduler::class, 'store'])->name('instructor.classSchedule.store');
+    Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('instructor.classSchedule.edit');
 
-
-    // Route::delete('/class-schedule/destroy/{id}', [TimetableScheduler::class, 'destroy'])->name('student.classSchedule.destroy');
-
-    // Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
+    Route::get('/invoice', [StudentInvoiceController::class, 'index'])->name('instructor.invoice.index');
+    Route::put('/invoice/{id}', [StudentInvoiceController::class, 'update'])->name('instructor.invoice.update');
 });
 
 // Profile Routes

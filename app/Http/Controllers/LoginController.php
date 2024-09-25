@@ -13,6 +13,7 @@ class LoginController extends Controller
 {
     //
     public function login(Request $request){
+        dd("I am here");
         // Validate the form data
         $validator =  $request->validate([
             'email' => 'required|email',

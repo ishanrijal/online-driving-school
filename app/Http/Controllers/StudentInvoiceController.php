@@ -15,19 +15,30 @@ class StudentInvoiceController extends Controller
         $student = Students::where('user_id', $userId)->first();
 
         if ($student) {
-            $invoices = Invoices::where('StudentID', $student->StudentID)->with('student')->get(); ;
+            $invoices = Invoices::with('payments')->where('StudentID', $student->StudentID)->get();
         } else {
             $invoices = collect([]);
-        } 
+        }
         // Return the view with the invoices belonging to the current student's user
         return view('student.invoice-list', compact('invoices'));
     }
     public function update(Request $request, $id)
     {
-        $invoice = Invoices::findOrFail($id);
-        $invoice->update([
-            'Status' => 'paid'
+        $request->validate([
+            'invoice_id' => 'required',
+            'card_number' => 'required|digits:16',
+            'expiry_date' => 'required',
+            'cvv' => 'required|digits:3',
+            'amount' => 'required|numeric',
         ]);
-        return redirect()->route('student.invoice.index')->with('success', 'Invoice Status updated successfully.');
+        $invoice = Invoices::findOrFail($id);
+
+        if ($request->amount == $invoice->TotalAmount) {
+            $invoice->update([
+                'Status' => 'paid'
+            ]);
+            return redirect()->route('student.invoice.index')->with('success', 'You have successfuly paid the invoice.');
+        }
+        return  redirect()->back()->withInput()->withErrors(['amount' => 'The amount entered does not match the course price.']);
     }
 }

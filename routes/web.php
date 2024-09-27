@@ -98,7 +98,6 @@ Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(fun
 
     // Route to show the payment form
     Route::get('/payment/{courseID}', [InvoiceController::class, 'showPaymentForm'])->name('payment.show');
-
     // Route to handle payment submission
     Route::post('/payment', [InvoiceController::class, 'processPayment'])->name('payment.process');
 

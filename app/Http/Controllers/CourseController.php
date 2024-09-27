@@ -6,6 +6,7 @@ use App\Models\ClassSchedules;
 use App\Models\Courses;
 use App\Models\StudentProfiles;
 use App\Models\Students;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,10 +22,13 @@ class CourseController extends Controller
     {
         $courses = Courses::with('admin')->get();
         $user = Auth::user();
-        $student = Students::findOrFail($user->user_id);
-        
+        try{
+            $student = Students::where('user_id', $user->user_id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('student.dashboard')->with('course_error', 'Opps!!! Course List not available now.');
+        }
         $studentProfiles = StudentProfiles::where('StudentID', $student->StudentID)->get();
-        
+  
         $enrolledCourseIds = $studentProfiles->pluck('CourseID')->toArray();
 
          // Check if there are no enrolled courses

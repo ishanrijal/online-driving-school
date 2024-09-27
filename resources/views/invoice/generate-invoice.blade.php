@@ -72,6 +72,20 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="label-container">
+                        <label for="status">Invoice Type</label>
+                    </div>
+                    <div class="form-input">
+                        <input 
+                            placeholder="course fee"
+                            type="text" 
+                            id="Type" 
+                            name="Type" 
+                            value="{{ old('Type') ?? $invoice->Type ?? '' }}"
+                        >
+                    </div>
+                </div>
                 <!-- Status Field (Default to "unpaid") -->
                 <div class="form-group">
                     <div class="label-container">

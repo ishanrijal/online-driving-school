@@ -22,4 +22,8 @@ class Invoices extends Model
     {
         return $this->belongsTo(Students::class, 'StudentID', 'StudentID');
     }
+    public function payments()
+    {
+        return $this->belongsto(Payments::class, 'InvoiceID', 'InvoiceID');
+    }
 }

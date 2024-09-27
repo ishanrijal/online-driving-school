@@ -12,6 +12,7 @@ class Payments extends Model
     protected $primaryKey = 'PaymentID';
 
     protected $fillable = [
+        'InvoiceID',
         'Date',
         'Type',
         'AdminID',
@@ -19,5 +20,9 @@ class Payments extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'AdminID', 'AdminID');
+    }
+    public function invoice()
+    {
+        return $this->belongsTo(Invoices::class, 'InvoiceID', 'InvoiceID');
     }
 }

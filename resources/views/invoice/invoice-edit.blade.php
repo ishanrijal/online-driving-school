@@ -11,6 +11,16 @@
             'disabled'    => false
         ],
         [
+            'label'       => 'Invoice Type',
+            'name'        => 'Type',
+            'type'        => 'text',
+            'id'          => 'Type',
+            'placeholder' => 'course fee',
+            'default'     => old('Type', $invoice->payments->Type),
+            'required'    => true,
+            'disabled'    => false
+        ],
+        [
             'label'       => 'Current Payment Status',
             'name'        => 'CurrentStatus',
             'type'        => 'CurrentStatus',

@@ -66,6 +66,9 @@ class RegisteredUserController extends Controller
                     'Name'    => $user->name,
                     'user_id' => $user->user_id,
                 ]);
+                $user->update([
+                    'email_verified_at' => now(),
+                ]);
             }
             if ($user->role === 'instructor') {
                 Instructors::create([
@@ -81,7 +84,18 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
             
-            return redirect(route('admin.dashboard', absolute: false));
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'student':
+                    return redirect()->route('student.dashboard');
+                case 'instructor':
+                    return redirect()->route('instructor.dashboard');
+                case 'staff':
+                    return redirect()->route('staff.dashboard');
+                default:
+                    return redirect()->route('home'); // Fallback to home or any default route
+            }
         } catch (\Exception $e) {
             // Rollback the transaction on error
             DB::rollBack();

@@ -31,10 +31,11 @@
         <div class="header">
             <h3>Total Courses: <span class="entity-count">{{ $courses->count() }}</span></h3>
             <div class="actions-container">
-                <a href="{{ route('admin.course.create') }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Course</a>
+                <a href="{{ route('admin.course.create') }}">
+                    <img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Course
+                </a>
             </div>
         </div>
-
         <table>
             <thead>
                 <tr>
@@ -61,7 +62,7 @@
                         <form action="{{ route('admin.course.destroy', $course->CourseID) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
+                            <button class="delete-btn btn btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
                                 <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
                             </button>
                         </form>

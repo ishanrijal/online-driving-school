@@ -88,7 +88,19 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 });
 Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
+
+    //time table
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
+    Route::post('/time-table', [TimetableScheduler::class, 'store'])->name('student.classSchedule.store');
+    
+    Route::get('/courses', [CourseController::class, 'studentCourse'])->name('student.courses');
+    Route::get('/courses-list', [CourseController::class, 'studentCourseList'])->name('student.courses.list');
+
+    // Route to show the payment form
+    Route::get('/payment/{courseID}', [InvoiceController::class, 'showPaymentForm'])->name('payment.show');
+
+    // Route to handle payment submission
+    Route::post('/payment', [InvoiceController::class, 'processPayment'])->name('payment.process');
 
     Route::get('/invoice', [StudentInvoiceController::class, 'index'])->name('student.invoice.index');
     Route::put('/invoice/{id}', [StudentInvoiceController::class, 'update'])->name('student.invoice.update');

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Courses;
 use App\Models\Invoices;
+use App\Models\StudentProfiles;
 use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -12,6 +15,47 @@ class InvoiceController extends Controller
     {
         $invoices = Invoices::with('student')->paginate(10);
         return view('invoice.invoice-list', compact('invoices'));
+    }
+
+    // show the payment form for the student to purhase the course
+    function showPaymentForm($courseId){
+        $course = Courses::findOrFail($courseId);
+        return view('student.payment', compact('course'));
+    }
+
+    public function processPayment(Request $request)
+    {
+        // Validate payment details
+        $user = Auth::user();
+        $student = Students::findOrFail($user->user_id);
+
+        $request->validate([
+            'course_id' => 'required',
+            'card_number' => 'required|digits:16',
+            'expiry_date' => 'required',
+            'cvv' => 'required|digits:3',
+            'amount' => 'required|numeric',
+        ]);
+        
+        $course = Courses::findOrFail($request->course_id);
+
+        // Check if the amount entered matches the course price
+        if ($request->amount == $course->Price) {
+            StudentProfiles::create([
+                'CourseID' => $request->course_id,
+                'StudentID' => $student->StudentID, // Assuming the user is logged in
+                'CourseEnrollDate' => now(),
+                'PermitNumber' => $request->card_number
+            ]);
+            Invoices::create([
+                'Date' => now(),
+                'TotalAmount'   => $request->amount,
+                'Status'   => 'paid',
+                'StudentID' => $student->StudentID, // Assuming the user is logged in
+            ]);
+            return redirect()->route('student.courses')->with('success', 'You have successfully enrolled in the course.');
+        }
+        return  redirect()->back()->withInput()->withErrors(['amount' => 'The amount entered does not match the course price.']);
     }
 
     public function create()

@@ -122,9 +122,11 @@ class ProfileController extends Controller
                 $data['user_email'] = $user->email;
 
                 $appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->get();
+                $today_appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['instructor.user', 'course'])->get();
+
                 $invoices = Invoices::where('StudentID', $data['student']->StudentID)->where('Status', 'unpaid')->get();
 
-                return view('student.dashboard', compact( 'data', 'appointments','invoices'));
+                return view('student.dashboard', compact( 'data', 'appointments','invoices', 'today_appointments'));
     
             case 'instructor':
                 // Fetch instructor-specific data if needed

@@ -181,20 +181,24 @@ img[alt="Delete"] {
     </style>
 
     <h1><b>Check Your Timetable</b></h1>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                @if (session('success'))
-                        <div class="col-sm-12">
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        </div>
-                    @endif
-            </div>
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 24px;">
+            @if (session('success'))
+                <div class="col-sm-12">
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="col-sm-12">
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-
     <!-- Calendar -->
     <div id="calendar"></div>
 
@@ -206,19 +210,19 @@ img[alt="Delete"] {
                 <h2 id="modalTitle">Book Appointment</h2>
                 @csrf
                 <div>
-                    <label for="Date">Date:</label>
+                    <label for="Date">Date</label>
                     <input type="date" id="Date" name="Date" required>
                 </div>
                 <div>
-                    <label for="Time">Time:</label>
+                    <label for="Time">Time</label>
                     <input type="time" id="Time" name="Time" required>
                 </div>
                 <div>
-                    <label for="Location">Location:</label>
+                    <label for="Location">Location</label>
                     <input type="text" id="Location" name="Location" required>
                 </div>
                 <div>
-                    <label for="InstructorID">Instructor:</label>
+                    <label for="InstructorID">Instructor</label>
                     <select id="InstructorID" name="InstructorID" required>
                         <option value="">Select Instructor</option>
                         @foreach ($instructors as $instructor)
@@ -227,13 +231,17 @@ img[alt="Delete"] {
                     </select>
                 </div>
                 <div>
-                    <label for="CourseID">Course:</label>
-                    <select id="CourseID" name="CourseID" required>
-                        <option value="">Select Course</option>
-                        @foreach ($courses as $course)
-                            <option value="{{ $course->CourseID }}">{{ $course->Name }}</option>
-                        @endforeach
-                    </select>
+                    <label for="CourseID">Course</label>
+                    @if ($classSchedules->isEmpty())
+                        <p class="alert alert-danger">Please enroll in a course before booking a class.</p>
+                    @else
+                        <select id="CourseID" name="CourseID" required>
+                            <option value="">Select Enroll Course</option>
+                            @foreach ($classSchedules as $schedule)
+                                <option value="{{ $schedule->course->CourseID }}">{{ $schedule->course->Name }}</option>
+                            @endforeach
+                        </select>
+                    @endif
                 </div>
                 <button type="submit" id="saveButton">Save</button>
             </form>
@@ -336,6 +344,8 @@ img[alt="Delete"] {
 
                         });
                 }else{
+                    console.log(startDate)
+                    document.getElementById('Date').value = startDate;
                     appointmentForm.style.display = 'block';
                     viewAppointment.style.display = 'none';
                 }

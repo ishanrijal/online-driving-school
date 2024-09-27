@@ -12,41 +12,158 @@
                             </div>
                         </div>
                     @endif
-                    <div class="col-sm-12" style="margin-top:24px ">
-                        <h1> <b>Welcome to the dashboard <span class="alert alert-info">{{ $data['student']->Name }}</span> </b></h1>
-                    </div>
-                    <div class="row" style="margin-top: 48px; gap:48px">
-                        <div class="col-sm-4">
-                            <div class="dashboard-card">
-                                <div class="students-header">
-                                  <h2 class="students-title">Class Counts</h2>
-                                  <div class="count-wrapper">
-                                    @if($appointments->count() > 0)
-                                        {{$appointments->count()}}
-                                    @else
-                                        0
-                                    @endif
-                                  </div>
-                                </div>
+                </div>
+                <div class="row dashboard-insight">
+                    <h2 class="title">Overview</h2>
+                    <div class="col-sm-12">
+                        <section class="overview">
+                            <div class="card">
+                                <h4>Amount To Pay</h4>
+                                <h2>${{ ($invoices->sum('TotalAmount') > 0 ) ? $invoices->sum('TotalAmount') : 0  }}</h2>
+                                <p>{{ date( 'F Y', strtotime($invoices->last()->created_at)) }}</p>
+                                <span class="change positive">+ 37.43%</span>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="dashboard-card">
-                                <div class="students-header">
-                                  <h2 class="students-title">Unpaid Invoice</h2>
-                                  <div class="count-wrapper">
+                            <div class="card">
+                                <h4>Unpaid Invoices</h4>
+                                <h2>
                                     @if($invoices->count() > 0)
                                         {{$invoices->count()}}
                                     @else
                                         0
                                     @endif
-                                  </div>
+                                </h2>
+                                <p>{{ date('F Y') }}</p>
+                                <span class="change positive">Invoice Last Generated</span>
+                            </div>
+                            <div class="card">
+                                <h4>Total Classes</h4>
+                                <h2>
+                                    @if($appointments->count() > 0)
+                                    {{$appointments->count()}}
+                                    @else
+                                        0
+                                    @endif
+                                </h2>
+                                <p>{{ date('F Y') }}</p>
+                                <span class="change negative">- 13.43%</span>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <section class="purchases box-shadow">
+                            <div class="table-top">
+                                <h2 class="title">Today's Classes</h2>
+                                <div class="search-bar">
+                                    <input type="text" id="search-input" placeholder="Search Class Schedule">
+                                    <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
                                 </div>
                             </div>
-                        </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Instructor's Name</th>
+                                        <th>Class Time</th>
+                                        <th>Location</th>
+                                        <th>Course</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointments-body">
+                                    @foreach ( $today_appointments as $appointment )
+                                        <tr class="appointment-row">
+                                            <td>{{$appointment->instructor->Name}}</td>
+                                            <td>{{$appointment->Time}}</td>
+                                            <td>{{$appointment->Location}}</td>
+                                            <td>{{$appointment->Course->Name}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                    <div class="col-sm-4" style="padding-right:0">
+                        <section class="purchases box-shadow">
+                            <div class="table-top">
+                                <h2 class="title">Unpaid Invoice</h2>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Invoice Date</th>
+                                        <th>Invoice Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointments-body">
+                                    @foreach ( $invoices as $invoice )
+                                            <td>{{date( 'd M Y', strtotime($invoice->Date)) }}</td>
+                                            <td>{{$invoice->TotalAmount}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </section>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 @endsection
+
+<script type="text/javascript" defer>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Your code here
+        const searchInput = document.querySelector('#search-input');
+        const searchBar = document.querySelector('.search-bar');
+        const appointmentRows = document.querySelectorAll('.appointment-row');
+
+        const tableBody = document.getElementById('appointments-body');
+
+        // Create a "No Result Found" message element
+        const noResultMessage = document.createElement('tr');
+        noResultMessage.classList.add('no-result');
+        noResultMessage.innerHTML = `<td colspan="5" style="text-align: center;">No result found</td>`;
+        noResultMessage.style.display = 'none'; // Initially hidden
+        tableBody.insertBefore(noResultMessage, tableBody.firstChild);
+
+        // Function to filter appointments
+        function filterAppointments() {
+        const searchTerm = searchInput.value.toLowerCase();
+        let hasResults = false; // Flag to track if any results are found
+
+        appointmentRows.forEach((row) => {
+            // Get all the td elements in the current row
+            const cells = row.querySelectorAll('td');
+            let rowMatches = false; // Flag to track if the current row matches
+
+            // Loop through each cell in the row
+            cells.forEach((cell) => {
+                if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                    rowMatches = true; // Set the flag to true if a match is found
+                }
+            });
+
+            // Show or hide the row based on whether a match was found
+            if (rowMatches) {
+                row.style.display = ''; // Show the row if it matches
+                hasResults = true; // Set the overall results flag to true
+            } else {
+                row.style.display = 'none'; // Hide the row if it doesn't match
+            }
+        });
+
+        // Show or hide the no result message based on search results
+        noResultMessage.style.display = hasResults ? 'none' : ''; // Show/hide the no result message
+    }
+
+    // Add event listener to filter the appointments as the user types (on key change)
+    searchInput.addEventListener('input', filterAppointments);
+
+    // Optional: Expand the search bar when clicked
+    searchInput.addEventListener('focus', () => {
+        searchBar.classList.add('expanded');
+    });
+});
+
+</script>

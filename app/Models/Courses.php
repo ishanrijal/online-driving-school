@@ -22,4 +22,8 @@ class Courses extends Model
     {
         return $this->belongsTo(Admin::class, 'AdminID', 'AdminID');
     }
+    public function classSchedules()
+    {
+        return $this->hasMany(ClassSchedules::class, 'CourseID', 'CourseID'); // Adjust the foreign key and local key as necessary
+    }
 }

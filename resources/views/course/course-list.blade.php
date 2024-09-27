@@ -1,4 +1,20 @@
-@extends('admin.layout')
+@php
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        // $actionRoute = route('admin.profile.update', $AdminID);
+    } elseif ($user->role == 'instructor') {
+        $role = 'instructor';
+        // $actionRoute = route('instructor.update', $InstructorID);
+    } elseif ($user->role == 'staff') {
+        $role = 'staff';
+        // $actionRoute = route('admin.staff.update', $StaffID);
+    } else {
+        $role = 'student';
+        // $actionRoute = route('admin.student.update', $StudentID);
+    }
+@endphp
+
+@extends($role. '.layout')
 @section('title', 'Invoices')
 @section('content')
     <div class="content-wrapper">
@@ -36,9 +52,8 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $course->Name }}</td>
                     <td>{{ $course->Description }}</td>
-                    <td>{{ $course->Price }}</td>
+                    <td>{{ $course->Price }}</td>                    
                     <td>{{ $course->AdminID }}</td>
-                    {{-- {{dd($course)}} --}}
                     <td class="action-btn">
                         <a href="{{ route('admin.course.edit', $course->CourseID) }}"> 
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">

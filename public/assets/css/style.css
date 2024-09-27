@@ -717,9 +717,10 @@ pre code {
     gap: 48px;
     flex-wrap: wrap;
     margin-top: 24px;
+    justify-content: center;
 }
 .program-card-container .card {
-    width: 18rem;
+    width: 33.33%;
     text-align: center;
     -webkit-box-shadow: 0 0px 25px rgba(0, 0, 0, 0.07);
     box-shadow: 0 0px 25px rgba(0, 0, 0, 0.07);
@@ -1327,7 +1328,7 @@ p.awesome_line {
     padding: 24px;
 }
 
-.card {
+.overview .card {
     background-color: #fff;
     padding: 20px;
     border-radius: 16px;
@@ -1382,7 +1383,41 @@ p.awesome_line {
         flex-direction: column;
     }
 }
+/* students */
+.course-purchase .course-card-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.course-purchase .course-card-header .course-title{
+    font-size: 20px;
+    font-weight: 700;
+    flex-basis: 80%;
+    text-align: left;
+}
+.course-purchase .course-card-header .course-price{
+    font-size: 16px;
+    font-weight: 500;
+    flex-basis: 20%;
+}
 
+#course-purchase-info{
+    display: flex;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+#course-purchase-info .info-box{
+    display: flex;
+    gap: 6px;
+}
+#course-purchase-info label{
+    font-size: 18px;
+    font-weight: 700;
+}
+/** end of students */
 .income-container {
     border-radius: 5px;
     background-color: #fff;

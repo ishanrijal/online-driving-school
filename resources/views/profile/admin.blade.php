@@ -102,7 +102,8 @@
                   <hr>
                 </div>
               </div>
-              @endif
+              @endiflear
+              
       </div>
     </div>
 @endsection

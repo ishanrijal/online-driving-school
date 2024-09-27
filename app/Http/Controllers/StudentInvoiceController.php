@@ -18,7 +18,7 @@ class StudentInvoiceController extends Controller
             $invoices = Invoices::where('StudentID', $student->StudentID)->with('student')->get(); ;
         } else {
             $invoices = collect([]);
-        }    
+        } 
         // Return the view with the invoices belonging to the current student's user
         return view('student.invoice-list', compact('invoices'));
     }

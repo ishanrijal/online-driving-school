@@ -42,12 +42,12 @@
                                 @csrf
                                 @method('PUT')
                                 <button type="submit" onclick="return confirm('Mark this invoice as paid?');">
-                                    Paid
+                                    Pay Now
                                 </button>
                             </form>
                         </td>
                     @else
-                        <td class="alert alert-info"> No Aciton needed ! </td>
+                        <td class="alert alert-success"> Already Paid </td>
                     @endif                
                 </tr>
                 @endforeach

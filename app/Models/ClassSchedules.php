@@ -32,4 +32,5 @@ class ClassSchedules extends Model
     {
         return $this->belongsTo(Courses::class, 'CourseID');
     }
+
 }

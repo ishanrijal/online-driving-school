@@ -7,6 +7,7 @@ use App\Models\ClassSchedules;
 use App\Models\Courses;
 use App\Models\Instructors;
 use App\Models\Staff;
+use App\Models\StudentProfiles;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class TimetableScheduler extends Controller
                 $student = Students::where('user_id', $userId)->first();
                 // Check if a student record exists
                 if ($student) {
-                    $classSchedules = ClassSchedules::where('StudentID', $student->StudentID)->get();
+                    $classSchedules = StudentProfiles::where('StudentID', $student->StudentID)->with('course')->get();
                 } else {
                     // Handle the case where no student record exists
                     $classSchedules = collect(); // Return an empty collection or handle as needed
@@ -58,7 +59,7 @@ class TimetableScheduler extends Controller
                         // 'end' => $appointment->end_date, // If you have an end date, add it here
                     ];
                 });
-                return view('student.time-table', compact('instructors', 'courses','appointments'));
+                return view('student.time-table', compact('instructors', 'classSchedules','appointments'));
             break;
 
             default:
@@ -85,23 +86,27 @@ class TimetableScheduler extends Controller
     }
 
     public function store(Request $request){
-        
         $request->validate([
             'Date'         => 'required|date',
             'Time'         => 'required',
             'Location'     => 'required|string',
             'InstructorID' => 'required|exists:instructors,InstructorID',
-            'CourseID' => 'required|exists:courses,CourseID',
+            'CourseID' => 'required|exists:student_profiles,CourseID',
         ]);
-        ClassSchedules::create([
-            'Date' => $request->Date,
-            'Time' => $request->Time,
-            'Location' => $request->Location,
-            'InstructorID' => $request->InstructorID,
-            'CourseID' => $request->CourseID,
-            'StudentID' => Auth::id(),
-        ]);
-        return redirect()->route('student.time-table.index')->with('success', 'Class Book successfully.');
+        try {
+            ClassSchedules::create([
+                'Date'         => $request->Date,
+                'Time'         => $request->Time,
+                'Location'     => $request->Location,
+                'InstructorID' => $request->InstructorID,
+                'CourseID'     => $request->CourseID,
+                'StudentID'    => Auth::id(),
+            ]);
+            return redirect()->route('student.time-table.index')->with('success', 'Class booked successfully.');
+    
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'There was an issue booking the class. Please try again.']);
+        }
     }
 
     public function destroy($id)

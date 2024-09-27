@@ -27,7 +27,8 @@
         }
         .close {
             color: #aaa;
-            float: right;
+            display: flex;
+            justify-content: flex-end;
             font-size: 28px;
             font-weight: bold;
         }
@@ -42,141 +43,142 @@
             display: none;
         }
         #viewAppointment {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-}
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            margin: 20px auto;
+        }
 
-#viewAppointment div {
-    margin-bottom: 15px;
-}
+        #viewAppointment div {
+            margin-bottom: 15px;
+        }
 
-#viewAppointment label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
-}
+        #viewAppointment label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
 
-#viewAppointment p {
-    font-size: 16px;
-    color: #666;
-    margin: 0;
-    padding: 5px;
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    padding-left: 10px;
-}
+        #viewAppointment p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding-left: 10px;
+        }
 
-.action-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
+        .action-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-#editButton {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+        #editButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
 
-#editButton:hover {
-    background-color: #45a049;
-}
+        #editButton:hover {
+            background-color: #45a049;
+        }
 
-.delete-btn {
-    background-color: #f44336;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .delete-btn {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.delete-btn:hover {
-    background-color: #e53935;
-}
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
 
-img[alt="Delete"] {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-}
+        img[alt="Delete"] {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
 
 
-/* Form */
-#appointmentForm {
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%
-    margin: 20px auto;
-}
+        /* Form */
+        #appointmentForm {
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%
+            margin: 20px auto;
+        }
 
-#appointmentForm h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
+        #appointmentForm h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-#appointmentForm div {
-    margin-bottom: 15px;
-}
+        #appointmentForm div {
+            margin-bottom: 15px;
+        }
 
-#appointmentForm label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
+        #appointmentForm label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
 
-#appointmentForm input,
-#appointmentForm select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+        #appointmentForm input,
+        #appointmentForm select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-#appointmentForm input:focus,
-#appointmentForm select:focus {
-    outline: none;
-    border-color: #F91942;
-    box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
-}
+        #appointmentForm input:focus,
+        #appointmentForm select:focus {
+            outline: none;
+            border-color: #F91942;
+            box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
+        }
 
-#saveButton {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #F91942;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-}
+        #saveButton {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #F91942;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
 
-#saveButton:hover {
-    background-color: #e6163a;
-}
+        #saveButton:hover {
+            background-color: #e6163a;
+        }
+        /*calendar style*/
+        #calendar #calendar button.fc-today-button.fc-button.fc-button-primary {
+            text-transform: capitalize;
+        }
 
     </style>
 
@@ -207,7 +209,7 @@ img[alt="Delete"] {
         <div class="modal-content">
             <span class="close">&times;</span>
             <form id="appointmentForm" action="{{ route('student.classSchedule.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
-                <h2 id="modalTitle">Book Appointment</h2>
+                <h2 style="margin-bottom: 24px">Book My Class</h2>
                 @csrf
                 <div>
                     <label for="Date">Date</label>
@@ -247,7 +249,11 @@ img[alt="Delete"] {
             </form>
            
             <div id="viewAppointment">
-                <h2 id="modalTitle">View Appointment</h2>
+                <h2 style="text-align: center">View Appointment</h2>
+                <div id="class_status" class="alert alert-danger">
+                    <label for="appointment-status">Class Status:</label>
+                    <p id="appointment-status" style="text-transform: capitalize"></p>
+                </div>
                 <div>
                     <label for="appointment-date">Date:</label>
                     <p id="appointment-date"></p>
@@ -291,60 +297,91 @@ img[alt="Delete"] {
             var viewAppointment = document.getElementById('viewAppointment');
             var appointmentForm = document.getElementById('appointmentForm');
             var span = document.getElementsByClassName('close')[0];
-
+    
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 selectable: true,
                 editable: true,
                 events: @json($appointments),
+                eventDidMount: function(info) {
+                    var calendarClass = document.querySelector('.fc-h-event');
+                    if (calendarClass) {
+                        // Do something with the event element
+                        console.log(calendarClass);
+                    } else {
+                        console.log('No event element found');
+                    }
+                },
+                dateClick: function(info) {
+                    // Check if the clicked date is in the past
+                    if (info.date < new Date().setHours(0, 0, 0, 0)) { // Adjust for time
+                        return; // Do nothing for past dates
+                    }
+                    // Open modal for valid date click (including today)
+                    openModal(info.dateStr);
+                },
                 select: function(info) {
-                    //open model to add the details
-                    openModal(info.startStr, info.endStr); // Open modal on select
+                    // Open modal to add details for valid selections (including today)
+                    if (info.start >= new Date().setHours(0, 0, 0, 0)) {
+                        openModal(info.startStr, info.endStr);
+                    }
                 },
                 eventClick: function(info) {
                     // Open modal to view the event details
                     openModal(info.event.startStr, info.event.endStr, info.event.id);
                 }
             });
-
+    
             calendar.render();
-
-
+    
             // Close modal when clicking the 'X' button
             span.onclick = function() {
                 modal.style.display = 'none';
             }
-
+    
             // Close modal when clicking outside
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = 'none';
                 }
             }
-
+    
             // Open modal with existing or new data
             function openModal(startDate, endDate, scheduleID = null) {
                 modal.style.display = 'block';
                 if (scheduleID) {
+                    var alertDiv = document.getElementById('class_status');  // Target your alert div
+                    alertDiv.classList.remove('alert-danger', 'alert-success', 'alert-info');
                     appointmentForm.style.display = 'none';
                     viewAppointment.style.display = 'block';
-                    document.getElementById('modalTitle').innerText = 'View Appointment';
+                    
+                    // Fetch the appointment data
                     fetch(`/student/time-table/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
+                            // Update the appointment status
+                            document.getElementById('appointment-status').innerHTML = data.class_status;
+
+                            // Dynamically set the class based on the fetched status
+                            if (data.class_status === 'confirmed') {
+                                alertDiv.classList.add('alert-success');
+                            } else if (data.class_status === 'pending') {
+                                alertDiv.classList.add('alert-info');
+                                console.log(calendarClass)
+                                // calendarClass.style.background-color="red";
+                                // calendarClass.style.border-color="red";
+                            } else if (data.class_status === 'cancelled') {
+                                alertDiv.classList.add('alert-danger');
+                            }
+
+                            // Update other appointment details
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course').innerHTML = data.CourseName;
-
-                            // document.getElementById('deleteForm').action = `/student/class-schedule/destroy/${data.ClassScheduleID}`;
-                            // const saveButton = document.getElementById('editButton');
-                            // saveButton.href = `/admin/class-schedule/${data.ClassScheduleID}/edit-form`;
-
                         });
-                }else{
-                    console.log(startDate)
+                } else {
                     document.getElementById('Date').value = startDate;
                     appointmentForm.style.display = 'block';
                     viewAppointment.style.display = 'none';
@@ -352,5 +389,6 @@ img[alt="Delete"] {
             }
         });
     </script>
+    
 </div>
 @endsection

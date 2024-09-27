@@ -1300,7 +1300,8 @@ p.awesome_line {
     transition: width 0.3s ease;
 }
 
-.search-bar #search-input{
+.search-bar #search-input,
+.search-bar .search-input{
     width: 100%;
     padding: 8px 40px 8px 15px;
     border: 1px solid #ccc;
@@ -1881,4 +1882,12 @@ table td {
 table td:first-child {
     font-weight: 500;
     color: #333;
+}
+
+
+/* calendar */
+.fc-day-past {
+    background-color: #ffffff;
+    color: rgba(226, 219, 219, 0.4);
+    opacity: 0.6; 
 }

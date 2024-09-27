@@ -1,5 +1,18 @@
-@extends('admin.layout')
-@section('title', 'Generate Invoice')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $id = $user->admin->id;
+        $actionRoute = route('admin.invoice.store');
+    } else {
+        $role = 'staff';
+        dd($user->admin);
+        $actionRoute = route('staff.invoice.store');
+    }
+@endphp
+
+@extends($role.'.layout')
+@section('title', 'Add Course')
 @section('content')
     <div class="content-wrapper">
         <div class="form-container save-form">
@@ -16,7 +29,7 @@
                     <div class="form-input">
                         <input 
                             type="number" 
-                            id="AdminID" 
+                            id="AdminID"
                             name="AdminID" 
                             value="{{ auth()->user()->admin->AdminID }}"
                             required

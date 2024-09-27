@@ -46,9 +46,19 @@
             ]
         ],
     ];
+
+    //role based layout
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = route('admin.invoice.update', $invoice->InvoiceID);
+    } else {
+        $role = 'staff';
+        $actionRoute = route('staff.invoice.update', $invoice->InvoiceID);
+    }
 @endphp
-@extends('admin.layout')
-@section('title', 'Edit Trainer')
+@extends($role.'.layout')
+@section('title', 'Edit Invoice')
 @section('content')
     <div class="content-wrapper">
         <x-create-form-component 
@@ -57,7 +67,7 @@
             entity="{{$invoice->student->Name}}"
             :resetButton=false 
             :imageUploader=false 
-            :action="route('admin.invoice.update', $invoice->InvoiceID)" 
+            :action="$actionRoute"
             :fields="$fields" 
         />
     </div>

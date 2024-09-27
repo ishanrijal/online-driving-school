@@ -38,6 +38,8 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->intended(route('student.dashboard', absolute: false));
             } elseif ($user->role === 'instructor') {
                 return redirect()->intended(route('instructor.dashboard', absolute: false));
+            } elseif ($user->role === 'staff') {
+                return redirect()->intended(route('staff.dashboard', absolute: false));
             } else {
                 return redirect('/login')->with('error', 'Opps! Something went wrong.');
             }

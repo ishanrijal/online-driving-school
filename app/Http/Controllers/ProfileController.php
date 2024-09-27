@@ -114,7 +114,9 @@ class ProfileController extends Controller
             case 'staff':
                 // Fetch staff-specific data if needed
                 $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
-                return view('profile.staff', $data);
+                $data['students_count'] = Students::count();
+                $data['instructors_count'] = Instructors::count();
+                return view('staff.dashboard', $data);
     
             case 'student':
                 // Fetch student-specific data if needed

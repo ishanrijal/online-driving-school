@@ -72,7 +72,7 @@
                             <div class="table-top">
                                 <h2 class="title">Today's Classes</h2>
                                 <div class="search-bar">
-                                    <input type="text" id="search-input" placeholder="Search Class Schedule">
+                                    <input class="search-input" type="text" id="search-input" placeholder="Search Class Schedule">
                                     <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
                                 </div>
                             </div>

@@ -1,4 +1,13 @@
-@extends('admin.layout')
+@php
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = route('admin.invoice.create');
+    } else {
+        $role = 'staff';
+        $actionRoute = route('staff.invoice.create');
+    }
+@endphp
+@extends($role.'.layout')
 @section('title', 'Invoices')
 @section('content')
     <div class="content-wrapper">
@@ -15,7 +24,7 @@
         <div class="header">
             <h3>Total Invoices: <span class="entity-count">{{ $invoices->count() }}</span></h3>
             <div class="actions-container">
-                <a href="{{ route('admin.invoice.create') }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Invoice</a>
+                <a href="{{ $actionRoute }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Invoice</a>
             </div>
         </div>
         
@@ -40,14 +49,14 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $invoice->Date }}</td>
-                        <td>{{ number_format($invoice->TotalAmount, 2) }}</td>
+                        <td>$.{{ number_format($invoice->TotalAmount, 2) }}</td>
                         <td>{{ ucfirst($invoice->Status) }}</td>
                         <td>{{ $invoice->student->Name }}</td>
                         <td class="action-btn">
-                            <a href="{{ route('admin.invoice.edit', $invoice->InvoiceID) }}"> 
+                            <a href="{{ ($user->role == 'staff') ? route('staff.invoice.edit', $invoice->InvoiceID) :   route('admin.invoice.edit', $invoice->InvoiceID) }}"> 
                                 <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
                             </a>
-                            <form action="{{ route('admin.invoice.destroy', $invoice->InvoiceID) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ ($user->role == 'staff') ? route('staff.invoice.destroy', $invoice->InvoiceID) :  route('admin.invoice.destroy', $invoice->InvoiceID) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this invoice?');">

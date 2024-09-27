@@ -17,6 +17,7 @@ class ClassSchedules extends Model
         'InstructorID',
         'CourseID',
         'StudentID',
+        'class_status'
     ];
 
     // Define the relationship with Students

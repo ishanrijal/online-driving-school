@@ -32,9 +32,9 @@
                                 <p class="card-description" style="font-weight: 700">{{$course->Description}}</p>
 
                                 @if( $course->enroll_status )
-                                    <a href="{{ route('payment.show', $course->CourseID) }}" class="btn btn-primary">
-                                        Unenroll
-                                    </a>
+                                    <button class="btn btn-primary" disabled>
+                                        Already Enrolled
+                                    </button>
                                 @else
                                     <a href="{{ route('payment.show', $course->CourseID) }}" class="btn btn-primary">
                                         Enroll Now

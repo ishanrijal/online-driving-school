@@ -1,12 +1,14 @@
 @php
     if ($user->role == 'admin' || $user->role == 'superadmin') {
         $role = 'admin';
+        $addRoute = route('admin.course.create');
         // $actionRoute = route('admin.profile.update', $AdminID);
     } elseif ($user->role == 'instructor') {
         $role = 'instructor';
         // $actionRoute = route('instructor.update', $InstructorID);
     } elseif ($user->role == 'staff') {
         $role = 'staff';
+        $addRoute = route('staff.course.create');
         // $actionRoute = route('admin.staff.update', $StaffID);
     } else {
         $role = 'student';
@@ -31,7 +33,7 @@
         <div class="header">
             <h3>Total Courses: <span class="entity-count">{{ $courses->count() }}</span></h3>
             <div class="actions-container">
-                <a href="{{ route('admin.course.create') }}">
+                <a href="{{ $addRoute }}">
                     <img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Course
                 </a>
             </div>
@@ -56,10 +58,10 @@
                     <td>{{ $course->Price }}</td>                    
                     <td>{{ $course->AdminID }}</td>
                     <td class="action-btn">
-                        <a href="{{ route('admin.course.edit', $course->CourseID) }}"> 
+                        <a href="{{ ($user->role == 'staff') ?  route('staff.course.edit', $course->CourseID) :  route('admin.course.edit', $course->CourseID) }}"> 
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
                         </a>
-                        <form action="{{ route('admin.course.destroy', $course->CourseID) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ ($user->role == 'staff') ? route('staff.course.destroy', $course->CourseID) : route('admin.course.destroy', $course->CourseID) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button class="delete-btn btn btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">

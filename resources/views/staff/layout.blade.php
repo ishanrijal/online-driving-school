@@ -9,13 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
+    
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
     <nav class="main-header navbar navbar-light">
         <div class="header-left-container">
             <div class="logo">
@@ -31,10 +32,11 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" style="width: 50px; height: 50px;">
                     @endif
                 </a>
-                <strong style="margin-top: 8px; display:block">{{ Auth::user()->name }}</strong>
+                <strong style="margin-top: 8px; display:block">{{ Auth::user()->role }}</strong>
                 <!-- Dropdown Menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li>
+                        {{-- <a class="dropdown-item" href="{{ route('profile.show') }}"> --}}
                         <a class="dropdown-item" href="#">
                             <strong>{{ Auth::user()->name }}</strong><br>
                             <small>{{ Auth::user()->role }}</small>
@@ -42,6 +44,7 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{{ route('profile.index') }}">View Profile</a></li>
+                    {{-- <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit Profile</a></li> --}}
                     <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                 </ul>
 
@@ -58,36 +61,54 @@
                 <p class="user-role"><small>{{ Auth::user()->role }}</small></p>
                 <nav class="mt-2">
                     <ul class="nav nav-wrapper flex-column">
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'student.dashboard') ? 'active': ''  }}">
-                            <a href="/student/dashboard" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.dashboard') ? 'active': ''  }}">
+                            <a href="/staff/dashboard" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'student.courses') ? 'active': ''  }}">
-                            <a href="{{route('student.courses')}}" class="nav-link">
+                        {{-- <li class="nav-item">
+                            <a href="/staff/new-users" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <span>Enroll Course</span>
+                                <span>New Users</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'student.courses.list') ? 'active': ''  }}">
-                            <a href="{{route('student.courses.list')}}" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <span>View My Course</span>
+                        <li class="nav-item">
+                            <a href="instructor" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <span>Instructor</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'student.invoice.index') ? 'active': ''  }}">
-                            <a href="{{route('student.invoice.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <li class="nav-item">
+                            <a href="student" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <span>Students</span>
+                            </a>
+                        </li> --}}               
+                        <li class="nav-item">
+                            <a href="invoice" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
                                 <span>Invoice</span>
                             </a>
-                        </li>
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'time-table.index') ? 'active': ''  }}">
-                            <a href="/student/time-table" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <span>Check Schedule</span>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="payment" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <span>Payments</span>
                             </a>
-                        </li>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="course" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <span>Course</span>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="time-table" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <span>View TimeTable</span>
+                            </a>
+                        </li>   
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
                             <div class="social-auth-links text-center mt-2 mb-3">
@@ -99,8 +120,25 @@
             </div>
         </aside>
         <main class="main-content-wrapper container-fluid">
+
             @yield('content')
         </div>
+        
+
+
+{{-- 
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io/">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.2.0
+            </div>
+        </footer>
+
+        <aside class="control-sidebar control-sidebar-dark">
+
+        </aside> --}}
+
     </div>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.min.css" rel="stylesheet">

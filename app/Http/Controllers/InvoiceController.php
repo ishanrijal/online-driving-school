@@ -16,7 +16,8 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoices::with('student')->paginate(10);
-        return view('invoice.invoice-list', compact('invoices'));
+        $user = Auth::user();
+        return view('invoice.invoice-list', compact('invoices','user'));
     }
 
     // show the payment form for the student to purhase the course
@@ -91,34 +92,55 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        if( ($user->role=='superadmin') || ($user->role=='admin') ){
+    
+        // Set the AdminID if the user is either superadmin or admin
+        if (($user->role == 'superadmin') || ($user->role == 'admin')) {
             $adminID = $user->admin->AdminID;
-        }else{
+        } else {
             $adminID = null;
         }
+    
+        // Validation
         $request->validate([
             'Date' => 'required|date',
             'TotalAmount' => 'required|numeric',
             'Status' => 'string',
             'StudentID' => 'required|numeric', 
         ]);
-        
-        $invoice = Invoices::create([
-            'Date' => $request->Date,
-            'TotalAmount' => $request->TotalAmount,
-            'Status' => 'unpaid', // Default status
-            'StudentID' => $request->StudentID, 
-        ]);
-        Payments::create([
-            'InvoiceID' => $invoice->InvoiceID, // Use the newly created InvoiceID
-            'Date' => now(),
-            'Type' => 'course fee',
-            'AdminID' => $adminID, // Set AdminID to null
-        ]);
-
-        // $invoice->students()->attach($request->StudentID);
-        return redirect()->route('admin.invoice.index')->with('success', 'Invoice created successfully.');
+    
+        try {
+            // Create an invoice
+            $invoice = Invoices::create([
+                'Date' => $request->Date,
+                'TotalAmount' => $request->TotalAmount,
+                'Status' => 'unpaid', // Default status
+                'StudentID' => $request->StudentID,
+            ]);
+    
+            // Create a payment entry
+            Payments::create([
+                'InvoiceID' => $invoice->InvoiceID, // Use the newly created InvoiceID
+                'Date' => now(),
+                'Type' => 'course fee',
+                'AdminID' => $adminID, // Set AdminID to null if not an admin
+            ]);
+    
+            // Redirect based on the role
+            if (($user->role == 'superadmin') || ($user->role == 'admin')) {
+                return redirect()->route('admin.invoice.index')->with('success', 'Invoice generated successfully.');
+            } else {
+                return redirect()->route('staff.invoice.index')->with('success', 'Invoice generated successfully.');
+            }
+        } catch (\Exception $e) {
+            // Return the error message back to the route with an error message
+            if (($user->role == 'superadmin') || ($user->role == 'admin')) {
+                return redirect()->route('admin.invoice.index')->withErrors(['error' => 'There was an issue generating the invoice. Please try again.']);
+            } else {
+                return redirect()->route('staff.invoice.index')->withErrors(['error' => 'There was an issue generating the invoice. Please try again.']);
+            }
+        }
     }
+    
 
     public function edit($id)
     {
@@ -128,6 +150,7 @@ class InvoiceController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
         $request->validate([
             'TotalAmount' => 'required|numeric',
             'Status' => 'required|string',
@@ -142,16 +165,33 @@ class InvoiceController extends Controller
         if ($payment) {
             $payment->update(['Type' => $request->Type]);
         } else {
-            return redirect()->route('admin.invoice.index')->with('error', 'Payment record not found.');
+            return back()->with('error', 'There was an issue updating the invoice. Please try again.');
         }
-        
-        return redirect()->route('admin.invoice.index')->with('success', 'Invoice updated successfully.');
+        if( $user->role == 'admin' || $user->role == 'superadmin' ){
+            return redirect()->route('admin.invoice.index')->with('success', 'Invoice updated successfully.');
+        }else{
+            return redirect()->route('staff.invoice.index')->with('success', 'Invoice updated successfully.');
+        }
     }
 
-    public function destroy($id)
-    {
-        $invoice = Invoices::findOrFail($id);
-        $invoice->delete();
-        return redirect()->route('admin.invoice.index')->with('success', 'Invoice deleted successfully.');
+    public function destroy($id){
+        $user = Auth::user();
+
+        try {
+            // Find and delete the invoice
+            $invoice = Invoices::findOrFail($id);
+            $invoice->delete();
+
+            // Check user role and redirect accordingly
+            if ($user->role == 'superadmin' || $user->role == 'admin') {
+                return redirect()->route('admin.invoice.index')->with('success', 'Invoice deleted successfully.');
+            } else {
+                return redirect()->route('staff.invoice.index')->with('success', 'Invoice deleted successfully.');
+            }
+
+        } catch (\Exception $e) {
+            // Return back with an error message
+            return back()->with('error', 'There was an issue deleting the invoice. Please try again.');
+        }
     }
 }

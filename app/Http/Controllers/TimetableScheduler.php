@@ -11,6 +11,7 @@ use App\Models\StudentProfiles;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TimetableScheduler extends Controller
 {
@@ -56,7 +57,6 @@ class TimetableScheduler extends Controller
                         'id'    => $appointment->ClassScheduleID,
                         'title' => $appointment->Location,          // Customize this as needed
                         'start' => $appointment->Date,              // Assuming you just want the date
-                        // 'end' => $appointment->end_date, // If you have an end date, add it here
                     ];
                 });
                 return view('student.time-table', compact('instructors', 'classSchedules','appointments'));
@@ -81,7 +81,8 @@ class TimetableScheduler extends Controller
             'CourseName' => $schedule->course->Name, 
             'StudentID' => $schedule->StudentID,
             'StudentName' => $schedule->student->Name, 
-            'CourseDescription' => $schedule->course->Description 
+            'CourseDescription' => $schedule->course->Description,
+            'class_status' => $schedule->class_status
         ]);
     }
 
@@ -91,7 +92,7 @@ class TimetableScheduler extends Controller
             'Time'         => 'required',
             'Location'     => 'required|string',
             'InstructorID' => 'required|exists:instructors,InstructorID',
-            'CourseID' => 'required|exists:student_profiles,CourseID',
+            'CourseID'     => 'required|exists:student_profiles,CourseID',
         ]);
         try {
             ClassSchedules::create([
@@ -100,12 +101,14 @@ class TimetableScheduler extends Controller
                 'Location'     => $request->Location,
                 'InstructorID' => $request->InstructorID,
                 'CourseID'     => $request->CourseID,
-                'StudentID'    => Auth::id(),
+                'StudentID'    => Auth::user()->student->StudentID,
+                'class_status' => 'pending'
             ]);
-            return redirect()->route('student.time-table.index')->with('success', 'Class booked successfully.');
+            return redirect()->route('student.time-table.index')->with('success', 'Class Booking request has been sent successfully.');
     
         } catch (\Exception $e) {
-            return redirect()->back()->withInput()->withErrors(['error' => 'There was an issue booking the class. Please try again.']);
+            dd($e);
+            return redirect()->route('student.time-table.index')->withErrors(['error' => 'There was an issue booking the class. Please try again.']);
         }
     }
 

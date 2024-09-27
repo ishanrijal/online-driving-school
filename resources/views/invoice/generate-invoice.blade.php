@@ -1,4 +1,15 @@
-@extends('admin.layout')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = route('admin.invoice.store');
+    } else {
+        $role = 'staff';
+        $actionRoute = route('staff.invoice.store');
+    }
+@endphp
+
+@extends($role.'.layout')
 @section('title', 'Generate Invoice')
 @section('content')
     <div class="content-wrapper">
@@ -6,7 +17,7 @@
             <div class="header">
                 <h1>Invoice List</h1>
             </div>
-            <form action="{{ route('admin.invoice.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
+            <form action="{{$actionRoute}}" method="POST" enctype="multipart/form-data" id="entity-form">
                 @csrf
                 <!-- Date Field -->
                 <div class="form-group">
@@ -101,9 +112,8 @@
                         >
                     </div>
                 </div>
-
                 <!-- Save Button -->
-                <button type="submit" class="save-btn">Save</button>
+                <button type="submit" class="save-btn">Generate Invoice</button>
             </form>
         </div>
     </div>

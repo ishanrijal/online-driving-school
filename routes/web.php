@@ -162,9 +162,8 @@ Route::middleware(['auth', 'verified', 'instructor'])->prefix('instructor')->gro
 
 
     Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('instructor.classSchedule.edit');
-
     //profile update
-    Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('instructor.update');
+    Route::put('/instructor/{id}', [InstructorController::class, 'profileUpdate'])->name('instructor.profileupdate');
 });
 
 // Profile Routes

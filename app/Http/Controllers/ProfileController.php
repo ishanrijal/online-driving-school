@@ -153,7 +153,7 @@ class ProfileController extends Controller
                 $data['user_email'] = $user->email;
 
                 $appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->get();
-                $today_appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['instructor.user', 'course'])->get();
+                $today_appointments = ClassSchedules::where('StudentID', $data['student']->StudentID)->where('class_status', 'confirmed')->whereDate('Date', DB::raw('CURDATE()'))->with( ['instructor.user', 'course'])->get();
 
                 $invoices = Invoices::where('StudentID', $data['student']->StudentID)->where('Status', 'unpaid')->get();
 
@@ -174,7 +174,8 @@ class ProfileController extends Controller
 
 
                 $appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->get();
-                $appointment_pending = ClassSchedules::where('class_status', 'pending')->get();
+                $appointment_pending = ClassSchedules::where('class_status', 'pending')->where('InstructorID', $data['instructor']->InstructorID)->get();
+                Session::put('appointment_pending_count', $appointment_pending->count() );
                 $today_appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['student.user', 'course'])->get();
                 return view('instructor.dashboard', compact( 'data', 'appointments', 'today_appointments', 'appointment_pending' ));
     

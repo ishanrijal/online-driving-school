@@ -2,17 +2,13 @@
     if ($user->role == 'admin' || $user->role == 'superadmin') {
         $role = 'admin';
         $addRoute = route('admin.course.create');
-        // $actionRoute = route('admin.profile.update', $AdminID);
     } elseif ($user->role == 'instructor') {
         $role = 'instructor';
-        // $actionRoute = route('instructor.update', $InstructorID);
     } elseif ($user->role == 'staff') {
         $role = 'staff';
         $addRoute = route('staff.course.create');
-        // $actionRoute = route('admin.staff.update', $StaffID);
     } else {
         $role = 'student';
-        // $actionRoute = route('admin.student.update', $StudentID);
     }
 @endphp
 

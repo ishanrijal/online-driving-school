@@ -1,5 +1,5 @@
 @extends('instructor.layout')
-@section('title', 'Trainer')
+@section('title', 'Profile')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))

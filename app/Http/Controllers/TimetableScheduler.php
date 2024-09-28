@@ -12,6 +12,7 @@ use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class TimetableScheduler extends Controller
 {
@@ -26,12 +27,11 @@ class TimetableScheduler extends Controller
             case 'instructor':
                 // Check if a student record exists
                 if ($user->instructor) {
-                    $appointments = ClassSchedules::where('InstructorID', $user->instructor->InstructorID)->get()->map(function($appointment) {
+                    $appointments = ClassSchedules::where('InstructorID', $user->instructor->InstructorID)->where('class_status', 'confirmed')->get()->map(function($appointment) {
                         return [
                             'id'    => $appointment->ClassScheduleID,
-                            'title' => $appointment->Location,          // Customize this as needed
-                            'start' => $appointment->Date,              // Assuming you just want the date
-                            // 'end' => $appointment->end_date, // If you have an end date, add it here
+                            'title' => $appointment->Location,
+                            'start' => $appointment->Date,              
                         ];
                     });
                 } else {
@@ -57,6 +57,7 @@ class TimetableScheduler extends Controller
                         'id'    => $appointment->ClassScheduleID,
                         'title' => $appointment->Location,          // Customize this as needed
                         'start' => $appointment->Date,              // Assuming you just want the date
+                        'class_status' => $appointment->class_status,
                     ];
                 });
                 return view('student.time-table', compact('instructors', 'classSchedules','appointments'));
@@ -68,7 +69,9 @@ class TimetableScheduler extends Controller
     }
     public function appointmentIndex(){
         $user = Auth::user();
-        $appointments = ClassSchedules::where('class_status', 'pending')->get();
+        $appointments = ClassSchedules::where('InstructorID', $user->instructor->InstructorID)
+        ->where('class_status', 'pending')
+        ->get();
         return view('instructor.appointment-list', compact('appointments'));
     }
     public function confirmStatus($class_id){
@@ -81,11 +84,17 @@ class TimetableScheduler extends Controller
         return redirect()->route('instructor.check-appointment.index')->with('success', 'You have confirmed the appointment.');
     }
     public function cancleStatus($class_id){
+        $user = Auth::user();
         $appointment = ClassSchedules::where('ClassScheduleID', $class_id)->firstOrFail();
         if ($appointment->class_status === 'pending') {
             $appointment->class_status = 'cancelled';
             $appointment->save();
+        }else{
+            $appointment->class_status = 'cancelled';
+            $appointment->save();
         }
+        $appointment_pending = ClassSchedules::where('class_status', 'pending')->where('InstructorID', $user->instructor->InstructorID)->get();
+        Session::put('appointment_pending_count', $appointment_pending->count() );
         return redirect()->route('instructor.check-appointment.index')->with('success', 'You have cancelled the appointment.');
     }
 

@@ -129,14 +129,15 @@ class InstructorController extends Controller
         $instructor = Instructors::findOrFail($id);
         $request->validate([
             'name'           => 'required|string|max:255',
-            'Address'           => 'string',
+            'Address'           => 'nullable|string',
             'Gender' => [
                 'nullable',
                 Rule::in(['male', 'female', 'other']),
             ],
             'Phone'        => 'nullable|regex:/^\+?[0-9]{1,15}$/',
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);        
+        ]);      
+        dd('s');  
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($instructor->user_id);
         $user->update([
@@ -174,6 +175,55 @@ class InstructorController extends Controller
             return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
         }elseif( ( $user->role == 'staff') ){
             return redirect()->route('staff.instructor.index')->with('success', 'Instructor updated successfully');
+        }
+    }
+    public function profileUpdate(Request $request, $id)
+    {
+        $instructor = Instructors::findOrFail($id);
+        $request->validate([
+            'Name'           => 'required|string|max:255',
+            'Address'           => 'nullable|string',
+            'Gender' => [
+                'nullable',
+                Rule::in(['male', 'female', 'other']),
+            ],
+            'DateOfBirth' => 'nullable|date|max:255',
+            'Phone'        => 'nullable|regex:/^\+?[0-9]{1,15}$/',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $user = User::find($instructor->user_id);
+        $user->update([
+            'name' => $request->Name,
+        ]);
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('instructors', 'public');
+            // Delete old image if needed (optional)
+            if ($instructor->image) {
+                Storage::delete('public/' . $instructor->image);
+            }
+        } else {
+            $imagePath = $instructor->image; // retain the old image
+        }
+        $instructor->update([
+            'Name'        => $request->Name,
+            'Phone'       => $request->Phone,
+            'Gender'      => $request->Gender,
+            'Address'     => $request->Address,
+            'DateOfBirth' => $request->DateOfBirth,
+            'image'       => $imagePath,
+        ]);
+
+        if( $imagePath ){
+            $imageUrl = asset('storage/' . $imagePath);
+        }else{
+            $imageUrl='';
+        }
+
+        Session::put('staff_image_url', $imageUrl);
+        $user = Auth::user();
+        if( $user->role == 'instructor'){
+            return redirect()->route('profile.index')->with('success', 'Your Profile updated successfully');
         }
     }
     /**

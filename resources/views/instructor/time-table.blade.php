@@ -135,6 +135,13 @@
                     <label for="appointment-course-description">Course Description</label>
                     <p id="appointment-course-description"></p>
                 </div>
+                <form id="cancel-form" method="POST" style="display:inline-block;">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="verify-btn btn btn-danger" style="background: #0dcaf0; border:none">
+                        Cancel Class
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -184,13 +191,14 @@
                     fetch(`/instructor/time-table/${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course-name').innerHTML = data.CourseName;
                             document.getElementById('appointment-course-description').innerHTML = data.CourseDescription;
+                            const cancelForm = document.getElementById('cancel-form');
+                            cancelForm.action = `{{ route('instructor.status.cancel', '') }}/${scheduleID}`;
                         });
                 }else{
                     modal.style.display = 'none';

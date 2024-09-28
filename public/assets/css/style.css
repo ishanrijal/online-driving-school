@@ -1246,6 +1246,18 @@ p.awesome_line {
     justify-content: center;
     align-items: center;
 }
+/*dashboard header */
+.nav-profile-icon-role{
+    margin-top: 8px; 
+    display:block;
+    text-transform:capitalize;
+}
+#profileDropdown{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* end of dashboard header*/
 .dashboard-sidenav{
     margin-top: 24px;
 }
@@ -1269,6 +1281,7 @@ p.awesome_line {
     color: white;
     padding: 14px 24px;
     align-items: center;
+    font-size: 16px;
 }
 
 .dashboard-sidenav .nav-item:hover,
@@ -1911,4 +1924,33 @@ table td:first-child {
     color: wheat;
     text-transform: capitalize;
     font-size: 18px;
+}
+
+
+.nav-link {
+    position: relative; /* Allow absolute positioning for the count icon */
+}
+
+.appointment-count-icon {
+    background-color: #dc3545; /* Bootstrap danger color (red) */
+    color: white; /* White text */
+    border-radius: 12px; /* Half the height for a pill shape */
+    width: 24px; /* Width of the badge */
+    height: 24px; 
+    text-align: center;
+    line-height: 24px; 
+    font-size: 18px; 
+    position: absolute; 
+    right: 0; 
+    top: -6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item.active .appointment-count-icon {
+    background-color: #28a745;
+}
+
+.nav-item:hover .appointment-count-icon {
+    background-color: #c82333; 
+    transition: background-color 0.3s ease;
 }

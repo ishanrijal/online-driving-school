@@ -291,21 +291,10 @@
                 selectable: true,
                 editable: true,
                 events: @json($appointments),
-                eventDidMount: function(info) {
-                    var calendarClass = document.querySelector('.fc-h-event');
-                    if (calendarClass) {
-                        // Do something with the event element
-                        console.log(calendarClass);
-                    } else {
-                        console.log('No event element found');
-                    }
-                },
                 dateClick: function(info) {
-                    // Check if the clicked date is in the past
                     if (info.date < new Date().setHours(0, 0, 0, 0)) { // Adjust for time
-                        return; // Do nothing for past dates
+                        return;
                     }
-                    // Open modal for valid date click (including today)
                     openModal(info.dateStr);
                 },
                 select: function(info) {

@@ -5,7 +5,7 @@ if ($data->user->role == 'admin' || $data->user->role == 'superadmin') {
     $actionRoute = route('admin.profile.update', $data->AdminID);
 } elseif ($data->user->role == 'instructor') {
     $role = 'instructor';
-    $actionRoute = route('instructor.update', $data->InstructorID);
+    $actionRoute = route('instructor.profileupdate', $data->InstructorID);
 } elseif ($data->user->role == 'staff') {
     $role = 'staff';
     $actionRoute = route('staff.profile.update', $data->StaffID);
@@ -84,7 +84,7 @@ $fields = [];
     ];
 @endphp
 
-@extends($role . '.layout') {{-- Corrected here --}}
+@extends($role . '.layout')
 @section('title', 'Profile')
 @section('content')
     <div class="content-wrapper">

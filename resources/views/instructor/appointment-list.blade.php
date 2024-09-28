@@ -46,7 +46,7 @@
                         <form action="{{ route('instructor.status.cancel', $appointment->ClassScheduleID) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="verify-btn btn btn-secondary" style="background: var(--primary)">
+                            <button type="submit" class="verify-btn btn btn-danger" style="background: #0dcaf0">
                                 Cancel
                             </button>
                         </form>
@@ -58,7 +58,7 @@
         </table>
     @else
         <div class="alert alert-info">
-            <h3>No Appointments Available</h3>
+            <h3>No More Pending Appointments</h3>
         </div>
     @endif
 </div>

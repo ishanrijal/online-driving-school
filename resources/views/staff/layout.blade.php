@@ -32,7 +32,7 @@
                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" style="width: 50px; height: 50px;">
                     @endif
                 </a>
-                <strong style="margin-top: 8px; display:block">{{ Auth::user()->role }}</strong>
+                <strong style="margin-top: 8px; display:block;text-transform:capitalize">{{ Auth::user()->name }}</strong>
                 <!-- Dropdown Menu -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li>
@@ -61,44 +61,44 @@
                 <p class="user-role"><small>{{ Auth::user()->role }}</small></p>
                 <nav class="mt-2">
                     <ul class="nav nav-wrapper flex-column">
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.dashboard') ? 'active': ''  }}">
-                            <a href="/staff/dashboard" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.dashboard') ? 'active': ''  }}">
+                            <a href="{{route('staff.dashboard')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/staff/new-users" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.user-verify.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.user-verify.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>New Users</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="instructor" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.instructor.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.instructor.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Instructor</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="student" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.student.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.student.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Students</span>
                             </a>
                         </li>               
-                        <li class="nav-item">
-                            <a href="invoice" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.invoice.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.invoice.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Invoice</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="course" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.course.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.course.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Course</span>
                             </a>
                         </li> 
-                        <li class="nav-item">
-                            <a href="time-table" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'staff.classSchedule.index') ? 'active': ''  }}">
+                            <a href="{{route('staff.classSchedule.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>View TimeTable</span>
                             </a>
@@ -117,23 +117,11 @@
 
             @yield('content')
         </div>
-        
-
-
-{{-- 
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io/">AdminLTE.io</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
-        </footer>
-
-        <aside class="control-sidebar control-sidebar-dark">
-
-        </aside> --}}
-
     </div>
+    <footer class="main-footer">
+        <strong>Copyright &copy; {{now()->year}}. All rights reserved <b>{{Auth::user()->role}}</b></strong>
+    </footer>
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
@@ -143,12 +131,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
+        const invoices_paid = {{ session('invoices_paid') ?? 0 }};
+        const invoices_processing = {{ session('invoices_processing') ?? 0 }};
+        const invoices_unpaid = {{ session('invoices_unpaid') ?? 0 }};
         // Pie Chart Data (Replace with actual dynamic data from backend)
         const pieData = {
-            labels: ['Students', 'Instructors', 'Staff'],
+            labels: ['Paid', 'Processing', 'Unpaid'],
             datasets: [{
-                label: 'Entity Distribution',
-                data: [55, 25, 20], // Example: 55% Students, 25% Instructors, 20% Staff
+                label: 'Total',
+                data: [invoices_paid, invoices_processing, invoices_unpaid], // Example: 55% Students, 25% Instructors, 20% Staff
                 backgroundColor: ['#F91942', '#36A2EB', '#FFCE56'],
                 hoverOffset: 4
             }]
@@ -163,34 +154,6 @@
         const entityPieChart = new Chart(
             document.getElementById('entityPieChart'),
             pieConfig
-        );
-
-        // Bar Chart Data (Replace with actual dynamic data from backend)
-        const barData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [{
-                label: 'Monthly Registrations',
-                data: [10, 20, 30, 40, 50, 60], // Example registration counts
-                backgroundColor: '#F91942'
-            }]
-        };
-
-        const barConfig = {
-            type: 'bar',
-            data: barData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        };
-
-        // Create Bar Chart
-        const registrationBarChart = new Chart(
-            document.getElementById('registrationBarChart'),
-            barConfig
         );
     </script>
 </body>

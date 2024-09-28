@@ -10,7 +10,7 @@
 @endphp
 
 @extends($role. '.layout')
-@section('title', 'Dashboard')
+@section('title', 'Time Table')
 @section('content')
 <div class="content-wrapper">
     <style>
@@ -38,7 +38,8 @@
         }
         .close {
             color: #aaa;
-            float: right;
+            display: flex;
+            justify-content: flex-end;
             font-size: 28px;
             font-weight: bold;
         }
@@ -53,12 +54,9 @@
             display: none;
         }
         #viewAppointment {
-            background-color: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px;
             margin: 20px auto;
         }
 
@@ -134,7 +132,7 @@
             margin: 20px auto;
         }
 
-        #appointmentForm h2 {
+        #modalTitle {
             text-align: center;
             color: #333;
             margin-bottom: 20px;

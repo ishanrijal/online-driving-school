@@ -81,10 +81,11 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 // staff routes
 Route::middleware(['auth', 'verified', 'staff'])->prefix('staff')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('staff.dashboard');
-    // Route::put('/staff/{id}', [AdminController::class, 'update'])->name('admin.profile.update');
+    
+    Route::put('/staff/{id}', [StaffController::class, 'profileUpdate'])->name('staff.profile.update');
 
-    // Route::get('/new-users', [AdminController::class, 'showUserList'])->name('admin.user-verify.index');
-    // Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
+    Route::get('/new-users', [StaffController::class, 'showUserList'])->name('staff.user-verify.index');
+    Route::put('/new-users/verify/{id}', [StaffController::class, 'updateVerify'])->name('staff.user.verify');
 
     // Instructor Management
     Route::get('/instructor', [InstructorController::class, 'index'])->name('staff.instructor.index');
@@ -152,7 +153,14 @@ Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(fun
 });
 Route::middleware(['auth', 'verified', 'instructor'])->prefix('instructor')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('instructor.dashboard');
-    Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('instructor.time-table.index');
+
+    Route::get('/check-appointment', [TimetableScheduler::class, 'index'])->name('instructor.time-table.index');
+
+    Route::get('/appointment-list', [TimetableScheduler::class, 'appointmentIndex'])->name('instructor.check-appointment.index');
+    Route::put('/appointment-list/{id}/confirm', [TimetableScheduler::class, 'confirmStatus'])->name('instructor.status-confirm');
+    Route::put('/appointment-list/{id}', [TimetableScheduler::class, 'cancleStatus'])->name('instructor.status.cancel');   
+
+
     Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('instructor.classSchedule.edit');
 
     //profile update

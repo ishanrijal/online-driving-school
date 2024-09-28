@@ -102,7 +102,7 @@ class StudentController extends Controller
             'Address'     => 'nullable|string|max:255',
             'DateOfBirth' => 'nullable|date|max:255',
             'Gender'      => 'nullable|string|max:10',
-            'Phone'       => 'nullable|numeric|max:255',
+            'Phone'       => 'nullable|string|regex:/^[0-9]{10,15}$/',
             // 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

@@ -183,8 +183,8 @@ class InstructorController extends Controller
     {
         $user = Auth::user();
         // Find the instructor by ID or fail
-        $instructor = Instructors::findOrFail($id);
-        $userId = $instructor->user_id;
+        $instructor = Instructors::where('user_id', $id)->firstOrFail();
+        $userId = $id;
 
         // Begin a database transaction
         DB::beginTransaction();

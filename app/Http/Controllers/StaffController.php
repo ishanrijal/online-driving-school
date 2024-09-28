@@ -24,6 +24,22 @@ class StaffController extends Controller
         return view( 'admin.staff', compact('staffs') );
     }
 
+    //for verifiying the user
+    public function showUserList(){
+        $users = User::whereNull('email_verified_at')
+              ->where('role', 'instructor')
+              ->paginate(10);
+        return view( 'staff.verify-user', compact('users') );
+    }
+
+    public function updateVerify($user_id)
+    {
+        $user = User::find($user_id);
+        $user->update([
+            'email_verified_at' => now(),
+        ]);
+        return redirect()->route('staff.user-verify.index')->with('success', 'User Verified successfully');
+    }
     /**
      * Show the form for creating a new trainer.
      */
@@ -100,7 +116,7 @@ class StaffController extends Controller
             'Address'     => 'nullable|string|max:255',
             'DateOfBirth' => 'nullable|date|max:255',
             'Gender'      => 'nullable|string|max:10',
-            'Phone'       => 'nullable|numeric|max:255',
+            'Phone'       => 'nullable|string|regex:/^[0-9]{10,15}$/',
             'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
         ]);
 
@@ -134,6 +150,44 @@ class StaffController extends Controller
         Session::put('staff_image_url',   $imageUrl = asset('storage/' . $imagePath));
 
         return redirect()->route('admin.staff.index')->with('success', 'Staff updated successfully');
+    }
+    // Update the staff profile
+    public function profileUpdate( Request $request, $id ){
+        $staff = Staff::findOrFail( $id );
+        $request->validate([
+            'Name'        => 'required|string|max:255',
+            'Address'     => 'nullable|string|max:255',
+            'DateOfBirth' => 'nullable|date|max:255',
+            'Gender'      => 'nullable|string|max:10',
+            'Phone'       => 'nullable|string|regex:/^[0-9]{10,15}$/',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:9048',
+        ]);
+        
+        $user = User::where('user_id', $staff->user_id)->first();
+        $user->update([
+            'name' => $request->Name,
+        ]);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('staff', 'public');
+            if ($staff->image) {
+                Storage::delete('public/' . $staff->image);
+            }
+        } else {
+            $imagePath = $staff->image; // retain the old image
+        }
+
+        // Update instructor details
+        $staff->update([
+            'Name'        => $request->Name,
+            'Phone'       => $request->Phone,
+            'Address'     => $request->Address,
+            'Gender'      => $request->Gender,
+            'DateOfBirth' => $request->DateOfBirth,
+            'image'       => $imagePath,
+        ]);
+
+        Session::put('staff_image_url',   $imageUrl = asset('storage/' . $imagePath));
+        return redirect()->route('profile.index')->with('success', 'Staff updated successfully');
     }
 
     /**

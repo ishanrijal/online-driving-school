@@ -66,6 +66,28 @@ class TimetableScheduler extends Controller
             break;
         }
     }
+    public function appointmentIndex(){
+        $user = Auth::user();
+        $appointments = ClassSchedules::where('class_status', 'pending')->get();
+        return view('instructor.appointment-list', compact('appointments'));
+    }
+    public function confirmStatus($class_id){
+        // Find the appointment by ID
+        $appointment = ClassSchedules::where('ClassScheduleID', $class_id)->firstOrFail();
+        if ($appointment->class_status === 'pending') {
+            $appointment->class_status = 'confirmed';
+            $appointment->save();
+        }
+        return redirect()->route('instructor.check-appointment.index')->with('success', 'You have confirmed the appointment.');
+    }
+    public function cancleStatus($class_id){
+        $appointment = ClassSchedules::where('ClassScheduleID', $class_id)->firstOrFail();
+        if ($appointment->class_status === 'pending') {
+            $appointment->class_status = 'cancelled';
+            $appointment->save();
+        }
+        return redirect()->route('instructor.check-appointment.index')->with('success', 'You have cancelled the appointment.');
+    }
 
     public function edit($id)
     {
@@ -107,7 +129,6 @@ class TimetableScheduler extends Controller
             return redirect()->route('student.time-table.index')->with('success', 'Class Booking request has been sent successfully.');
     
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->route('student.time-table.index')->withErrors(['error' => 'There was an issue booking the class. Please try again.']);
         }
     }

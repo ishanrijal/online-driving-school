@@ -1149,16 +1149,13 @@ p.awesome_line {
 /* Set up the layout */
 .wrapper {
     display: flex;
-    height: 100vh;
-    overflow-y: auto; 
+    min-height: 100vh;
 }
 .wrapper .main-sidebar {
     flex-basis: 20%;
     background: var(--dark);
     overflow-y: auto;
-    height: 100%;
-    box-shadow:  5px -5px 10px #d0d0d0,
-    -5px 5px 10px #f0f0f0;
+    min-height: 100vh;
 }
 .main-sidebar li.nav-item.active {
     background: rgba(255, 255, 255, 0.18);
@@ -1169,7 +1166,7 @@ p.awesome_line {
 .wrapper .main-content-wrapper {
     flex-basis: 80%;
     position: relative;
-    padding: 24px 48px 48px 48px;
+    padding: 48px;
 }
 .main-header {
     display: flex;
@@ -1479,7 +1476,6 @@ p.awesome_line {
 
 .see-all-wrapper {
     display: inline-flex;
-    gap: 4px;
 }
 
 .see-all-text {
@@ -1489,9 +1485,17 @@ p.awesome_line {
     font: 400 14px Poppins, sans-serif;
 }
 .see-all-wrapper img {
-    width: 10px;
+    width: 8px;
 }
-
+.see-all-wrapper a{
+    font-size: 16px;
+    display: flex;
+    gap: 8px;
+}
+.see-all-wrapper a:hover{
+    color: white;
+    opacity: 0.7;
+}
 .sales-data {
     display: flex;
     flex-direction: column;
@@ -1551,7 +1555,6 @@ p.awesome_line {
 .divider {
     background-color: #d2c8c8;
     display: flex;
-    margin-top: 20px;
     height: 5px;
 }
 
@@ -1890,4 +1893,22 @@ table td:first-child {
     background-color: #ffffff;
     color: rgba(226, 219, 219, 0.4);
     opacity: 0.6; 
+}
+
+/* new user verificaiton */
+.entity-count{
+    font-weight: 800;
+}
+
+
+/* footer */
+.main-footer{
+    padding: 30px 48px;
+    background: var(--dark);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: wheat;
+    text-transform: capitalize;
+    font-size: 18px;
 }

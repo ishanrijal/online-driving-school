@@ -6,7 +6,7 @@
             <div class="signup-box">
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
-                        <h1>Verification Email</h1>
+                        <h1>Waiting For Email Verification</h1>
                     </div>
                     <div class="card-body" style="padding: 48px">
                         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">

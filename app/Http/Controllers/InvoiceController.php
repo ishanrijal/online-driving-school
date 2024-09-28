@@ -28,7 +28,6 @@ class InvoiceController extends Controller
         $invoice = Invoices::find($id);
         
         if ($course) {
-            dd('couse');
             return view('student.payment', compact('course'));
         }
 

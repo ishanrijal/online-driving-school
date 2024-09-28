@@ -6,6 +6,7 @@ use App\Http\Middleware\Instructor;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
 use App\Models\ClassSchedules;
+use App\Models\Courses;
 use App\Models\Instructors;
 use App\Models\Invoices;
 use App\Models\Staff;
@@ -44,7 +45,9 @@ class ProfileController extends Controller
             break;
             case 'staff':
                 // Fetch staff-specific data if needed
-                $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
+                $user = Auth::user();
+                $data['staff'] = Staff::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
                 return view('profile.staff', $data);
     
             case 'student':
@@ -112,11 +115,37 @@ class ProfileController extends Controller
                 return view('profile.default', ['user' => $user]);
     
             case 'staff':
+                $data['invoices'] = Invoices::where('status', 'paid')->take(5)->get();
+                $data['users'] = User::whereIn('role', ['instructor', 'student'])
+                     ->latest()->take(5)->get();
                 // Fetch staff-specific data if needed
-                $data['staff'] = Staff::where('AdminID', $user->user_id)->first();
+                $data['staff'] = Staff::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
+                if( $data['staff']->image ){
+                    $imageUrl = asset('storage/' . $data['staff']->image);
+                }else{
+                    $imageUrl='';
+                }
+                Session::put('staff_image_url', $imageUrl);
+
                 $data['students_count'] = Students::count();
                 $data['instructors_count'] = Instructors::count();
-                return view('staff.dashboard', $data);
+                $data['courses_count'] = Courses::count();
+
+                Session::put('students_count', $data['students_count'] );
+                Session::put('instructors_count', $data['instructors_count'] );
+                Session::put('courses_count', $data['courses_count'] );
+                
+
+                $data['invoices_paid'] = Invoices::where('status', 'paid')->count();
+                $data['invoices_unpaid'] = Invoices::where('status', 'unpaid')->count();
+                $data['invoices_processing'] = Invoices::where('status', 'processing')->count();
+
+                Session::put('invoices_paid', $data['invoices_paid'] );
+                Session::put('invoices_unpaid', $data['invoices_unpaid'] );
+                Session::put('invoices_processing', $data['invoices_processing'] );
+
+                return view( 'staff.dashboard', compact('data') );
     
             case 'student':
                 // Fetch student-specific data if needed
@@ -159,8 +188,6 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        // $staff = Staff::findOrFail( $id );
-        // return view('admin.edit-staff', compact('staff'));
         $user = Auth::user();    
         $data = [];
         switch ($user->role) {
@@ -177,6 +204,10 @@ class ProfileController extends Controller
             break;
             case 'instructor':
                 $data['data' ]= Instructors::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
+            break;
+            case 'staff':
+                $data['data' ]= Staff::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
             break;
 

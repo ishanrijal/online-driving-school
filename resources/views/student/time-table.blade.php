@@ -209,7 +209,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <form id="appointmentForm" action="{{ route('student.classSchedule.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
-                <h2 style="margin-bottom: 24px">Book My Class</h2>
+                <h2>Book My Class</h2>
                 @csrf
                 <div>
                     <label for="Date">Date</label>
@@ -274,18 +274,6 @@
                     <label for="appointment-course">Course:</label>
                     <p id="appointment-course"></p>
                 </div>
-                {{-- <div class="action-btn">
-                    <a href="#" id="editButton">
-                        Edit
-                    </a>
-                    <form id="deleteForm" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
-                            <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
-                        </button>
-                    </form>
-                </div> --}}
             </div>
         </div>
     </div>

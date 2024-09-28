@@ -8,71 +8,70 @@ if ($data->user->role == 'admin' || $data->user->role == 'superadmin') {
     $actionRoute = route('instructor.update', $data->InstructorID);
 } elseif ($data->user->role == 'staff') {
     $role = 'staff';
-    $actionRoute = route('admin.staff.update', $data->StaffID);
+    $actionRoute = route('staff.profile.update', $data->StaffID);
 } else {
     $role = 'student';
     $actionRoute = route('admin.student.update', $data->StudentID);
 }
 $fields = [];
+
+    $fields[] = [
+        'label'       => 'Name',
+        'name'        => 'Name',
+        'type'        => 'text',
+        'id'          => 'Name',
+        'placeholder' => 'Enter Name',
+        'default'     => old('Name', $data->user->name),
+        'required'    => true,
+        'disabled'    => false
+    ];
     
     // Conditionally add fields based on the role
     if ($role !== 'admin') {
-    $fields[] = [
-        'label'       => 'Address',
-        'name'        => 'Address',
-        'type'        => 'text',
-        'id'          => 'address',
-        'placeholder' => 'Enter Address',
-        'default'     => old('Address', $data->Address),
-        'required'    => false,
-        'disabled'    => false
-    ];
-
-    $fields[] = [
-        'label'       => 'Date of Birth',
-        'name'        => 'DateOfBirth',
-        'type'        => 'date',
-        'id'          => 'dob',
-        'placeholder' => '',
-        'default'     => old('DateOfBirth', $data->DateOfBirth), // Corrected
-        'required'    => false,
-        'disabled'    => false
-    ];
-
-    $fields[] = [
-        'label'       => 'Gender',
-        'name'        => 'Gender',
-        'type'        => 'text', // Corrected
-        'id'          => 'gender',
-        'placeholder' => '',
-        'default'     => old('Gender', $data->Gender),
-        'required'    => false,
-        'disabled'    => false
-    ];
-
-    $fields[] = [
-        'label'       => 'Contact Number',
-        'name'        => 'Phone',
-        'type'        => 'text',
-        'id'          => 'contact-number',
-        'placeholder' => 'Enter Contact Number',
-        'default'     => old('Phone', $data->Phone),
-        'required'    => false,
-        'disabled'    => false
-    ];
-    }
-
-    $fields[] = [
-            'label'       => 'Name',
-            'name'        => 'name',
+        $fields[] = [
+            'label'       => 'Address',
+            'name'        => 'Address',
             'type'        => 'text',
-            'id'          => 'name',
-            'placeholder' => 'Enter Name',
-            'default'     => old('Name', $data->user->name),
-            'required'    => true,
+            'id'          => 'address',
+            'placeholder' => 'Enter Address',
+            'default'     => old('Address', $data->Address),
+            'required'    => false,
             'disabled'    => false
         ];
 
+        $fields[] = [
+            'label'       => 'Date of Birth',
+            'name'        => 'DateOfBirth',
+            'type'        => 'date',
+            'id'          => 'dob',
+            'placeholder' => '',
+            'default'     => old('DateOfBirth', $data->DateOfBirth), // Corrected
+            'required'    => false,
+            'disabled'    => false
+        ];
+
+        $fields[] = [
+            'label'       => 'Gender',
+            'name'        => 'Gender',
+            'type'        => 'text', // Corrected
+            'id'          => 'gender',
+            'placeholder' => 'male',
+            'default'     => old('Gender', $data->Gender),
+            'required'    => false,
+            'disabled'    => false
+        ];
+
+        $fields[] = [
+            'label'       => 'Contact Number',
+            'name'        => 'Phone',
+            'type'        => 'text',
+            'id'          => 'contact-number',
+            'placeholder' => 'Enter Contact Number',
+            'default'     => old('Phone', $data->Phone),
+            'required'    => false,
+            'disabled'    => false
+        ];
+    }
     $fields[] = [
         'label'       => 'Email',
         'name'        => 'email',

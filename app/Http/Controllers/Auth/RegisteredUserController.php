@@ -64,6 +64,7 @@ class RegisteredUserController extends Controller
             if ($user->role === 'staff') {
                 Staff::create([
                     'Name'    => $user->name,
+                    'user_id' => $user->user_id,
                     'AdminID' => null,
                 ]);
             }

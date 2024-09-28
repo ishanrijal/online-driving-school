@@ -46,7 +46,6 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{{ route('profile.index') }}">View Profile</a></li>
-                    {{-- <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit Profile</a></li> --}}
                     <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                 </ul>
 
@@ -64,13 +63,19 @@
                 <nav class="mt-2">
                     <ul class="nav nav-wrapper flex-column">
                         <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.dashboard') ? 'active': ''  }}">
-                            <a href="/instructor/dashboard" class="nav-link">
+                            <a href="{{route('instructor.dashboard')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.check-appointment.index') ? 'active': ''  }}">
+                            <a href="{{ route('instructor.check-appointment.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <span>Check Appointments</span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.time-table.index') ? 'active': ''  }}">
-                            <a href="/instructor/time-table" class="nav-link">
+                            <a href="{{ route('instructor.time-table.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Check Schedule</span>
                             </a>

@@ -11,11 +11,10 @@ class Staff extends Model
     protected $primaryKey = 'StaffID';
     
     protected $fillable = [
-        'Name', 'Address', 'DateOfBirth', 'Gender', 'image', 'Phone', 'Email', 'AdminID',
+        'Name', 'Address', 'DateOfBirth', 'Gender', 'image', 'Phone', 'Email', 'AdminID', 'user_id'
     ];
 
-    // // Relationship with User
-    // public function admin(){
-    //     return $this->belongsTo(Admin::class, 'user_id');
-    // }
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

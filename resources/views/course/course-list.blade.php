@@ -17,7 +17,7 @@
 @endphp
 
 @extends($role. '.layout')
-@section('title', 'Invoices')
+@section('title', 'Course List')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))

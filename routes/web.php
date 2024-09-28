@@ -5,7 +5,6 @@ use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
@@ -42,14 +41,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::get('/invoice/{id}/edit', [InvoiceController::class, 'edit'])->name('admin.invoice.edit');
     Route::put('/invoice/{id}', [InvoiceController::class, 'update'])->name('admin.invoice.update');
     Route::delete('/invoice/{id}', [InvoiceController::class, 'destroy'])->name('admin.invoice.destroy');
-
-    //Payment
-    Route::get('/payment', [PaymentController::class, 'index'])->name('admin.payment.index');
-    Route::post('/payment', [PaymentController::class, 'store'])->name('admin.payment.store');
-    Route::get('/payment/create', [PaymentController::class, 'create'])->name('admin.payment.create');
-    Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('admin.payment.edit');
-    Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('admin.payment.update');
-    Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('admin.payment.destroy');
 
     //Course
     Route::get('/course', [CourseController::class, 'index'])->name('admin.course.index');
@@ -127,14 +118,6 @@ Route::middleware(['auth', 'verified', 'staff'])->prefix('staff')->group(functio
     Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('staff.course.edit');
     Route::put('/course/{id}', [CourseController::class, 'update'])->name('staff.course.update');
     Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('staff.course.destroy');
-
-    //Payment
-    Route::get('/payment', [PaymentController::class, 'index'])->name('staff.payment.index');
-    Route::post('/payment', [PaymentController::class, 'store'])->name('staff.payment.store');
-    Route::get('/payment/create', [PaymentController::class, 'create'])->name('staff.payment.create');
-    Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('staff.payment.edit');
-    Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('staff.payment.update');
-    Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('staff.payment.destroy');
 
     //CLass Schedules
     Route::get('/time-table', [ClassScheduleController::class, 'index'])->name('staff.classSchedule.index');

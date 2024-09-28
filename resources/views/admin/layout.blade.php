@@ -104,23 +104,11 @@
                             </a>
                         </li> 
                         <li class="nav-item">
-                            <a href="payment" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <span>Payments</span>
-                            </a>
-                        </li> 
-                        <li class="nav-item">
                             <a href="course" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Course</span>
                             </a>
-                        </li> 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <span>Vehicles</span>
-                            </a>
-                        </li> 
+                        </li>
                         <form action="{{ route('logout') }}" method="post">
                             @csrf
                             <div class="social-auth-links text-center mt-2 mb-3">

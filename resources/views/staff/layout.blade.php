@@ -90,13 +90,7 @@
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Invoice</span>
                             </a>
-                        </li> 
-                        <li class="nav-item">
-                            <a href="payment" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <span>Payments</span>
-                            </a>
-                        </li> 
+                        </li>
                         <li class="nav-item">
                             <a href="course" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>

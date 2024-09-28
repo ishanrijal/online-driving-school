@@ -29,7 +29,8 @@
                           @csrf
                           <button type="submit" class="btn btn-primary btn-block">Logout</button>
                       </form>   
-                      <a class="btn btn-info" href="{{ route('profile.edit') }}">Edit</a>                    </div>
+                      <a class="btn btn-info" href="{{ route('profile.edit') }}">Edit</a> 
+                    </div>
                   </div>
                 </div>
               </div>

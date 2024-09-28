@@ -14,9 +14,6 @@
 
         <div class="header">
             <h3>Total Users: <span class="entity-count">{{ $users->total() }}</span></h3>
-            <div class="actions-container">
-                <a href="instructor/create"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Instructors</a>
-            </div>
         </div>
 
         <table>
@@ -41,7 +38,7 @@
                         <form action="{{ route('admin.user.verify', $user->user_id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="verify-btn">
+                            <button type="submit" class="verify-btn btn">
                                 Verify
                             </button>
                         </form>

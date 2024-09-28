@@ -60,7 +60,7 @@
                     <div class="col-sm-4">
                         <section class="income-container">
                         <div class="income-header">
-                                <h2 class="income-title">Invoice Status Count</h2>
+                                <h2 class="income-title">Invoice Status</h2>
                             </div>
                             <div class="sales-data">
                                 <canvas id="entityPieChart" width="400" height="400"></canvas>

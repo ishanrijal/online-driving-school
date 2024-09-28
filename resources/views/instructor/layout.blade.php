@@ -103,6 +103,10 @@
         </main>
     </div>
 
+    <footer class="main-footer">
+        <strong>Copyright &copy; {{now()->year}}. All rights reserved <b>{{Auth::user()->role}}</b></strong>
+    </footer>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

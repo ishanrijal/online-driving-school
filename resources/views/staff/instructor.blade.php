@@ -66,7 +66,7 @@
                             <form action="{{ route('admin.user.verify', $instructor->user->user_id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" class="verify-btn">
+                                <button type="submit" class="verify-btn btn">
                                     Verify
                                 </button>
                             </form>

@@ -135,6 +135,8 @@ Route::middleware(['auth', 'verified', 'staff'])->prefix('staff')->group(functio
 Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('student.dashboard');
 
+    Route::put('/profile/{id}', [StudentController::class, 'profileUpdate'])->name('student.profile.update');
+
     //time table
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
     Route::post('/time-table', [TimetableScheduler::class, 'store'])->name('student.classSchedule.store');

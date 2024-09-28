@@ -17,10 +17,16 @@
                         <div class="col-sm-12">
                             <section class="overview">
                                 <div class="card">
-                                    <h4>Month Revenue</h4>
-                                    <h2>$90k</h2>
-                                    <p>March 2023</p>
-                                    <span class="change positive">+ 37.43%</span>
+                                    <h4>Total Revenue</h4>
+                                    <h2>
+                                        @if(session('total_invoice') > 0)
+                                            $.{{session('total_invoice')}}
+                                        @else
+                                            $.0
+                                        @endif
+                                    </h2>
+                                    <p>{{ date('F Y') }}</p>
+                                    <span class="change positive">Total Amount Earned</span>
                                 </div>
                                 <div class="card">
                                     <h4>Total Instructors</h4>
@@ -31,8 +37,8 @@
                                             0
                                         @endif
                                     </h2>
-                                    <p>Aug 13 - Sep 13</p>
-                                    <span class="change positive">+ 37.43%</span>
+                                    <p>{{ date('F Y') }}</p>
+                                    <span class="change positive">Total Instructor Count</span>
                                 </div>
                                 <div class="card">
                                     <h4>Total Students</h4>
@@ -44,7 +50,7 @@
                                         @endif
                                     </h2>
                                     <p>{{ date('F Y') }}</p>
-                                    <span class="change negative">- 13.43%</span>
+                                    <span class="change negative">Total Enrolled Student</span>
                                 </div>
                             </section>
                         </div>
@@ -67,50 +73,27 @@
                             <div class="income-header">
                                 <h2 class="income-title">Income</h2>
                                 <div class="see-all-wrapper">
-                                    <span class="see-all-text">See All</span>
-                                    <img src="{{ asset('assets/svgs/right-arrow.svg') }}" />
+                                    <a href="{{route('admin.invoice.index')}}" class="see-all-text">
+                                        <span>See All</span>
+                                        <img src="{{ asset('assets/svgs/right-arrow.svg') }}" />
+                                    </a>
                                 </div>
                             </div>
                             
                             <div class="sales-data">
-                                <article class="sales-item">
-                                    <div class="sales-content">
-                                        <div class="sales-text">
-                                            <h3 class="sales-period">This Year</h3>
-                                            <p class="sales-amount">Rs.10,000</p>
+                                @foreach ( $data['invoices'] as $invoice )                                    
+                                    <article class="sales-item">
+                                        <div class="sales-content">
+                                            <div class="sales-text">
+                                                <h3 class="sales-period">{{ date('d F, Y', strtotime($invoice->Date)) }}</h3>
+                                                <p class="sales-amount">$. {{$invoice->TotalAmount}}</p>
+                                            </div>
                                         </div>
-                                        <div class="sales-icon">
-                                            <img src="{{ asset('assets/svgs/sale-up.svg') }}" alt="Sales graph for this year"/>
-                                            <span>3.5%</span>
-                                        </div>
-                                    </div>
-                                    <div class="divider"></div>
-                                </article>
-                                <article class="sales-item">
-                                    <div class="sales-content">
-                                        <div class="sales-text">
-                                            <h3 class="sales-period">This Year</h3>
-                                            <p class="sales-amount">Rs.10,000</p>
-                                        </div>
-                                        <div class="sales-icon">
-                                            <img src="{{ asset('assets/svgs/sale-up.svg') }}" alt="Sales graph for this year"/>
-                                            <span>3.5%</span>
-                                        </div>
-                                    </div>
-                                    <div class="divider"></div>
-                                </article>
-                                <article class="sales-item">
-                                    <div class="sales-content">
-                                        <div class="sales-text">
-                                            <h3 class="sales-period">This Year</h3>
-                                            <p class="sales-amount">Rs.10,000</p>
-                                        </div>
-                                        <div class="sales-icon">
-                                            <img src="{{ asset('assets/svgs/sale-down.svg') }}" alt="Sales graph for this year"/>
-                                            <span>3.5%</span>
-                                        </div>
-                                    </div>
-                                </article>
+                                        @if (!$loop->last) 
+                                            <div class="divider"></div>
+                                        @endif
+                                    </article>
+                                @endforeach
                             </div>
                         </section>
                     </div>
@@ -118,13 +101,33 @@
                     <div class="col-sm-4">
                         <section class="income-container">
                             <div class="income-header">
-                                <h2 class="income-title">Registration Record</h2>
+                                <h2 class="income-title">Course List</h2>
+                                <div class="see-all-wrapper">
+                                    <a href="{{route('admin.course.index')}}" class="see-all-text">
+                                        <span>See All</span>
+                                        <img src="{{ asset('assets/svgs/right-arrow.svg') }}" />
+                                    </a>
+                                </div>
                             </div>
+                            
                             <div class="sales-data">
-                                <canvas id="registrationBarChart" width="400" height="400"></canvas>
+                                @foreach ( $data['courses'] as $course )                  
+                                    <article class="sales-item">
+                                        <div class="sales-content">
+                                            <div class="sales-text">
+                                                <h3 class="sales-period">{{ $course->Name }}</h3>
+                                                <p class="sales-amount">$. {{$course->Price}}</p>
+                                            </div>
+                                        </div>
+                                        @if (!$loop->last) 
+                                            <div class="divider"></div>
+                                        @endif
+                                    </article>
+                                @endforeach
                             </div>
                         </section>
                     </div>
+
                 </div>
             </div>
         </section>

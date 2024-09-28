@@ -64,50 +64,50 @@
                 <p class="user-role"><small>{{ Auth::user()->role }}</small></p>
                 <nav class="mt-2">
                     <ul class="nav nav-wrapper flex-column">
-                        <li class="nav-item {{ ( Request()->route()->getName() == 'instructor.dashboard') ? 'active': ''  }}">
-                            <a href="/admin/dashboard" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.dashboard') ? 'active': ''  }}">
+                            <a href="{{route('admin.dashboard')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/admin/new-users" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.user-verify.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.user-verify.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>New Users</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="instructor" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.instructor.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.instructor.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <span>Instructor</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="student" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.student.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.student.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Students</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="staff" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.staff.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.staff.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Staff</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="time-table" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.classSchedule.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.classSchedule.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>View TimeTable</span>
                             </a>
                         </li>                  
-                        <li class="nav-item">
-                            <a href="invoice" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.invoice.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.invoice.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Invoice</span>
                             </a>
                         </li> 
-                        <li class="nav-item">
-                            <a href="course" class="nav-link">
+                        <li class="nav-item {{ ( Request()->route()->getName() == 'admin.course.index') ? 'active': ''  }}">
+                            <a href="{{route('admin.course.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Course</span>
                             </a>
@@ -141,11 +141,14 @@
 
     <script>
         // Pie Chart Data (Replace with actual dynamic data from backend)
+        const students_count = {{ session('students_count') ?? 0 }};
+        const instructors_count = {{ session('instructors_count') ?? 0 }};
+        const staff_count = {{ session('staff_count') ?? 0 }};
         const pieData = {
             labels: ['Students', 'Instructors', 'Staff'],
             datasets: [{
-                label: 'Entity Distribution',
-                data: [55, 25, 20], // Example: 55% Students, 25% Instructors, 20% Staff
+                label: 'Total',
+                data: [students_count,instructors_count, staff_count], // Example: 55% Students, 25% Instructors, 20% Staff
                 backgroundColor: ['#F91942', '#36A2EB', '#FFCE56'],
                 hoverOffset: 4
             }]

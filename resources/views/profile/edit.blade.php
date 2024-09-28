@@ -11,7 +11,7 @@ if ($data->user->role == 'admin' || $data->user->role == 'superadmin') {
     $actionRoute = route('staff.profile.update', $data->StaffID);
 } else {
     $role = 'student';
-    $actionRoute = route('admin.student.update', $data->StudentID);
+    $actionRoute = route('student.profile.update', $data->StudentID);
 }
 $fields = [];
 

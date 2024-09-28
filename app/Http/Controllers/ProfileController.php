@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Instructor;
+use App\Http\Middleware\Student;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
 use App\Models\ClassSchedules;
@@ -74,6 +75,9 @@ class ProfileController extends Controller
 
         switch ($user->role) {
             case 'superadmin':
+                $data['invoices'] = Invoices::where('status', 'paid')->take(5)->get();
+                $data['courses'] = Courses::take(5)->get();
+
                 $data['staff'] = User::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
                 if( $data['staff']->image ){
@@ -86,12 +90,20 @@ class ProfileController extends Controller
 
                 $data['students_count'] = Students::count();
                 $data['instructors_count'] = Instructors::count();
+                $data['staff_count'] = Staff::count();
+
+                $data['total_invoice'] = Invoices::where('status', 'paid')->sum('TotalAmount'); 
+                Session::put('total_invoice', $data['total_invoice'] );
 
                 Session::put('students_count', $data['students_count'] );
                 Session::put('instructors_count', $data['instructors_count'] );
+                Session::put('staff_count', $data['staff_count'] );
                 
-                return view('admin.dashboard', $data);
+                return view('admin.dashboard', compact('data'));
             case 'admin':
+                $data['invoices'] = Invoices::where('status', 'paid')->take(5)->get();
+                $data['courses'] = Courses::take(5)->get();
+
                 $admin = Admin::where('user_id', $user->user_id)->first();
                 if ($admin) {
                     $data['staff'] = Staff::where('AdminID', $admin->AdminID)->first();
@@ -106,11 +118,15 @@ class ProfileController extends Controller
 
                     $data['students_count'] = Students::count();
                     $data['instructors_count'] = Instructors::count();
+                    $data['staff_count'] = Staff::count();
 
+                    $data['total_invoice'] = Invoices::where('status', 'paid')->sum('TotalAmount'); 
+                    Session::put('total_invoice', $data['total_invoice'] );
+    
                     Session::put('students_count', $data['students_count'] );
                     Session::put('instructors_count', $data['instructors_count'] );
                     
-                    return view('admin.dashboard', $data);
+                    return view('admin.dashboard', compact('data'));
                 }
                 return view('profile.default', ['user' => $user]);
     
@@ -210,6 +226,10 @@ class ProfileController extends Controller
             break;
             case 'staff':
                 $data['data' ]= Staff::where('user_id', $user->user_id)->first();
+                $data['user_email'] = $user->email;
+            break;
+            case 'student':
+                $data['data' ]= Students::where('user_id', $user->user_id)->first();
                 $data['user_email'] = $user->email;
             break;
 

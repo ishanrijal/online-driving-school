@@ -40,10 +40,9 @@
               </div>
           </div>
           @if( !( $staff->AdminRole == 'superadmin') )
-          <div class="col-md-8 box-shadow">
+            <div class="col-md-8 box-shadow">
               <div class="card mb-3">
                 <div class="card-body">
-                 
                   @if( $staff->Name )
                       <div class="row">
                           <div class="col-sm-3">
@@ -102,8 +101,8 @@
                   <hr>
                 </div>
               </div>
-              @endiflear
-              
+            </div>
+          @endif             
       </div>
     </div>
 @endsection

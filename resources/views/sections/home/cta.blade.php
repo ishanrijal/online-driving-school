@@ -6,7 +6,7 @@
         </div>
         <address>800-123-4567</address>
     </div>
-    <div class="col-sm-4 btn-container" style="padding: 0 48px">
+    <div class="col-sm-4" style="padding: 0 48px; display:flex; justify-content:center; align-items:center">
         <button class="btn btn-secondary">Contact Now</button>
     </div>
 </div>

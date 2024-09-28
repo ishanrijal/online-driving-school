@@ -9,6 +9,11 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session as FacadesSession;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Session;
+
 
 class StudentController extends Controller
 {
@@ -24,6 +29,56 @@ class StudentController extends Controller
             return view( 'admin.students', compact('students') );
         }else{
             return view( 'staff.students', compact('students') );
+        }
+    }
+
+    public function profileUpdate(Request $request, $id)
+    {
+        $student = Students::findOrFail($id);
+        $request->validate([
+            'Name'           => 'required|string|max:255',
+            'Address'           => 'nullable|string',
+            'Gender' => [
+                'nullable',
+                Rule::in(['male', 'female', 'other']),
+            ],
+            'DateOfBirth' => 'nullable|date|max:255',
+            'Phone'        => 'nullable|regex:/^\+?[0-9]{1,15}$/',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $user = User::find($student->user_id);
+        $user->update([
+            'name' => $request->Name,
+        ]);
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('students', 'public');
+            // Delete old image if needed (optional)
+            if ($student->image) {
+                Storage::delete('public/' . $student->image);
+            }
+        } else {
+            $imagePath = $student->image; // retain the old image
+        }
+        $student->update([
+            'Name'        => $request->Name,
+            'Phone'       => $request->Phone,
+            'Gender'      => $request->Gender,
+            'Address'     => $request->Address,
+            'DateOfBirth' => $request->DateOfBirth,
+            'image'       => $imagePath,
+        ]);
+
+        if( $imagePath ){
+            $imageUrl = asset('storage/' . $imagePath);
+        }else{
+            $imageUrl='';
+        }
+
+        Session::put('staff_image_url', $imageUrl);
+        $user = Auth::user();
+        if( $user->role == 'student'){
+            return redirect()->route('profile.index')->with('success', 'Your Profile updated successfully');
         }
     }
 

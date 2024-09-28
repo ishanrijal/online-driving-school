@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
@@ -12,9 +13,7 @@ use App\Http\Controllers\StudentInvoiceController;
 use App\Http\Controllers\TimetableScheduler;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [HomepageController::class, 'index'])->name('home');
 
 // Ensure that these routes are accessible only to authenticated and verified users
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {

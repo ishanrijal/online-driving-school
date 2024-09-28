@@ -6,34 +6,37 @@
             </div>
             <div class="col-sm-12 why-us-card-container">
                 <div class="item"> 
-                    <span class="icon feature_box_col_one"><i class="fa fa-globe"></i></span>
-                    <h6>Modern Design</h6>
-                    <p>We use latest technology for the latest world because we know the demand of peoples.</p>
-                </div>
-                <div class="item"> <span class="icon feature_box_col_two"><i class="fa fa-anchor"></i></span>
-                    <h6>Creative Design</h6>
-                    <p>We are always creative and and always lisen our costomers and we mix these two things and make beast design.</p>
+                    <span class="icon feature_box_col_one"><i class="fa fa-car"></i></span>
+                    <h6>Modern Fleet</h6>
+                    <p>We offer the latest vehicles equipped with modern safety and driving technology to ensure you learn in a real-world setting.</p>
                 </div>
                 <div class="item"> 
-                    <span class="icon feature_box_col_three"><i class="fa fa-hourglass-half"></i></span>
-                    <h6>24 x 7 User Support</h6>
-                    <p>If our customer has any problem and any query we are always happy to help then.</p>
-                </div>
-                <div class="item"> <span class="icon feature_box_col_four"><i class="fa fa-database"></i></span>
-                    <h6>Business Growth</h6>
-                    <p>Everyone wants to live on top of the mountain, but all the happiness and growth occurs while you're climbing it</p>
+                    <span class="icon feature_box_col_two"><i class="fa fa-lightbulb"></i></span>
+                    <h6>Experienced Instructors</h6>
+                    <p>Our certified instructors provide personalized training to suit your needs, ensuring you get the best learning experience.</p>
                 </div>
                 <div class="item"> 
-                    <span class="icon feature_box_col_five"><i class="fa fa-upload"></i></span>
-                    <h6>Market Strategy</h6>
-                    <p>Holding back technology to preserve broken business models is like allowing blacksmiths to veto the internal combustion engine in order to protect their horseshoes.</p>
+                    <span class="icon feature_box_col_three"><i class="fa fa-clock"></i></span>
+                    <h6>Flexible Scheduling</h6>
+                    <p>We understand your busy schedule and offer flexible timings, including evenings and weekends for your convenience.</p>
                 </div>
                 <div class="item"> 
-                    <span class="icon feature_box_col_six"><i class="fa fa-camera"></i></span>
-                    <h6>Affordable cost</h6>
-                    <p>Love is a special word, and I use it only when I mean it. You say the word too much and it becomes cheap.</p>
+                    <span class="icon feature_box_col_four"><i class="fa fa-line-chart"></i></span>
+                    <h6>Proven Results</h6>
+                    <p>Our students consistently achieve high pass rates on their driving tests, leading them to confidently hit the road.</p>
+                </div>
+                <div class="item"> 
+                    <span class="icon feature_box_col_five"><i class="fa fa-road"></i></span>
+                    <h6>Comprehensive Training</h6>
+                    <p>We provide both theoretical and practical driving lessons, giving you complete knowledge and confidence to drive safely.</p>
+                </div>
+                <div class="item"> 
+                    <span class="icon feature_box_col_six"><i class="fa fa-dollar"></i></span>
+                    <h6>Affordable Pricing</h6>
+                    <p>Our pricing plans are designed to be budget-friendly without compromising the quality of instruction.</p>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

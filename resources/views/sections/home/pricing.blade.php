@@ -5,52 +5,58 @@
         </div>
         <div class="col-sm-12">
             <div class="card-deck mb-3 text-center">
+                <!-- Beginner Plan -->
                 <div class="card mb-4 box-shadow pricing-card">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">Free</h4>
+                        <h4 class="my-0 font-weight-normal">Beginner</h4>
                     </div>
                     <div class="card-body">
-                        <h2 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h2>
+                        <h2 class="card-title pricing-card-title">$99 <small class="text-muted">/ course</small></h2>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li>10 users included</li>
-                            <li>2 GB of storage</li>
-                            <li>Email support</li>
-                            <li>Help center access</li>
+                            <li>5 Lessons</li>
+                            <li>Basic Driving Skills</li>
+                            <li>1 Free Mock Test</li>
+                            <li>Email Support</li>
                         </ul>
-                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
+                
+                <!-- Intermediate Plan -->
                 <div class="card mb-4 box-shadow pricing-card">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">Pro</h4>
+                        <h4 class="my-0 font-weight-normal">Intermediate</h4>
                     </div>
                     <div class="card-body">
-                        <h2 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h2>
+                        <h2 class="card-title pricing-card-title">$199 <small class="text-muted">/ course</small></h2>
                         <ul class="list-unstyled mt-3 mb-4">
-                        <li>20 users included</li>
-                        <li>10 GB of storage</li>
-                        <li>Priority email support</li>
-                        <li>Help center access</li>
+                            <li>10 Lessons</li>
+                            <li>Advanced Driving Techniques</li>
+                            <li>2 Free Mock Tests</li>
+                            <li>Priority Email Support</li>
                         </ul>
-                        <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
+                
+                <!-- Advanced Plan -->
                 <div class="card mb-4 box-shadow pricing-card">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">Enterprise</h4>
+                        <h4 class="my-0 font-weight-normal">Advanced</h4>
                     </div>
                     <div class="card-body">
-                        <h2 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h2>
+                        <h2 class="card-title pricing-card-title">$299 <small class="text-muted">/ course</small></h2>
                         <ul class="list-unstyled mt-3 mb-4">
-                        <li>30 users included</li>
-                        <li>15 GB of storage</li>
-                        <li>Phone and email support</li>
-                        <li>Help center access</li>
+                            <li>15 Lessons</li>
+                            <li>Expert Driving Techniques</li>
+                            <li>3 Free Mock Tests</li>
+                            <li>Phone & Email Support</li>
                         </ul>
-                        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>

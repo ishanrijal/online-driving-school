@@ -15,10 +15,16 @@
         <div class="col-sm-12">
             <section class="overview">
                 <div class="card">
-                    <h4>Month Revenue</h4>
-                    <h2>$90k</h2>
+                    <h4>Pending Appointments</h4>
+                    <h2>
+                        @if($appointment_pending->count() > 0)
+                            {{$appointment_pending->count()}}
+                        @else
+                            0
+                        @endif
+                    </h2>
                     <p>March 2023</p>
-                    <span class="change positive">+ 37.43%</span>
+                    <span class="change positive">Total Pending Appointments</span>
                 </div>
                 <div class="card">
                     <h4>Today's Classes</h4>
@@ -29,8 +35,8 @@
                             0
                         @endif
                     </h2>
-                    <p>Aug 13 - Sep 13</p>
-                    <span class="change positive">+ 37.43%</span>
+                    <p>26 September</p>
+                    <span class="change positive">No of Classes Today</span>
                 </div>
                 <div class="card">
                     <h4>Total Classes</h4>
@@ -42,7 +48,7 @@
                         @endif
                     </h2>
                     <p>{{ date('F Y') }}</p>
-                    <span class="change negative">- 13.43%</span>
+                    <span class="change negative">No of Total Appointments</span>
                 </div>
             </section>
         </div>

@@ -174,8 +174,9 @@ class ProfileController extends Controller
 
 
                 $appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->get();
+                $appointment_pending = ClassSchedules::where('class_status', 'pending')->get();
                 $today_appointments = ClassSchedules::where('InstructorID', $data['instructor']->InstructorID)->whereDate('Date', DB::raw('CURDATE()'))->with( ['student.user', 'course'])->get();
-                return view('instructor.dashboard', compact( 'data', 'appointments', 'today_appointments' ));
+                return view('instructor.dashboard', compact( 'data', 'appointments', 'today_appointments', 'appointment_pending' ));
     
             default:
                 // Handle unknown roles or default case

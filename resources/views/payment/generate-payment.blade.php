@@ -1,32 +1,24 @@
-@extends('admin.layout')
-@section('title', 'Generate Invoice')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $paymentStore = route('admin.payment.store');
+    }  else{
+        $role = 'staff';
+        $paymentStore = route('staff.payment.store');
+    } 
+@endphp
+
+@extends($role. '.layout')
+@section('title', 'Add Payment')
 @section('content')
     <div class="content-wrapper">
         <div class="form-container save-form">
             <div class="header">
                 <h1>Add Payment</h1>
             </div>
-            <form action="{{ route('admin.payment.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
+            <form action="{{ $paymentStore }}" method="POST" enctype="multipart/form-data" id="entity-form">
                 @csrf
-                <!-- Date Field -->
-                <div class="form-group">
-                    <div class="label-container">
-                        <label for="date">Payment Issued By</label>
-                    </div>
-                    <div class="form-input">
-                        <input 
-                            type="number" 
-                            id="AdminID" 
-                            name="AdminID" 
-                            value="{{ auth()->user()->user_id }}" 
-                            required
-                            disabled
-                        >
-                        @error('AdminID')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
                 <div class="form-group">
                     <div class="label-container">
                         <label for="date">Payment Date</label>

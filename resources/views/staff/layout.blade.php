@@ -67,7 +67,7 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="/staff/new-users" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <span>New Users</span>
@@ -84,7 +84,7 @@
                                 <i class="nav-icon fas fa-table"></i>
                                 <span>Students</span>
                             </a>
-                        </li> --}}               
+                        </li>               
                         <li class="nav-item">
                             <a href="invoice" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>

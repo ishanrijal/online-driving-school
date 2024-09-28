@@ -61,8 +61,18 @@
             'disabled'    => true
         ],
     ];
+
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $updateRoute = route('admin.student.update', $student->StudentID);
+    }  else{
+        $role = 'staff';
+        $updateRoute = route('staff.student.update', $student->StudentID);
+    }
 @endphp
-@extends('admin.layout')
+
+@extends($role. '.layout')
 @section('title', 'Edit Trainer')
 @section('content')
     <div class="content-wrapper">
@@ -72,7 +82,7 @@
             entity="student"
             :resetButton=false 
             :imageUploader=false 
-            :action="route('admin.student.update', $student->StudentID)" 
+            :action="$updateRoute" 
             :fields="$fields" 
         />
     </div>

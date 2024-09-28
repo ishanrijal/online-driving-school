@@ -1,4 +1,12 @@
 @php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $addRoute = route('admin.student.store');
+    }  else{
+        $role = 'staff';
+        $addRoute = route('staff.student.store');
+    }
     $fields = [
         [
             'label'       => 'Name',
@@ -6,7 +14,7 @@
             'type'        => 'text',
             'id'          => 'name',
             'placeholder' => 'Enter Name',
-            'default'     => '',
+            'default'     => old('name', ''), // Use old value if available, otherwise empty
             'required'    => true,
             'disabled'    => false
         ],
@@ -16,24 +24,24 @@
             'type'        => 'email',
             'id'          => 'email',
             'placeholder' => 'email@email.com',
-            'default'     => '',
+            'default'     => old('email', ''), // Use old value if available, otherwise empty
             'required'    => true,
             'disabled'    => false
         ],
         [
-            'label'       => 'role',
+            'label'       => 'Role',
             'name'        => 'role_disabled',
             'type'        => 'text',
             'id'          => 'role',
             'placeholder' => '',
-            'default'     => 'Student',
+            'default'     => old('role_disabled', 'Student'), // Use old value if available, otherwise 'Student'
             'required'    => false,
             'disabled'    => true
         ],
     ];
 @endphp
 
-@extends('admin.layout')
+@extends($role. '.layout')
 @section('title', 'Add Student')
 @section('content')
     <div class="content-wrapper">
@@ -43,7 +51,7 @@
             entity="Student"
             :resetButton=false
             :imageUploader=false 
-            :action="route('admin.student.store')" 
+            :action="$addRoute" 
             :fields="$fields" 
         />
     </div>

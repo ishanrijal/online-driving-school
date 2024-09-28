@@ -1,5 +1,16 @@
-@extends('admin.layout')
-@section('title', 'Trainer')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        // $actionRoute = route('admin.invoice.store');
+    } else {
+        $role = 'staff';
+        // $actionRoute = route('staff.invoice.store');
+    }
+@endphp
+
+@extends($role.'.layout')
+@section('title', 'Instructor')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))
@@ -39,10 +50,10 @@
                     
                     @if ($instructor->user->hasVerifiedEmail())
                         <td class="action-btn">
-                            <a href="{{ route('admin.instructor.edit', $instructor->InstructorID) }}">
+                            <a href="{{ $role == 'admin' ? route('admin.instructor.edit', $instructor->InstructorID) : route('staff.instructor.edit', $instructor->InstructorID) }}">
                                 <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
                             </a>
-                            <form action="{{ route('admin.instructor.destroy', $instructor->InstructorID) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ $role == 'admin' ? route('admin.instructor.destroy', $instructor->InstructorID) : route('staff.instructor.destroy', $instructor->InstructorID) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($instructor->Name) }}?');">

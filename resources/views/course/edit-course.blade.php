@@ -1,4 +1,15 @@
 @php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = 'admin.course.update';
+        // $addRoute = route('admin.course.create');
+    }  else {
+        $role = 'staff';
+        $actionRoute = 'staff.course.update';
+        // $addRoute = route('staff.course.create');
+        // $actionRoute = route('admin.staff.update', $StaffID);
+    }
     $fields = [
         [
             'label'       => 'Course Name',
@@ -42,7 +53,7 @@
             entity="{{$course->CourseID}}"
             :resetButton=false 
             :imageUploader=false 
-            :action="route('admin.course.update', $course->CourseID)" 
+            :action="route($actionRoute, $course->CourseID)" 
             :fields="$fields" 
         />
     </div>

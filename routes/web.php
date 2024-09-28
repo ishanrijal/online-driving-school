@@ -95,6 +95,23 @@ Route::middleware(['auth', 'verified', 'staff'])->prefix('staff')->group(functio
     // Route::get('/new-users', [AdminController::class, 'showUserList'])->name('admin.user-verify.index');
     // Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
 
+    // Instructor Management
+    Route::get('/instructor', [InstructorController::class, 'index'])->name('staff.instructor.index');
+    Route::post('/instructor', [InstructorController::class, 'store'])->name('staff.instructor.store');
+    Route::get('/instructor/create', [InstructorController::class, 'create'])->name('staff.instructor.create');
+    Route::get('/instructor/{id}/edit', [InstructorController::class, 'edit'])->name('staff.instructor.edit');
+    Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('staff.instructor.update');
+    Route::delete('/instructor/{id}', [InstructorController::class, 'destroy'])->name('staff.instructor.destroy');
+
+    // Student Management
+    Route::get('/student', [StudentController::class, 'index'])->name('staff.student.index');
+    Route::get('/student/create', [StudentController::class, 'create'])->name('staff.student.create');
+    Route::post('/student', [StudentController::class, 'store'])->name('staff.student.store');
+    Route::get('/student/{id}/edit', [StudentController::class, 'edit'])->name('staff.student.edit');
+    Route::put('/student/{id}', [StudentController::class, 'update'])->name('staff.student.update');
+    Route::delete('/student/{id}', [StudentController::class, 'destroy'])->name('staff.student.destroy');
+
+
     //Invoice
     Route::get('/invoice', [InvoiceController::class, 'index'])->name('staff.invoice.index');
     Route::post('/invoice', [InvoiceController::class, 'store'])->name('staff.invoice.store');
@@ -111,44 +128,23 @@ Route::middleware(['auth', 'verified', 'staff'])->prefix('staff')->group(functio
     Route::put('/course/{id}', [CourseController::class, 'update'])->name('staff.course.update');
     Route::delete('/course/{id}', [CourseController::class, 'destroy'])->name('staff.course.destroy');
 
-
-
-    // Admin Trainer List
-    Route::get('/instructor', [InstructorController::class, 'index'])->name('admin.instructor.index');
-
-    // Instructor CRUD
-    Route::post('/instructor', [InstructorController::class, 'store'])->name('admin.instructor.store');
-    Route::get('/instructor/create', [InstructorController::class, 'create'])->name('admin.instructor.create');
-    Route::get('/instructor/{id}/edit', [InstructorController::class, 'edit'])->name('admin.instructor.edit');
-    Route::put('/instructor/{id}', [InstructorController::class, 'update'])->name('admin.instructor.update');
-    Route::delete('/instructor/{id}', [InstructorController::class, 'destroy'])->name('admin.instructor.destroy');
-    
     //Payment
-    Route::get('/payment', [PaymentController::class, 'index'])->name('admin.payment.index');
-    Route::post('/payment', [PaymentController::class, 'store'])->name('admin.payment.store');
-    Route::get('/payment/create', [PaymentController::class, 'create'])->name('admin.payment.create');
-    Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('admin.payment.edit');
-    Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('admin.payment.update');
-    Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('admin.payment.destroy');
+    Route::get('/payment', [PaymentController::class, 'index'])->name('staff.payment.index');
+    Route::post('/payment', [PaymentController::class, 'store'])->name('staff.payment.store');
+    Route::get('/payment/create', [PaymentController::class, 'create'])->name('staff.payment.create');
+    Route::get('/payment/{id}/edit', [PaymentController::class, 'edit'])->name('staff.payment.edit');
+    Route::put('/payment/{id}', [PaymentController::class, 'update'])->name('staff.payment.update');
+    Route::delete('/payment/{id}', [PaymentController::class, 'destroy'])->name('staff.payment.destroy');
 
     //CLass Schedules
-    Route::get('/time-table', [ClassScheduleController::class, 'index'])->name('admin.classSchedule.index');
+    Route::get('/time-table', [ClassScheduleController::class, 'index'])->name('staff.classSchedule.index');
     Route::get('/class-schedules', [ClassScheduleController::class, 'getAppointments'])->name('class-schedules');
-    Route::post('/class-schedule', [ClassScheduleController::class, 'store'])->name('admin.classSchedule.store');
-    Route::get('/class-schedule/create', [ClassScheduleController::class, 'create'])->name('admin.classSchedule.create');
-    Route::put('/class-schedule/{id}', [ClassScheduleController::class, 'update'])->name('admin.classSchedule.update');
-    Route::get('/class-schedule/{id}/edit-form', [ClassScheduleController::class, 'editForm'])->name('admin.classSchedule.editForm');
-    Route::get('/class-schedule/{id}/edit', [ClassScheduleController::class, 'edit'])->name('admin.classSchedule.edit');
-    Route::delete('/class-schedule/destroy/{id}', [ClassScheduleController::class, 'destroy'])->name('admin.classSchedule.destroy');
-
-    // Student CRUD
-    Route::get('/student', [StudentController::class, 'index'])->name('admin.student.index');
-    Route::get('/student/create', [StudentController::class, 'create'])->name('admin.student.create');
-    Route::post('/student', [StudentController::class, 'store'])->name('admin.student.store');
-    Route::get('/student/{id}/edit', [StudentController::class, 'edit'])->name('admin.student.edit');
-    Route::put('/student/{id}', [StudentController::class, 'update'])->name('admin.student.update');
-    Route::delete('/student/{id}', [StudentController::class, 'destroy'])->name('admin.student.destroy');
-
+    Route::post('/class-schedule', [ClassScheduleController::class, 'store'])->name('staff.classSchedule.store');
+    Route::get('/class-schedule/create', [ClassScheduleController::class, 'create'])->name('staff.classSchedule.create');
+    Route::put('/class-schedule/{id}', [ClassScheduleController::class, 'update'])->name('staff.classSchedule.update');
+    Route::get('/class-schedule/{id}/edit-form', [ClassScheduleController::class, 'editForm'])->name('staff.classSchedule.editForm');
+    Route::get('/class-schedule/{id}/edit', [ClassScheduleController::class, 'edit'])->name('staff.classSchedule.edit');
+    Route::delete('/class-schedule/destroy/{id}', [ClassScheduleController::class, 'destroy'])->name('staff.classSchedule.destroy');
     
     Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
 });

@@ -1,4 +1,15 @@
-@extends('admin.layout')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $addClassRoute = route('admin.classSchedule.store');
+    }  else{
+        $role = 'staff';
+        $addClassRoute = route('staff.classSchedule.store');
+    } 
+@endphp
+
+@extends($role. '.layout')
 @section('title', 'Dashboard')
 @section('content')
 <div class="content-wrapper">
@@ -41,148 +52,150 @@
         .viewAppointment{
             display: none;
         }
-
-
         #viewAppointment {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-}
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
 
-#viewAppointment div {
-    margin-bottom: 15px;
-}
+        #viewAppointment div {
+            margin-bottom: 15px;
+        }
 
-#viewAppointment label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
-}
+        #viewAppointment label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
 
-#viewAppointment p {
-    font-size: 16px;
-    color: #666;
-    margin: 0;
-    padding: 5px;
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    padding-left: 10px;
-}
+        #viewAppointment p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding-left: 10px;
+        }
 
-.action-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
+        .action-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-#editButton {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+        #editButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
 
-#editButton:hover {
-    background-color: #45a049;
-}
+        #editButton:hover {
+            background-color: #45a049;
+        }
 
-.delete-btn {
-    background-color: #f44336;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .delete-btn {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.delete-btn:hover {
-    background-color: #e53935;
-}
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
 
-img[alt="Delete"] {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-}
+        img[alt="Delete"] {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+        }
 
 
-/* Form */
-#appointmentForm {
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%
-    margin: 20px auto;
-}
+        /* Form */
+        #appointmentForm {
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%
+            margin: 20px auto;
+        }
 
-#appointmentForm h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
+        #appointmentForm h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-#appointmentForm div {
-    margin-bottom: 15px;
-}
+        #appointmentForm div {
+            margin-bottom: 15px;
+        }
 
-#appointmentForm label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
+        #appointmentForm label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
 
-#appointmentForm input,
-#appointmentForm select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+        #appointmentForm input,
+        #appointmentForm select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-#appointmentForm input:focus,
-#appointmentForm select:focus {
-    outline: none;
-    border-color: #F91942;
-    box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
-}
+        #appointmentForm input:focus,
+        #appointmentForm select:focus {
+            outline: none;
+            border-color: #F91942;
+            box-shadow: 0 0 5px rgba(249, 25, 66, 0.5);
+        }
 
-#saveButton {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    background-color: #F91942;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-}
+        #saveButton {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #F91942;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
 
-#saveButton:hover {
-    background-color: #e6163a;
-}
+        #saveButton:hover {
+            background-color: #e6163a;
+        }
 
     </style>
 
-    <h1><b>Check Your Appointment</b></h1>
+    @if(in_array($role, ['admin', 'superadmin', 'staff']))
+        <h1><b>Schedule Classes</b></h1>
+    @else
+        <h1><b>Check Your Appointment</b></h1>
+    @endif
 
     <div class="container">
         <div class="row">
@@ -205,8 +218,12 @@ img[alt="Delete"] {
     <div id="appointmentModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 id="modalTitle">Add Appointment</h2>
-            <form id="appointmentForm" action="{{ route('admin.classSchedule.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
+            @if(in_array($role, ['admin', 'superadmin', 'staff']))
+                <h2 id="modalTitle">Add Class</h2>
+            @else
+                <h2 id="modalTitle">Add Appointment</h2>
+            @endif
+            <form id="appointmentForm" action="{{ $addClassRoute }}" method="POST" enctype="multipart/form-data" id="entity-form">
                 @csrf
                 <div>
                     <label for="Date">Date:</label>
@@ -304,6 +321,14 @@ img[alt="Delete"] {
                 selectable: true,
                 editable: true,
                 events: @json($appointments),
+                dateClick: function(info) {
+                    // Check if the clicked date is in the past
+                    if (info.date < new Date().setHours(0, 0, 0, 0)) { // Adjust for time
+                        return; // Do nothing for past dates
+                    }
+                    // Open modal for valid date click (including today)
+                    openModal(info.dateStr);
+                },
                 select: function(info) {
                     //open model to add the details
                     openModal(info.startStr, info.endStr); // Open modal on select
@@ -332,13 +357,19 @@ img[alt="Delete"] {
             // Open modal with existing or new data
             function openModal(startDate, endDate, scheduleID = null) {
                 modal.style.display = 'block';
+
+                const role = '{{$role}}';
+                const baseURL = (role === 'admin' || role === 'superadmin') 
+                ? '/admin/class-schedule/' 
+                : '/staff/class-schedule/';
+
                 if (scheduleID) {
                     viewAppointment.style.display = 'block';
                     appointmentForm.style.display = 'none';
                     document.getElementById('modalTitle').innerText = 'View Appointment';
                     document.getElementById('saveButton').innerText = 'Edit';
                     // Fetch and prefill data for editing
-                    fetch(`/admin/class-schedule/${scheduleID}/edit`)
+                    fetch(`${baseURL}${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
                             document.getElementById('appointment-date').innerHTML = data.Date;
@@ -347,18 +378,17 @@ img[alt="Delete"] {
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course').innerHTML = data.CourseName;
                             document.getElementById('appointment-student').innerHTML = data.StudentName;
-                            document.getElementById('deleteForm').action = `/admin/class-schedule/destroy/${data.ClassScheduleID}`;
+                            document.getElementById('deleteForm').action = `${baseURL}destroy/${data.ClassScheduleID}`;
 
                             const saveButton = document.getElementById('editButton');
-                            saveButton.href = `/admin/class-schedule/${data.ClassScheduleID}/edit-form`;
+                            saveButton.href = `${baseURL}${data.ClassScheduleID}/edit-form`;
                         });
                 } else {
                     viewAppointment.style.display = 'none';
                     appointmentForm.style.display = 'block';
-                    document.getElementById('modalTitle').innerText = 'Add Appointment';
+                    document.getElementById('Date').value = startDate;
                     document.getElementById('saveButton').innerText = 'Save';
                     document.getElementById('ClassScheduleID').value = '';
-                    document.getElementById('Date').value = startDate;
                     document.getElementById('Time').value = '';
                     document.getElementById('Location').value = '';
                     document.getElementById('InstructorID').value = '';

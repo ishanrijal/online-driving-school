@@ -2,12 +2,12 @@
     $user = Auth::user();
     if ($user->role == 'admin' || $user->role == 'superadmin') {
         $role = 'admin';
-        $id = $user->admin->id;
-        $actionRoute = route('admin.invoice.store');
+        $id = $user->admin->AdminID;
+        $actionRoute = route('admin.course.store');
     } else {
         $role = 'staff';
-        dd($user->admin);
-        $actionRoute = route('staff.invoice.store');
+        $id = null;
+        $actionRoute = route('staff.course.store');
     }
 @endphp
 
@@ -19,25 +19,19 @@
             <div class="header">
                 <h1>Add Course</h1>
             </div>
-            <form action="{{ route('admin.course.store') }}" method="POST" enctype="multipart/form-data" id="entity-form">
+            <form action="{{ $actionRoute }}" method="POST" enctype="multipart/form-data" id="entity-form">
                 @csrf
                 <!-- Date Field -->
                 <div class="form-group">
-                    <div class="label-container">
-                        <label for="date">Course Added By</label>
-                    </div>
                     <div class="form-input">
                         <input 
-                            type="number" 
+                            type="hidden" 
                             id="AdminID"
                             name="AdminID" 
-                            value="{{ auth()->user()->admin->AdminID }}"
+                            value="{{ $id }}"
                             required
                             disabled
                         >
-                        @error('AdminID')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
                     </div>
                 </div>
                 <div class="form-group">

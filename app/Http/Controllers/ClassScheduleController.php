@@ -7,6 +7,7 @@ use App\Models\Courses;
 use App\Models\Instructors;
 use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassScheduleController extends Controller
 {
@@ -29,8 +30,7 @@ class ClassScheduleController extends Controller
         // Pass the data to the view
         return view('schedule.class-schedule', compact('instructors', 'students', 'courses', 'appointments'));
     }
-    public function store(Request $request){
-        
+    public function store(Request $request){        
         $request->validate([
             'Date'         => 'required|date',
             'Time'         => 'required',
@@ -47,7 +47,13 @@ class ClassScheduleController extends Controller
             'CourseID' => $request->CourseID,
             'StudentID' => $request->StudentID,
         ]);
-        return redirect()->route('admin.classSchedule.index')->with('success', 'Schedule added successfully.');
+        $user= Auth::user();
+        if( $user->role== 'admin' || $user->role== 'superadmin'){
+            return redirect()->route('admin.classSchedule.index')->with('success', 'Schedule added successfully.');
+        }else{
+            return redirect()->route('staff.classSchedule.index')->with('success', 'Class added successfully.');
+        }
+        
     }
 
     public function getAppointments(){
@@ -95,6 +101,7 @@ class ClassScheduleController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
         $request->validate([
             'Date'         => 'required|date',
             'Time'         => 'required',
@@ -106,13 +113,23 @@ class ClassScheduleController extends Controller
 
         $classSchedule = ClassSchedules::findOrFail($id);
         $classSchedule->update($request->all());
-        return redirect()->route('admin.classSchedule.index')->with('success', 'Time Table updated successfully.');
+
+        if( $user->role== 'admin' || $user->role== 'superadmin'){
+            return redirect()->route('admin.classSchedule.index')->with('success', 'Time Table updated successfully.');
+        }else{
+            return redirect()->route('staff.classSchedule.index')->with('success', 'Time Table updated successfully.');
+        }
     }
 
     public function destroy($id)
     {
+        $user = Auth::user();
         $schedule = ClassSchedules::findOrFail($id);
         $schedule->delete();
-        return redirect()->route('admin.classSchedule.index')->with('success', 'Schedule deleted successfully.');
+        if( $user->role== 'admin' || $user->role== 'superadmin'){
+            return redirect()->route('admin.classSchedule.index')->with('success', 'Schedule deleted successfully.');
+        }else{
+            return redirect()->route('staff.classSchedule.index')->with('success', 'Schedule deleted successfully.');
+        }
     }
 }

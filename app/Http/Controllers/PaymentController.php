@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Payments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // the payemnt table is like a fee table.
 
@@ -12,8 +13,6 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        // $payments = Payments::all();
-        // return view('payments.index', compact('payments'));
         $payments = Payments::with('admin')->paginate(10);
         return view('payment.payment-list', compact('payments'));
     }
@@ -25,24 +24,29 @@ class PaymentController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'Date' => 'required|date',
             'Type' => 'required|string',
         ]);
 
-        $user_id = auth()->user()->user_id;
-
-        // Retrieve the AdminID from the admin table using the user_id
-        $admin = Admin::where('user_id', $user_id)->first();
-
+        if( $user->role == 'superadmin' || $user->role == 'admin' ){
+           $adminID = $user->admin->AdminID;
+        }else{
+            $adminID = null;
+        }
         Payments::create([
             'Date'    => $request->Date,
             'Type'    => $request->Type,
-            'AdminID' => $admin->AdminID,
+            'AdminID' => $adminID,
+            'InvoiceID' => null
         ]);
 
-        // $invoice->students()->attach($request->StudentID);
-        return redirect()->route('admin.payment.index')->with('success', 'Payment added successfully.');
+        if( $user->role == 'superadmin' || $user->role == 'admin' ){
+            return redirect()->route('admin.payment.index')->with('success', 'Payment added successfully.');
+         }else{
+            return redirect()->route('staff.payment.index')->with('success', 'Payment added successfully.');
+         }
     }
 
     public function edit($id)

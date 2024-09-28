@@ -1,4 +1,12 @@
 @php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = route('admin.instructor.update', $instructor->InstructorID);
+    } else {
+        $role = 'staff';
+        $actionRoute = route('staff.instructor.update', $instructor->InstructorID);
+    }
     $fields = [
         [
             'label'       => 'Name',
@@ -17,7 +25,7 @@
             'id'          => 'contact-number',
             'placeholder' => 'Enter Contact Number',
             'default'     => old('Phone', $instructor->Phone),
-            'required'    => true,
+            'required'    => false,
             'disabled'    => false
         ],
         [
@@ -27,7 +35,7 @@
             'id'          => 'licenseNumber',
             'placeholder' => 'Enter License Number',
             'default'     => old('LicenseNumber', $instructor->LicenseNumber),
-            'required'    => true,
+            'required'    => false,
             'disabled'    => false
         ],
         [
@@ -37,7 +45,7 @@
             'id'          => 'email',
             'placeholder' => '',
             'default'     => $instructor->user->email,
-            'required'    => true,
+            'required'    => false,
             'disabled'    => true
         ],
     ];
@@ -50,9 +58,9 @@
             actionName="Edit"
             actionType="update"
             entity="Instructor"
-            resetButton=true 
-            imageUploader=true 
-            :action="route('admin.instructor.update', $instructor->InstructorID)" 
+            :resetButton=false 
+            :imageUploader=false 
+            :action="$actionRoute" 
             :fields="$fields" 
         />
     </div>

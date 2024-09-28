@@ -1,5 +1,16 @@
-@extends('admin.layout')
-@section('title', 'Invoices')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $addRoute = route('admin.payment.create');
+    }  else{
+        $role = 'staff';
+        $addRoute = route('staff.payment.create');
+    } 
+@endphp
+
+@extends($role. '.layout')
+@section('title', 'Payment List')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))
@@ -15,7 +26,7 @@
         <div class="header">
             <h3>Total Payments: <span class="entity-count">{{ $payments->count() }}</span></h3>
             <div class="actions-container">
-                <a href="{{ route('admin.payment.create') }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Payment</a>
+                <a href="{{ $addRoute }}"><img src='{{ asset('assets/svgs/button-add.svg') }}' class="add-btn-icon"> Add Payment</a>
             </div>
         </div>
 
@@ -25,7 +36,7 @@
                     <th>S.N</th>
                     <th>Payment Date</th>
                     <th>Payment Type</th>
-                    <th>Admin ID</th>
+                    <th>Added By</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,7 +46,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $payment->Date }}</td>
                     <td>{{ ucfirst($payment->Type) }}</td>
-                    <td>{{ $payment->admin->AdminID }}</td>
+                    <td>{{ $payment->AdminID ? "Admin" : "Staff" }}</td>
                     <td class="action-btn">
                         <a href="{{ route('admin.payment.edit', $payment->PaymentID) }}"> 
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">

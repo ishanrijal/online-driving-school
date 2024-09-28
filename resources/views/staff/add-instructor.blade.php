@@ -6,7 +6,7 @@
             'type'        => 'text',
             'id'          => 'name',
             'placeholder' => 'Enter Name',
-            'default'     => '',
+            'default'     => old('name', ''), // Use old value if available, otherwise empty
             'required'    => true,
             'disabled'    => false
         ],
@@ -16,24 +16,34 @@
             'type'        => 'email',
             'id'          => 'email',
             'placeholder' => 'email@email.com',
-            'default'     => '',
+            'default'     => old('email', ''), // Use old value if available, otherwise empty
             'required'    => true,
             'disabled'    => false
         ],
         [
-            'label'       => 'role',
+            'label'       => 'Role',
             'name'        => 'role_disabled',
             'type'        => 'text',
             'id'          => 'role',
             'placeholder' => '',
-            'default'     => 'instructor',
+            'default'     => old('role_disabled', 'instructor'), // Use old value if available, otherwise 'instructor'
             'required'    => false,
             'disabled'    => true
         ],
     ];
+
+
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $actionRoute = route('admin.instructor.store');
+    } else {
+        $role = 'staff';
+        $actionRoute = route('staff.instructor.store');
+    }
 @endphp
 
-@extends('admin.layout')
+@extends($role.'.layout')
 @section('title', 'Add Instructor')
 @section('content')
     <div class="content-wrapper">
@@ -43,7 +53,7 @@
             entity="Instructor"
             :resetButton=false
             :imageUploader=false 
-            :action="route('admin.instructor.store')" 
+            :action="$actionRoute" 
             :fields="$fields" 
         />
     </div>

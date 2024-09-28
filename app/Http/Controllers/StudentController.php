@@ -7,6 +7,7 @@ use App\Models\Students;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
@@ -17,8 +18,13 @@ class StudentController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $students = Students::paginate(10);
-        return view( 'admin.students', compact('students') );
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view( 'admin.students', compact('students') );
+        }else{
+            return view( 'staff.students', compact('students') );
+        }
     }
 
     /**
@@ -26,7 +32,12 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.add-student');
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view('admin.add-student');
+        }else{
+            return view('staff.add-student');
+        }
     }
 
     /**
@@ -58,7 +69,12 @@ class StudentController extends Controller
         // Send the email verification notification
         $user->notify(new VerifyEmail());
 
-        return redirect()->route('admin.student.index')->with('success', 'Student added successfully. A verification email has been sent.');
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return redirect()->route('admin.student.index')->with('success', 'Student added successfully.');
+        }else{
+            return redirect()->route('staff.student.index')->with('success', 'Student added successfully.');
+        }
     }
 
     /**
@@ -68,7 +84,12 @@ class StudentController extends Controller
     {
         // Retrieve the instructor based on the provided ID
         $student = Students::findOrFail($id);
-        return view('admin.edit-student', compact('student'));
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view('admin.edit-student', compact('student'));
+        }else{
+            return view('staff.edit-student', compact('student'));
+        }
     }
 
     /**
@@ -112,7 +133,12 @@ class StudentController extends Controller
             // 'image'         => $imagePath,
         ]);
 
-        return redirect()->route('admin.student.index')->with('success', 'Student updated successfully');
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return redirect()->route('admin.student.index')->with('success', 'Student updated successfully');
+        }else{
+            return redirect()->route('staff.student.index')->with('success', 'Student updated successfully');
+        }
     }
 
     /**
@@ -129,7 +155,12 @@ class StudentController extends Controller
 
         // Manually delete the associated user
         User::find($userId)?->delete();
-        
-        return redirect()->route('admin.student.index')->with('success', 'Student deleted successfully');
+
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return redirect()->route('admin.student.index')->with('success', 'Student deleted successfully');
+        }else{
+            return redirect()->route('staff.student.index')->with('success', 'Student deleted successfully');
+        }
     }
 }

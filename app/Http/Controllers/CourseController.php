@@ -67,14 +67,18 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'Name' => 'required|string',
             'Description' => 'required|string',
             'Price' => 'required|string',
         ]);
-
-        $admin_id = auth()->user()->admin->AdminID;
-
+        
+        if ($user->role == 'admin' || $user->role == 'superadmin') {
+            $admin_id = $user->admin->AdminID;
+        }else{
+            $admin_id = null;
+        }
 
         Courses::create([
             'Name'        => $request->Name,
@@ -83,8 +87,11 @@ class CourseController extends Controller
             'AdminID'     => $admin_id,
         ]);
 
-        // $invoice->students()->attach($request->StudentID);
-        return redirect()->route('admin.course.index')->with('success', 'Course added successfully.');
+        if ($user->role == 'admin' || $user->role == 'superadmin') {
+            return redirect()->route('admin.course.index')->with('success', 'Course added successfully.');
+        }else{
+            return redirect()->route('staff.course.index')->with('success', 'Course added successfully.');
+        }       
     }
 
     public function edit($id)
@@ -95,6 +102,8 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+
         $request->validate([
             'Name' => 'required|string',
             'Description' => 'required|string',
@@ -103,13 +112,22 @@ class CourseController extends Controller
 
         $course = Courses::findOrFail($id);
         $course->update($request->all());
-        return redirect()->route('admin.course.index')->with('success', 'Course updated successfully.');
+        if ( $user->role == 'admin' || $user->role == 'superadmin' ) {
+            return redirect()->route('admin.course.index')->with('success', 'Course updated successfully.');
+        } else {
+            return redirect()->route('staff.course.index')->with('success', 'Course updated successfully.');
+        } 
     }
 
     public function destroy($id)
     {
+        $user = Auth::user();
         $course = Courses::findOrFail($id);
         $course->delete();
-        return redirect()->route('admin.course.index')->with('success', 'Course deleted successfully.');
+        if( $user->role=='admin' || $user->role=='superadmin' ) {
+            return redirect()->route('admin.course.index')->with('success', 'Course deleted successfully.');
+        }else{
+            return redirect()->route('staff.course.index')->with('success', 'Course deleted successfully.');
+        }
     }
 }

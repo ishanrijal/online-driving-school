@@ -74,9 +74,18 @@
             'options'     => $students->pluck('Name', 'StudentID')->toArray()
         ],
     ];
+
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $updateRoute = route('admin.classSchedule.update', $schedule->ClassScheduleID );
+    }  else{
+        $role = 'staff';
+        $updateRoute = route('staff.classSchedule.update', $schedule->ClassScheduleID );
+    } 
 @endphp
 
-@extends('admin.layout')
+@extends($role. '.layout')
 
 @section('title', 'Edit Class Schedule')
 
@@ -88,7 +97,7 @@
             entity="Schedule For {{$schedule->student->Name ?? ''}}"
             :resetButton=false 
             :imageUploader=false 
-            :action="route('admin.classSchedule.update', $schedule->ClassScheduleID )" 
+            :action="$updateRoute" 
             :fields="$fields" 
         />
     </div>

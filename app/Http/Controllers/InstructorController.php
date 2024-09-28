@@ -22,8 +22,13 @@ class InstructorController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $instructors = Instructors::with('user')->paginate(10);
-        return view( 'admin.instructor', compact('instructors') );
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view( 'admin.instructor', compact('instructors') );
+        }else{
+            return view( 'staff.instructor', compact('instructors') );
+        }
     }
 
     /**
@@ -31,7 +36,12 @@ class InstructorController extends Controller
      */
     public function create()
     {
-        return view('admin.add-instructor');
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view('admin.add-instructor');
+        }else{
+            return view('staff.add-instructor');
+        }
     }
 
     /**
@@ -39,6 +49,7 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
@@ -47,7 +58,7 @@ class InstructorController extends Controller
             'contact' => 'nullable|string|max:15',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+            
         // Begin a database transaction
         DB::beginTransaction();
     
@@ -77,8 +88,13 @@ class InstructorController extends Controller
             ]);
     
             // Commit the transaction
-            DB::commit();    
-            return redirect()->route('admin.instructor.index')->with('success', 'Instructor has been created successfully.');
+            DB::commit();
+            
+            if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+                return redirect()->route('admin.instructor.index')->with('success', 'Instructor has been created successfully.');
+            }else{
+                return redirect()->route('staff.instructor.index')->with('success', 'Instructor has been created successfully.');
+            }
     
         } catch (\Exception $e) {
             // Rollback the transaction if anything fails
@@ -96,7 +112,13 @@ class InstructorController extends Controller
     {
         // Retrieve the instructor based on the provided ID
         $instructor = Instructors::findOrFail($id);
-        return view('admin.edit-instructor', compact('instructor'));
+        $user = Auth::user();
+        if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
+            return view('admin.edit-instructor', compact('instructor'));
+        }else{
+            return view('staff.edit-instructor', compact('instructor'));
+        }
+        
     }
 
     /**
@@ -120,7 +142,6 @@ class InstructorController extends Controller
         $user->update([
             'name' => $request->name,
         ]);
-        // dd($request);
         // Handle image upload if a new image is provided
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('instructors', 'public');
@@ -151,6 +172,8 @@ class InstructorController extends Controller
             return redirect()->route('profile.index')->with('success', 'Your Profile updated successfully');
         }elseif( ( $user->role == 'admin') || ($user->role == 'superadmin') ){
             return redirect()->route('admin.instructor.index')->with('success', 'Instructor updated successfully');
+        }elseif( ( $user->role == 'staff') ){
+            return redirect()->route('staff.instructor.index')->with('success', 'Instructor updated successfully');
         }
     }
     /**
@@ -158,29 +181,42 @@ class InstructorController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        // Find the instructor by ID or fail
         $instructor = Instructors::findOrFail($id);
         $userId = $instructor->user_id;
 
-         // Begin a database transaction
-         DB::beginTransaction();
-
-         try {
+        // Begin a database transaction
+        DB::beginTransaction();
+    
+        try {
             // Delete the instructor
             $instructor->delete();
             // Manually delete the associated user
             User::find($userId)?->delete();
-        
+    
             // Commit the transaction
-            DB::commit();    
-            return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
+            DB::commit();
+    
+            // Redirect based on the user's role
+            if ($user->role == 'admin' || $user->role == 'superadmin') {
+                return redirect()->route('admin.instructor.index')->with('success', 'Instructor deleted successfully');
+            } elseif ($user->role == 'staff') {
+                return redirect()->route('staff.instructor.index')->with('success', 'Instructor deleted successfully');
+            }
     
         } catch (\Exception $e) {
             // Rollback the transaction if anything fails
             DB::rollBack();
     
-            return back()->withErrors(['error' => 'An error occurred while creating the instructor. Please try again.']);
+            // Return back with an error
+            return back()->withErrors(['error' => 'An error occurred while deleting the instructor. Please try again.']);
         }
 
-        return redirect()->route('admin.instructor.index')->with('error', 'Opps! Error Deleting the record.');
-    }
+        if ($user->role == 'admin' || $user->role == 'superadmin') {
+            return redirect()->route('admin.instructor.index')->with('error', 'Opps! Error deleting the record.');
+        } elseif ($user->role == 'staff') {
+            return redirect()->route('staff.instructor.index')->with('error', 'Opps! Error deleting the record.');
+        }
+    }    
 }

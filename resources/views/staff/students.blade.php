@@ -1,5 +1,18 @@
-@extends('admin.layout')
-@section('title', 'Trainer')
+@php
+    $user = Auth::user();
+    if ($user->role == 'admin' || $user->role == 'superadmin') {
+        $role = 'admin';
+        $editRoute = 'admin.student.edit';
+        $deleteRoute = 'admin.student.destroy';
+    }  else{
+        $role = 'staff';
+        $editRoute = 'staff.student.edit';
+        $deleteRoute = 'staff.student.destroy';
+    }
+@endphp
+
+@extends($role. '.layout')
+@section('title', 'Student')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))
@@ -41,10 +54,10 @@
                     <td>{{ $student->Gender }}</td>                    
                     <td>{{ $student->Phone }}</td>                    
                     <td class="action-btn">
-                        <a href="{{ route('admin.student.edit', $student->StudentID) }}">
+                        <a href="{{ route($editRoute, $student->StudentID) }}">
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">
                         </a>
-                        <form action="{{ route('admin.student.destroy', $student->StudentID) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route($deleteRoute, $student->StudentID) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($student->Name) }}?');">

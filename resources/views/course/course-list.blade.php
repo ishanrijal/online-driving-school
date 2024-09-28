@@ -56,7 +56,7 @@
                     <td>{{ $course->Name }}</td>
                     <td>{{ $course->Description }}</td>
                     <td>{{ $course->Price }}</td>                    
-                    <td>{{ $course->AdminID }}</td>
+                    <td>{{ $course->AdminID ? "Admin" : 'Staff' }}</td>
                     <td class="action-btn">
                         <a href="{{ ($user->role == 'staff') ?  route('staff.course.edit', $course->CourseID) :  route('admin.course.edit', $course->CourseID) }}"> 
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">

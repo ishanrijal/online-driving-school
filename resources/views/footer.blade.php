@@ -2,9 +2,9 @@
         <div class="row footer-container">
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 footer-contact">
                 <h6 class="footer-link-heading">Contact</h6>
-                <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
-                <p><i class="fas fa-envelope mr-3"></i> <a href="#">info@gmail.com</a></p>
-                <p><i class="fas fa-phone mr-3"></i> <a href="#"> + 01 234 567 88 </a> </p>
+                <p><i class="fas fa-home mr-3"></i> Hornsby, NSW, 2077, Sydney</p>
+                <p><i class="fas fa-envelope mr-3"></i> <a href="#">info@origindrivingschool.com</a></p>
+                <p><i class="fas fa-phone mr-3"></i> <a href="#"> + 04 047 56 988 </a> </p>
             </div>
             <hr class="w-100 clearfix d-md-none" />
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 footer-link-container">
@@ -59,10 +59,26 @@
             </div>
             <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end footer-icon-container">
                 <ul class="social-icon-wrapper">
-                    <li> <a href="https://www.facebook.com" target="blank"><i class="fa-brands fa-facebook"></i></i></a> </li>
-                    <li> <a href="https://www.instagram.com" target="blank"><i class="fa-brands fa-instagram"></i></i></a> </li>
-                    <li> <a href="https://www.tiktok.com" target="blank"><i class="fa-brands fa-tiktok"></i></i></a> </li>
-                    <li> <a href="https://www.x.com" target="blank"><i class="fa-brands fa-x"></i></i></a> </li>
+                    <li> 
+                        <a href="https://www.facebook.com" target="blank">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a> 
+                    </li>
+                    <li> 
+                        <a href="https://www.instagram.com" target="blank">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a> 
+                    </li>
+                    <li> 
+                        <a href="https://www.tiktok.com" target="blank">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a> 
+                    </li>
+                    <li> 
+                        <a href="https://www.x.com" target="blank">
+                            <i class="fa-brands fa-x"></i>
+                            </a> 
+                        </li>
                 </ul>
             </div>
         </div>

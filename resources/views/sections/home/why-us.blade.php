@@ -35,8 +35,7 @@
                     <h6>Affordable Pricing</h6>
                     <p>Our pricing plans are designed to be budget-friendly without compromising the quality of instruction.</p>
                 </div>
-            </div>
-            
+            </div> 
         </div>
     </div>
 </div>

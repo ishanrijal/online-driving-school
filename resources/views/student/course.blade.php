@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <div class="course-card-header">
                                     <h2 class="course-title">{{$course->Name}}</h2>
-                                    <p class="course-price mb-2 text-muted">$.{{$course->Price}}</p>
+                                    <p class="course-price mb-2 text-muted">$ {{$course->Price}}</p>
                                 </div>
                                 <p class="card-description" style="font-weight: 700">{{$course->Description}}</p>
 

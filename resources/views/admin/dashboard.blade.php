@@ -20,9 +20,9 @@
                                     <h4>Total Revenue</h4>
                                     <h2>
                                         @if(session('total_invoice') > 0)
-                                            $.{{session('total_invoice')}}
+                                            $ {{session('total_invoice')}}
                                         @else
-                                            $.0
+                                            $ 0
                                         @endif
                                     </h2>
                                     <p>{{ date('F Y') }}</p>
@@ -86,7 +86,7 @@
                                         <div class="sales-content">
                                             <div class="sales-text">
                                                 <h3 class="sales-period">{{ date('d F, Y', strtotime($invoice->Date)) }}</h3>
-                                                <p class="sales-amount">$. {{$invoice->TotalAmount}}</p>
+                                                <p class="sales-amount">$ {{$invoice->TotalAmount}}</p>
                                             </div>
                                         </div>
                                         @if (!$loop->last) 
@@ -116,7 +116,7 @@
                                         <div class="sales-content">
                                             <div class="sales-text">
                                                 <h3 class="sales-period">{{ $course->Name }}</h3>
-                                                <p class="sales-amount">$. {{$course->Price}}</p>
+                                                <p class="sales-amount">$ {{$course->Price}}</p>
                                             </div>
                                         </div>
                                         @if (!$loop->last) 

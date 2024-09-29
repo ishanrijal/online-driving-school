@@ -85,7 +85,7 @@
                                         <div class="sales-content">
                                             <div class="sales-text">
                                                 <h3 class="sales-period">{{ date('d F, Y', strtotime($invoice->Date)) }}</h3>
-                                                <p class="sales-amount">$. {{$invoice->TotalAmount}}</p>
+                                                <p class="sales-amount">$ {{$invoice->TotalAmount}}</p>
                                             </div>
                                         </div>
                                         @if (!$loop->last) 

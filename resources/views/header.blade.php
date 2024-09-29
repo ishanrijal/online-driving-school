@@ -26,31 +26,31 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="0.75em" height="1em" viewBox="0 0 384 512">
                                 <path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192C0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67c-9.535 13.774-29.93 13.773-39.464 0M192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80s-80 35.817-80 80s35.817 80 80 80" />
                             </svg>
-                            <span>3261 Anmoore Road Brooklyn, NY 11230</span>					
+                            <span>Hornsby, NSW, 2077, Sydney</span>					
                         </a>
                     </p>
                     <p class="tt-box-phone">
-                        <a href="tel: 800-123-4567">
+                        <a href="tel:0404756988">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z"/></svg>
                             <i class="icon-phone-call"></i>
-                            <span>800-123-4567</span>		  
+                            <span>0404756988</span>		  
                         </a>
                     </p>
                     <p class="tt-box-email">
-                        <a href="mailto:info@youremail.com">
+                        <a href="mailto:info@origindrivingschool.com">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
                                 <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7c22.4 17.4 52.1 39.5 154.1 113.6c21.1 15.4 56.7 47.8 92.2 47.6c35.7.3 72-32.8 92.3-47.6c102-74.1 131.6-96.3 154-113.7M256 320c23.2.4 56.6-29.2 73.4-41.4c132.7-96.3 142.8-104.7 173.4-128.7c5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9c30.6 23.9 40.7 32.4 173.4 128.7c16.8 12.2 50.2 41.8 73.4 41.4" />
                             </svg>
-                            <span>info@youremail.com</span>		  
+                            <span>info@origindrivingschool.com</span>		  
                         </a>
                     </p>
                 </div>
                 <div class="col-sm-2">
                     <ul class="social-icon-wrapper">
-                        <li> <a href="https://www.facebook.com" target="blank"><i class="fa-brands fa-facebook"></i></i></a> </li>
-                        <li> <a href="https://www.instagram.com" target="blank"><i class="fa-brands fa-instagram"></i></i></a> </li>
-                        <li> <a href="https://www.tiktok.com" target="blank"><i class="fa-brands fa-tiktok"></i></i></a> </li>
-                        <li> <a href="https://www.x.com" target="blank"><i class="fa-brands fa-x"></i></i></a> </li>
+                        <li> <a href="https://www.facebook.com" target="blank"><i class="fa-brands fa-facebook"></i></a> </li>
+                        <li> <a href="https://www.instagram.com" target="blank"><i class="fa-brands fa-instagram"></i></a> </li>
+                        <li> <a href="https://www.tiktok.com" target="blank"><i class="fa-brands fa-tiktok"></i></a> </li>
+                        <li> <a href="https://www.x.com" target="blank"><i class="fa-brands fa-x"></i></a> </li>
                     </ul>
                 </div>
             </header>
@@ -65,10 +65,10 @@
                 <div class="collapse navbar-collapse home-nav" id="navbarSupportedContent">
                     <ul class="col-sm-10 navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/">Home</span></a>
+                            <a class="nav-link" href="/">Hom</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#about">About </span></a>
+                            <a class="nav-link" href="#about">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#our-program">Our Program</a>

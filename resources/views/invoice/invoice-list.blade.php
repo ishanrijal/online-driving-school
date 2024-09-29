@@ -49,7 +49,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $invoice->Date }}</td>
-                        <td>$.{{ number_format($invoice->TotalAmount, 2) }}</td>
+                        <td>$ {{ number_format($invoice->TotalAmount, 2) }}</td>
                         <td>{{ ucfirst($invoice->Status) }}</td>
                         <td>{{ $invoice->student->Name }}</td>
                         <td class="action-btn">

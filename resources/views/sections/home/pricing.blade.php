@@ -18,7 +18,7 @@
                             <li>1 Free Mock Test</li>
                             <li>Email Support</li>
                         </ul>
-                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
+                        <a href="/login" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
                 
@@ -35,7 +35,7 @@
                             <li>2 Free Mock Tests</li>
                             <li>Priority Email Support</li>
                         </ul>
-                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
+                        <a href="/login" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
                 
@@ -52,11 +52,10 @@
                             <li>3 Free Mock Tests</li>
                             <li>Phone & Email Support</li>
                         </ul>
-                        <a href="/login" type="button" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
+                        <a href="/login" class="btn btn-lg btn-block btn-outline-primary">Enroll Now</a>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>

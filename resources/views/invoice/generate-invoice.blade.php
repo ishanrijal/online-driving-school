@@ -74,7 +74,7 @@
                             <option value="">Select Students</option>
                             @foreach($students as $student)
                                 <option value="{{ $student->StudentID }}" {{ (collect(old('StudentID'))->contains($student->StudentID)) ? 'selected' : '' }}>
-                                    {{ $student->Name }} ({{ $student->LicenseNumber ? $student->LicenseNumber : 'null' }})
+                                    {{ $student->Name }}
                                 </option>
                             @endforeach
                         </select>

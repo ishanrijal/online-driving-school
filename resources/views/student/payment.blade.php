@@ -16,11 +16,11 @@
             <div class="info-box">
                 @if(isset($course))
                     <label for="appointment-date">Price To Pay:</label>
-                    <p id="appointment-date">$.{{$course->Price}}</p>
+                    <p id="appointment-date">${{$course->Price}}</p>
                     <input type="hidden" name="course_id" value="{{ $course->CourseID }}">
                 @elseif(isset($invoice))
                     <label for="appointment-date">Invoice Amount:</label>
-                    <p id="appointment-date">$.{{$invoice->TotalAmount}}</p>
+                    <p id="appointment-date">${{$invoice->TotalAmount}}</p>
                     <input type="hidden" name="invoice_id" value="{{ $invoice->InvoiceID }}">
                 @else
                     <p>No course or invoice information available.</p>

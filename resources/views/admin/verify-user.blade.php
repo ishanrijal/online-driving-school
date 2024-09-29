@@ -1,5 +1,5 @@
 @extends('admin.layout')
-@section('title', 'Trainer')
+@section('title', 'Verify User')
 @section('content')
     <div class="content-wrapper">
         @if(session('success'))

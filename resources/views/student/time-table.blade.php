@@ -181,7 +181,6 @@
         }
 
     </style>
-
     <h1><b>Check Your Timetable</b></h1>
     <div class="row">
         <div class="col-sm-12" style="margin-top: 24px;">
@@ -274,6 +273,13 @@
                     <label for="appointment-course">Course:</label>
                     <p id="appointment-course"></p>
                 </div>
+                <form id="appointment-cancel" method="POST" style="display:inline-block;">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="verify-btn btn btn-danger" style="background: #0dcaf0; border:none">
+                        Cancel
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -327,6 +333,7 @@
             function openModal(startDate, endDate, scheduleID = null) {
                 modal.style.display = 'block';
                 if (scheduleID) {
+                    const appointmentCancel = document.getElementById('appointment-cancel'); 
                     var alertDiv = document.getElementById('class_status');  // Target your alert div
                     alertDiv.classList.remove('alert-danger', 'alert-success', 'alert-info');
                     appointmentForm.style.display = 'none';
@@ -342,10 +349,13 @@
                             // Dynamically set the class based on the fetched status
                             if (data.class_status === 'confirmed') {
                                 alertDiv.classList.add('alert-success');
+                                appointmentCancel.style.display='block'
                             } else if (data.class_status === 'pending') {
                                 alertDiv.classList.add('alert-info');
+                                appointmentCancel.style.display='block'
                             } else if (data.class_status === 'cancelled') {
                                 alertDiv.classList.add('alert-danger');
+                                appointmentCancel.style.display='none'
                             }
 
                             // Update other appointment details
@@ -354,6 +364,7 @@
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course').innerHTML = data.CourseName;
+                            appointmentCancel.action = `{{ route('student.appointment.cancel', '') }}/${scheduleID}`;
                         });
                 } else {
                     document.getElementById('Date').value = startDate;

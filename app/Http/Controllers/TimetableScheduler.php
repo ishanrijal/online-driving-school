@@ -95,9 +95,13 @@ class TimetableScheduler extends Controller
             $appointment->class_status = 'cancelled';
             $appointment->save();
         }
-        $appointment_pending = ClassSchedules::where('class_status', 'pending')->where('InstructorID', $user->instructor->InstructorID)->get();
-        Session::put('appointment_pending_count', $appointment_pending->count() );
-        return redirect()->route('instructor.check-appointment.index')->with('success', 'You have cancelled the appointment.');
+        if( $user->role == 'instructor' ){
+            $appointment_pending = ClassSchedules::where('class_status', 'pending')->where('InstructorID', $user->instructor->InstructorID)->get();
+            Session::put('appointment_pending_count', $appointment_pending->count() );
+            return redirect()->route('instructor.check-appointment.index')->with('success', 'You have cancelled the appointment.');
+        }elseif( $user->role == 'student'){
+            return redirect()->route('student.time-table.index')->with('success', 'You have cancelled the appointment.');
+        }        
     }
 
     public function edit($id)

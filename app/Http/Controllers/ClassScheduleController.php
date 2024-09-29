@@ -46,6 +46,7 @@ class ClassScheduleController extends Controller
             'InstructorID' => $request->InstructorID,
             'CourseID' => $request->CourseID,
             'StudentID' => $request->StudentID,
+            'class_status'=> 'pending'
         ]);
         $user= Auth::user();
         if( $user->role== 'admin' || $user->role== 'superadmin'){

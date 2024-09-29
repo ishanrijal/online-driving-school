@@ -141,6 +141,7 @@ Route::middleware(['auth', 'verified', 'student'])->prefix('student')->group(fun
     Route::get('/time-table', [TimetableScheduler::class, 'index'])->name('student.time-table.index');
     Route::post('/time-table', [TimetableScheduler::class, 'store'])->name('student.classSchedule.store');
     Route::get('/time-table/{id}/edit', [TimetableScheduler::class, 'edit'])->name('instructor.classSchedule.edit');
+    Route::put('/appointment-list/{id}', [TimetableScheduler::class, 'cancleStatus'])->name('student.appointment.cancel');  
     
     Route::get('/courses', [CourseController::class, 'studentCourse'])->name('student.courses');
     Route::get('/courses-list', [CourseController::class, 'studentCourseList'])->name('student.courses.list');

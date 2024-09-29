@@ -120,7 +120,7 @@ class InvoiceController extends Controller
             Payments::create([
                 'InvoiceID' => $invoice->InvoiceID, // Use the newly created InvoiceID
                 'Date' => now(),
-                'Type' => 'course fee',
+                'Type' => $request->Type,
                 'AdminID' => $adminID, // Set AdminID to null if not an admin
             ]);
     

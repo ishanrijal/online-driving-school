@@ -298,9 +298,6 @@
                     <p id="appointment-student"></p>
                 </div>
                 <div class="action-btn">
-                    <a href="#" id="editButton">
-                        Edit
-                    </a>
                     <form id="deleteForm" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
@@ -316,6 +313,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
+            var alertDiv = document.getElementById('class_status');
             var modal = document.getElementById('appointmentModal');
             var viewAppointment = document.getElementById('viewAppointment');
             var appointmentForm = document.getElementById('appointmentForm');
@@ -383,18 +381,24 @@
 
                             // Dynamically set the class based on the fetched status
                             if (data.class_status === 'confirmed') {
-                                alertDiv.classList.add('alert-success');
+                                if (alertDiv) {
+                                    alertDiv.classList.add('alert-success');
+                                }
                             } else if (data.class_status === 'pending') {
-                                alertDiv.classList.add('alert-info');
+                                if (alertDiv) {
+                                    alertDiv.classList.add('alert-info');
+                                }
                             } else if (data.class_status === 'cancelled') {
-                                alertDiv.classList.add('alert-danger');
+                                if (alertDiv) {
+                                    alertDiv.classList.add('alert-danger');
+                                }
                             }
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;
                             document.getElementById('appointment-instructor').innerHTML = data.InstructorName;
                             document.getElementById('appointment-course').innerHTML = data.CourseName;
-                            document.getElementById('appointment-student').innerHTML = data.StudentName;
+                            document.getElementById('appointment-student').innerHTML = data.StudentName;                           
                             document.getElementById('deleteForm').action = `${baseURL}destroy/${data.ClassScheduleID}`;
 
                             const saveButton = document.getElementById('editButton');

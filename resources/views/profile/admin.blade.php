@@ -16,7 +16,6 @@
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
                   @if($staff && $staff->image)
-                  {{-- {{dd($staff->image)}} --}}
                       <img src="{{ asset('storage/' . $staff->image) }}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
                   @else
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">

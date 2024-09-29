@@ -50,7 +50,7 @@
         ],
     ];
 @endphp
-@extends('admin.layout')
+@extends('staff.layout')
 @section('title', 'Edit Trainer')
 @section('content')
     <div class="content-wrapper">

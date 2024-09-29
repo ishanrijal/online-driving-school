@@ -81,15 +81,14 @@ class AdminController extends Controller
     {
         $admin = Admin::findOrFail($id);
         $request->validate([
-            'name'           => 'required|string|max:255',
+            'Name'           => 'required|string|max:255',
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);        
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($admin->user_id);
         $user->update([
-            'name' => $request->name,
+            'name' => $request->Name,
         ]);
-        // dd($request);
         // Handle image upload if a new image is provided
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('admins', 'public');

@@ -93,6 +93,8 @@
                                     <a href="{{ url('/instructor/dashboard') }}" class="btn btn-outline-primary my-2 my-sm-0">Instructor Dashboard</a>
                                 @elseif (Auth::user()->role === 'student')
                                     <a href="{{ url('/student/dashboard') }}" class="btn btn-outline-primary my-2 my-sm-0">Student Dashboard</a>
+                                @elseif (Auth::user()->role === 'staff')
+                                    <a href="{{ url('/staff/dashboard') }}" class="btn btn-outline-primary my-2 my-sm-0">Staff Dashboard</a>
                                 @endif
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-outline-primary my-2 my-sm-0">Login</a>

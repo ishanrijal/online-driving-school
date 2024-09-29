@@ -85,7 +85,7 @@ class StaffController extends Controller
             // Commit the transaction if everything is successful
             DB::commit();
     
-            return redirect()->route('admin.staff.index')->with('success', 'Staff added successfully. A verification email has been sent.');
+            return redirect()->route('admin.staff.index')->with('success', 'Staff added successfully.');
     
         } catch (\Exception $e) {
             // Rollback the transaction if any error occurs

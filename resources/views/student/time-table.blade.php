@@ -344,9 +344,6 @@
                                 alertDiv.classList.add('alert-success');
                             } else if (data.class_status === 'pending') {
                                 alertDiv.classList.add('alert-info');
-                                console.log(calendarClass)
-                                // calendarClass.style.background-color="red";
-                                // calendarClass.style.border-color="red";
                             } else if (data.class_status === 'cancelled') {
                                 alertDiv.classList.add('alert-danger');
                             }

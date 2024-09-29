@@ -36,7 +36,9 @@ class TimetableScheduler extends Controller
                     });
                 } else {
                     $appointments = collect(); // Return an empty collection or handle as needed
-                }                
+                }         
+                $appointment_pending = ClassSchedules::where('class_status', 'pending')->where('InstructorID', $user->instructor->InstructorID)->get();
+                Session::put('appointment_pending_count', $appointment_pending->count() );               
                 return view('instructor.time-table', compact('instructors', 'courses','appointments')); 
             break;
 

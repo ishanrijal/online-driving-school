@@ -25,7 +25,7 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
-                        <th>Invoice Date</th>
+                        <th>Invoice Due Date</th>
                         <th>Total Amount</th>
                         <th>Status</th>
                         <th>Type</th>

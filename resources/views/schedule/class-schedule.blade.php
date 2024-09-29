@@ -208,7 +208,6 @@
             </div>
         </div>
     </div>
-
     <!-- Calendar -->
     <div id="calendar"></div>
 
@@ -246,13 +245,18 @@
                 </div>
                 <div>
                     <label for="CourseID">Course:</label>
-                    <select id="CourseID" name="CourseID" required>
-                        <option value="">Select Course</option>
-                        @foreach ($courses as $course)
-                            <option value="{{ $course->CourseID }}">{{ $course->Name }}</option>
-                        @endforeach
-                    </select>
+                    @if ($courses->isEmpty())
+                        <p class="alert alert-danger">No courses available. Please add course first.</p>
+                    @else 
+                        <select id="CourseID" name="CourseID" required>
+                            <option value="">Select Course</option>
+                            @foreach ($courses as $course)
+                                <option value="{{ $course->CourseID }}">{{ $course->Name }}</option>
+                            @endforeach
+                        </select>
+                    @endif
                 </div>
+
                 <div>
                     <label for="StudentID">Student:</label>
                     <select id="StudentID" name="StudentID" required>
@@ -265,6 +269,10 @@
                 <button type="submit" id="saveButton">Save</button>
             </form>
             <div id="viewAppointment">
+                <div id="class_status" class="alert alert-danger">
+                    <label for="appointment-status">Class Status:</label>
+                    <p id="appointment-status" style="text-transform: capitalize"></p>
+                </div>
                 <div>
                     <label for="appointment-date">Date:</label>
                     <p id="appointment-date"></p>
@@ -296,7 +304,7 @@
                     <form id="deleteForm" method="POST" style="display:inline-block;">
                         @csrf
                         @method('DELETE')
-                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this course?');">
+                        <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this class?');">
                             <img src="{{ asset('assets/svgs/delete.svg') }}" alt="Delete">
                         </button>
                     </form>
@@ -370,6 +378,17 @@
                     fetch(`${baseURL}${scheduleID}/edit`)
                         .then(response => response.json())
                         .then(data => {
+                            // Update the appointment status
+                            document.getElementById('appointment-status').innerHTML = data.class_status;
+
+                            // Dynamically set the class based on the fetched status
+                            if (data.class_status === 'confirmed') {
+                                alertDiv.classList.add('alert-success');
+                            } else if (data.class_status === 'pending') {
+                                alertDiv.classList.add('alert-info');
+                            } else if (data.class_status === 'cancelled') {
+                                alertDiv.classList.add('alert-danger');
+                            }
                             document.getElementById('appointment-date').innerHTML = data.Date;
                             document.getElementById('appointment-time').innerHTML = data.Time;
                             document.getElementById('appointment-location').innerHTML = data.Location;

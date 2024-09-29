@@ -45,9 +45,9 @@
                                 </h2>
                                 <p>{{ date('F Y') }}</p>
                                 @if($appointments->count() > 0)
-                                    <span class="change negative"><strong> Please settle your outstanding dues.</strong></span>
-                                @else
                                     <span class="change positive"><strong>All invoices have been paid!</strong></span>
+                                @else
+                                    <span class="change negative"><strong> Please settle your outstanding dues.</strong></span>
                                 @endif
                             </div>
                             <div class="card">
@@ -60,7 +60,13 @@
                                     @endif
                                 </h2>
                                 <p>{{ date('F Y') }}</p>
-                                <span class="change negative">- 13.43%</span>
+                                <span class="change negative">
+                                    @if($appointments->count() > 0)
+                                        Number of classes left
+                                    @else 
+                                        No More classes
+                                    @endif
+                                </span>
                             </div>
                         </section>
                     </div>
@@ -118,7 +124,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Invoice Date</th>
+                                            <th>Invoice Due Date</th>
                                             <th>Invoice Amount</th>
                                         </tr>
                                     </thead>

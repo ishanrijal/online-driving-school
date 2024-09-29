@@ -15,14 +15,14 @@
     <div class="content-wrapper">
         <div class="form-container save-form">
             <div class="header">
-                <h1>Invoice List</h1>
+                <h1>Add Invoice</h1>
             </div>
             <form action="{{$actionRoute}}" method="POST" enctype="multipart/form-data" id="entity-form">
                 @csrf
                 <!-- Date Field -->
                 <div class="form-group">
                     <div class="label-container">
-                        <label for="date">Invoice Date</label>
+                        <label for="date">Invoice Due Date</label>
                     </div>
                     <div class="form-input">
                         <input 

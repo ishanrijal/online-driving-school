@@ -110,6 +110,7 @@ class StudentController extends Controller
             'email'    => $request->email,
             'role'     => 'student',
             'password' => Hash::make($request->name),   // temporary password
+            'email_verified_at' => now(),
         ]);
 
         Students::create([

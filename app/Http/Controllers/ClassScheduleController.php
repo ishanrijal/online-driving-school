@@ -63,10 +63,10 @@ class ClassScheduleController extends Controller
     $events = $schedules->map(function ($schedule) {
         return [
             'id' => $schedule->ClassScheduleID,
-            'title' => 'Class Appointment', // You can customize this
-            'start' => $schedule->Date . 'T' . $schedule->Time, // Combine date and time
-            'end' => $schedule->Date . 'T' . $schedule->Time, // Adjust as needed if you have an end time
-            'description' => $schedule->Location, // Add more details if needed
+            'title' => 'Class Appointment',
+            'start' => $schedule->Date . 'T' . $schedule->Time, 
+            'end' => $schedule->Date . 'T' . $schedule->Time,
+            'description' => $schedule->Location,
         ];
     });
 
@@ -81,11 +81,12 @@ class ClassScheduleController extends Controller
             'Time' => $schedule->Time,
             'Location' => $schedule->Location,
             'InstructorID' => $schedule->InstructorID,
-            'InstructorName' => $schedule->instructor->Name, // Assuming you have a relationship set up
+            'InstructorName' => $schedule->instructor->Name, 
             'CourseID' => $schedule->CourseID,
-            'CourseName' => $schedule->course->Name, // Assuming you have a relationship set up
+            'CourseName' => $schedule->course->Name, 
             'StudentID' => $schedule->StudentID,
-            'StudentName' => $schedule->student->Name // Assuming you have a relationship set up
+            'StudentName' => $schedule->student->Name, 
+            'class_status' => $schedule->class_status, 
         ]);
         // return view('course.edit-course', compact('course'));
     }

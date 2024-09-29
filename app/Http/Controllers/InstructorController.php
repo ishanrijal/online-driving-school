@@ -70,7 +70,7 @@ class InstructorController extends Controller
             }
     
             // Create the user
-            $user = User::create([
+            $new_user = User::create([
                 'name'              => $request->name,
                 'email'             => $request->email,
                 'role'              => 'instructor',
@@ -84,11 +84,12 @@ class InstructorController extends Controller
                 'LicenseNumber' => $request->LicenseNumber,
                 'Phone' => $request->contact,
                 'image' => $imagePath,
-                'user_id' => $user->user_id,
+                'user_id' => $new_user->user_id,
             ]);
     
             // Commit the transaction
             DB::commit();
+            
             
             if( ( $user->role == 'admin' || $user->role == 'superadmin') ){
                 return redirect()->route('admin.instructor.index')->with('success', 'Instructor has been created successfully.');

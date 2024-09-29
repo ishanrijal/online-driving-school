@@ -39,7 +39,8 @@
                     <td>{{ $staff->Address }}</td>
                     <td>{{ $staff->DateOfBirth }}</td>                    
                     <td>{{ $staff->Gender }}</td>                    
-                    <td>{{ $staff->Phone }}</td>                    
+                    <td>{{ $staff->Phone }}</td> 
+
                     <td class="action-btn">
                         <a href="{{ route('admin.staff.edit', $staff->StaffID) }}">
                             <img src="{{ asset('assets/svgs/edit.svg') }}" alt="Edit">

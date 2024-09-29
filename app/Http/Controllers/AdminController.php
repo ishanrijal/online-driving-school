@@ -6,6 +6,8 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Instructor;
 use App\Models\Instructors;
+use App\Models\Staff;
+use App\Models\Students;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -79,16 +81,40 @@ class AdminController extends Controller
     /**WOrking */
     public function update(Request $request, $id)
     {
-        $admin = Admin::findOrFail($id);
-        $request->validate([
-            'Name'           => 'required|string|max:255',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);        
+        $admin = Admin::findOrFail($id);        
+        // it is for role admin only
+        if( is_null( $admin->AdminRole ) ){
+            $request->validate([
+                'Name'        => 'required|string|max:255',
+                'Address'     => 'nullable|string|max:255',
+                'DateOfBirth' => 'nullable|date|max:255',
+                'Gender'      => 'nullable|string|max:10',
+                'Phone'       => 'nullable|string|regex:/^[0-9]{10,15}$/',
+                'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);        
+        }
+        if( $admin->AdminRole == 'superadmin' ){
+            $request->validate([
+                'Name'           => 'required|string|max:255',
+                'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        }
         // Update user table (name only, as email and role should not be updated)
         $user = User::find($admin->user_id);
         $user->update([
             'name' => $request->Name,
         ]);
+        // it is for role admin only
+        if( is_null( $admin->AdminRole ) ){
+            $staff = Staff::where('AdminID', $admin->AdminID)->first();
+            $staff->update([
+                'Name'        => $request->Name,
+                'Address'     => $request->Address,
+                'DateOfBirth' => $request->DateOfBirth,
+                'Phone'       => $request->Phone,
+                'Gender'      => $request->Gender,
+            ]);        
+        }
         // Handle image upload if a new image is provided
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('admins', 'public');
@@ -99,17 +125,52 @@ class AdminController extends Controller
         } else {
             $imagePath = $admin->image; // retain the old image
         }
-
-        if( $imagePath ){
-            $imageUrl = asset('storage/' . $imagePath);
-        }else{
-            $imageUrl='';
-        }
-
-        Session::put('staff_image_url', $imageUrl);
+        Session::put('staff_image_url', $imagePath);
         $user = Auth::user();
-        if( $user->role == 'superadmin' ){
+
+        if( $user->role == 'superadmin' || $user->role == 'admin' ){
             return redirect()->route('profile.index')->with('success', 'You Profile updated successfully');
+        }
+    }
+
+    function destroyUser(Request $request, $id ){
+        // Find the staff, if not found, return with an error
+        if( $request->role == 'student' ){
+            $student = Students::where('user_id', $id)->first();
+            if( !$student ){
+                return redirect()->route('admin.student.index')->withErrors('Student not found.');
+            }            
+            $student->delete();// Delete the student$student
+            User::find($id)?->delete(); // Manually delete the associated user
+            return redirect()->route('admin.user-verify.index')->with('success', 'You have removed student: ' . $student->Name);
+        }elseif( $request->role == 'admin'){
+            $admin = Admin::where('user_id', $id)->first();
+            if( !$admin ){
+                return redirect()->route('admin.staff.index')->withErrors('Admin not found.');
+            }
+            $staff = Staff::where('AdminID', $admin->AdminID)->first();
+            $staff->delete(); // remove admin from staff table
+            $admin->delete(); // remove admin from admin table
+            User::find($id)?->delete(); // Manually delete the associated user
+            return redirect()->route('admin.user-verify.index')->with('success', 'You have removed Admin: ' . $staff->Name);
+        }elseif( $request->role == 'staff'){
+            $staff = Staff::where('user_id', $id)->first();
+            if( !$staff ){
+                return redirect()->route('admin.staff.index')->withErrors('Staff not found.');
+            }
+            $staff->delete(); // remove staff from staff table
+            User::find($id)?->delete(); // Manually delete the associated user
+        
+            return redirect()->route('admin.user-verify.index')->with('success', 'You have removed Staff: ' . $staff->Name);
+        }elseif( $request->role == 'instructor'){
+            $instructor = Instructors::where('user_id', $id)->first();
+            if( !$instructor ){
+                return redirect()->route('admin.instructor.index')->withErrors('Instructor not found.');
+            }        
+            $instructor->delete();// delect record from isntructor table
+            User::find($id)?->delete(); // Manually delete the associated user
+
+            return redirect()->route('admin.user-verify.index')->with('success', 'You have removed Instructor: ' . $instructor->Name);
         }
     }
 }

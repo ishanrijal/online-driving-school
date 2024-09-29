@@ -23,8 +23,8 @@
                   <div class="mt-3">
                     @if( $staff->AdminRole == 'superadmin')
                       <h4 style="text-transform: capitalize">{{$staff->user->name}}</h4>
-                    @else
-                      <h4 style="text-transform: capitalize">{{ $staff->user->role ?? 'No Name' }}</h4>
+                    @elseif( $staff->AdminID & is_null($staff->user_id) )
+                      <h4 style="text-transform: capitalize">{{ $staff->Name ?? 'Admin' }}</h4>
                     @endif
                     <p class="text-muted font-size-sm">Origin Driving School</p>
 
@@ -33,7 +33,8 @@
                           @csrf
                           <button type="submit" class="btn btn-primary btn-block">Logout</button>
                       </form>   
-                      <a class="btn btn-info" href="{{ route('profile.edit') }}">Edit</a>                    </div>
+                      <a class="btn btn-info" href="{{ route('profile.edit') }}">Edit</a>                    
+                    </div>
                   </div>
                 </div>
               </div>
@@ -66,6 +67,7 @@
                     <div class="col-sm-3">
                       <h6 class="mb-0">Gender</h6>
                     </div>
+                    {{-- {{dd($staff)}} --}}
                     <div class="col-sm-9 text-secondary">
                       {{$staff->Gender ?? '-' }}
                     </div>

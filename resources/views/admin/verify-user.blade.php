@@ -43,12 +43,13 @@
                             </button>
                         </form>
                     
-                        <form action="{{ route('admin.instructor.destroy', $user->user_id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('admin.user.destroy', $user->user_id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <a class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($user->Name) }}?');">
+                            <input type="hidden" name="role" value="{{ $user->role }}">
+                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure you want to delete this {{ strtolower($user->name) }}?');">
                                 Remove
-                            </a>
+                            </button>
                         </form>
                     </td>
                 </tr>

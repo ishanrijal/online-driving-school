@@ -19,6 +19,7 @@ Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
     Route::get('/new-users', [AdminController::class, 'showUserList'])->name('admin.user-verify.index');
     Route::put('/new-users/verify/{id}', [AdminController::class, 'updateVerify'])->name('admin.user.verify');
+    Route::delete('/new-users/delete/{user}', [AdminController::class, 'destroyUser'])->name('admin.user.destroy');
 
     Route::get('/dashboard', [ProfileController::class, 'showDashboard'])->name('admin.dashboard');
     Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.profile.update');

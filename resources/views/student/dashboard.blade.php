@@ -45,9 +45,9 @@
                                 </h2>
                                 <p>{{ date('F Y') }}</p>
                                 @if($appointments->count() > 0)
-                                    <span class="change positive"><strong>All invoices have been paid!</strong></span>
-                                @else
                                     <span class="change negative"><strong> Please settle your outstanding dues.</strong></span>
+                                @else
+                                    <span class="change positive"><strong>All invoices have been paid!</strong></span>
                                 @endif
                             </div>
                             <div class="card">

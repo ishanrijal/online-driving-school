@@ -45,8 +45,8 @@
                         
                         <div class="input-group mb-3">
                             <select name="role" class="">
-                                <option value="admin">Admin</option>
                                 <option value="student">Student</option>
+                                <option value="admin">Admin</option>
                                 <option value="staff">Staff</option>
                                 <option value="instructor">Instructor</option>
                             </select>

@@ -125,6 +125,7 @@ class ProfileController extends Controller
     
                     Session::put('students_count', $data['students_count'] );
                     Session::put('instructors_count', $data['instructors_count'] );
+                    Session::put('staff_count', $data['staff_count'] );
                     
                     return view('admin.dashboard', compact('data'));
                 }
@@ -160,7 +161,7 @@ class ProfileController extends Controller
                 Session::put('invoices_paid', $data['invoices_paid'] );
                 Session::put('invoices_unpaid', $data['invoices_unpaid'] );
                 Session::put('invoices_processing', $data['invoices_processing'] );
-
+                
                 return view( 'staff.dashboard', compact('data') );
     
             case 'student':

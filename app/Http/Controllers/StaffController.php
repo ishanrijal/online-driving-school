@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class StaffController extends Controller
 {
 
-        /**
+    /**
      * Display a listing of trainers.
      */
     public function index()

@@ -12,7 +12,7 @@ class Admin extends Model
     protected $primaryKey = 'AdminID';
     
     protected $fillable = [
-        'Name', 'Address', 'DateOfBirth', 'Gender', 'image', 'Phone', 'Email', 'user_id',
+        'AdminRole', 'Address', 'DateOfBirth', 'Gender', 'image', 'Phone', 'Email', 'user_id',
     ];
 
     public function user()
